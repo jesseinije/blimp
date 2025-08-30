@@ -117,7 +117,7 @@ const ReelActionBar = ({
         className="p-2 text-gray-900 dark:text-gray-100"
         aria-label="Back to comments"
       >
-        <CaretLeft size={24} weight="bold" />
+        <CaretLeft size={28} weight="bold" />
       </button>
     ) : undefined;
 
@@ -134,7 +134,7 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
           >
             <Heart
-              size={32}
+              size={28}
               weight="fill"
               className={`reel-action-icon ${
                 isLiked ? "liked text-red-500" : "text-white/90"
@@ -153,7 +153,7 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
           >
             <ChatCircle
-              size={32}
+              size={28}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -173,7 +173,7 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
           >
             <PaperPlaneTilt
-              size={32}
+              size={28}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -193,7 +193,7 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
           >
             <ArrowsClockwise
-              size={32}
+              size={28}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -210,7 +210,7 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
           >
             <DotsThreeVertical
-              size={32}
+              size={28}
               weight="bold"
               className="reel-action-icon text-white/90"
             />
