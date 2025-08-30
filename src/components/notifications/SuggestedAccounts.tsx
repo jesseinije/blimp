@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { CheckCircle } from "@phosphor-icons/react";
+import { CheckCircle } from "phosphor-react";
 import type { SuggestedAccount } from "../../types/notificationTypes";
 import { mockUsers } from "../../data/mockData";
 

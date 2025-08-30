@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MagnifyingGlass, X, CaretLeft, Camera } from "@phosphor-icons/react";
+import { MagnifyingGlass, X, CaretLeft, Camera } from "phosphor-react";
 import SearchHistory from "../components/search/SearchHistory";
 import SuggestedSearch from "../components/search/SuggestedSearch";
 import TrendingSearch from "../components/search/TrendingSearch";
@@ -53,30 +53,37 @@ const SearchPage = () => {
       username: "tiffanyleechambers",
       name: "Tiffany Lee Chambers",
       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      followers: 15200,
+      isVerified: true,
     },
     {
       id: "2",
       username: "natestackondeckjenninhs",
       name: "Nate Jennings",
       avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      followers: 8900,
     },
     {
       id: "3",
       username: "ruelettienne",
       name: "Ruel Ettienne",
       avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+      followers: 25600,
+      isVerified: true,
     },
     {
       id: "4",
       username: "dte1973",
       name: "Darcy Thompson-Edwards",
       avatar: "https://randomuser.me/api/portraits/women/28.jpg",
+      followers: 3400,
     },
     {
       id: "5",
       username: "tdogforreal",
       name: "Terrence Marshall",
       avatar: "https://randomuser.me/api/portraits/men/52.jpg",
+      followers: 12800,
     },
   ];
 

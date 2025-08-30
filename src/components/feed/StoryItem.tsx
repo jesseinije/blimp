@@ -1,5 +1,5 @@
 import { type User } from "../../types";
-import { Plus } from "@phosphor-icons/react";
+import { Plus } from "phosphor-react";
 
 interface StoryItemProps {
   user: User & { hasStory: boolean };

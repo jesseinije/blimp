@@ -6,7 +6,7 @@ import {
   Check,
   ArrowCounterClockwise,
   ArrowClockwise,
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 
 // Add isRecording to the props being passed up to parent
 interface BottomCameraControlsProps {

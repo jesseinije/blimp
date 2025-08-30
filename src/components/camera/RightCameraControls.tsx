@@ -6,7 +6,7 @@ import {
   Sparkle,
   CaretDown,
   CaretUp,
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 
 interface RightCameraControlsProps {
   onFiltersClick: () => void;

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import BottomSheet from "../ui/BottomSheet";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { Check } from "phosphor-react";
 
 // Define filter types and export it
 export interface Filter {
@@ -157,7 +157,7 @@ const FiltersBottomSheet = ({
                   {/* Selected filter indicator */}
                   {activeFilterId === filter.id && (
                     <div className="absolute bottom-1 right-1 bg-white rounded-full p-0.5">
-                      <CheckIcon className="h-3 w-3 text-black" />
+                      <Check size={12} className="text-black" />
                     </div>
                   )}
                 </button>

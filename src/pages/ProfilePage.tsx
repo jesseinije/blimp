@@ -6,9 +6,9 @@ import {
   Link,
   ChatDots,
   Image,
-  Video,
+  FileVideo,
   Lock,
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 import { mockUsers, mockPosts, getPostsByUserId } from "../data/mockData";
 import PageHeader from "../components/layout/PageHeader";
 import EmptyState from "../components/ui/EmptyState";
@@ -30,8 +30,6 @@ const ProfilePage = ({
   const [selectedTab, setSelectedTab] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMentions, setHasMentions] = useState(false);
-  // Add useState for border visibility at the top with other state declarations
-  const [showHeaderBorder, setShowHeaderBorder] = useState(false);
 
   // Find user by username from mockUsers
   const findUserByUsername = () => {
@@ -92,22 +90,6 @@ const ProfilePage = ({
     return () => clearTimeout(timer);
   }, []);
 
-  // Add scroll listener effect after other useEffect hooks
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setShowHeaderBorder(currentScrollY > 0);
-    };
-
-    // Set initial border state
-    setShowHeaderBorder(window.scrollY > 0);
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const formatNumber = (num: number): string => {
     if (num >= 1000000) {
       return `${(num / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
@@ -140,12 +122,11 @@ const ProfilePage = ({
         title={username ? user.displayName : "Profile"}
         showBackButton={showBackButton}
         rightIcon="settings"
-        showBorder={showHeaderBorder}
         onRightIconClick={handleSettingsClick}
       />
 
       {/* Profile Header - Improved vertical spacing */}
-      <div className="flex flex-col items-center pt-8 px-4 space-y-4">
+      <div className="flex flex-col items-center pt-8 px-3 space-y-4">
         {/* Profile Image with story ring - Adjusted margin */}
         <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-offset-2 ring-blue-500">
           <img
@@ -281,7 +262,7 @@ const ProfilePage = ({
                 <ExploreGrid posts={videoPosts} showUserInfo={false} />
               ) : (
                 <EmptyState
-                  icon={<Video size={32} className="text-gray-300" />}
+                  icon={<FileVideo size={32} className="text-gray-300" />}
                   title="No Videos Yet"
                   description={
                     username

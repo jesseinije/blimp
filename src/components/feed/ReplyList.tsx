@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppStore } from "../../store/appStore";
 import { getUserById } from "../../data/mockData";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import type { Comment as CommentType } from "../../types";
 import Comment from "./Comment";
 

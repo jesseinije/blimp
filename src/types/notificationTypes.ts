@@ -57,6 +57,7 @@ export interface SuggestedAccount {
   id: string;
   username: string;
   avatar: string;
-  isVerified?: boolean;
-  followers: number; // <-- Add this line
+  followers: number;
+  isVerified?: boolean; // Make this optional with ?
+  name?: string; // Make this optional with ?
 }

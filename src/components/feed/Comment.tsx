@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, ArrowBendUpLeft, CheckCircle } from "@phosphor-icons/react";
+import { Heart, ArrowBendUpLeft, CheckCircle } from "phosphor-react";
 import { getUserById } from "../../data/mockData";
 import type { Comment as CommentType } from "../../types";
 import Caption from "../ui/Caption";

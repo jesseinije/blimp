@@ -3,7 +3,7 @@ import {
   Heart,
   ArrowsClockwise,
   BookmarkSimple,
-  DotsThreeOutlineVertical,
+  DotsThreeVertical,
   ChatCircle,
   PaperPlaneTilt,
   Info,
@@ -11,11 +11,12 @@ import {
   Prohibit,
   SpeakerSimpleSlash,
   CaretLeft,
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 import BottomSheet from "../ui/BottomSheet";
 import CommentsList from "../feed/CommentsList";
 import ReplyList from "../feed/ReplyList";
 import type { Comment as CommentType } from "../../types";
+import "./ReelActionBar.css"; // Add this import at the top
 
 // Add the formatCount function
 function formatCount(count: number): string {
@@ -30,7 +31,7 @@ function formatCount(count: number): string {
 
 interface ReelActionBarProps {
   reelId: string;
-  comments?: Comment[]; // Now using the imported Comment type
+  comments?: CommentType[];
   likeCount: number;
   commentCount: number;
   shareCount: number;
@@ -42,6 +43,7 @@ interface ReelActionBarProps {
   onSave: () => void;
   isLiked: boolean;
   username: string;
+  videoElement: HTMLVideoElement | null; // Add this line
 }
 
 const ReelActionBar = ({
@@ -65,7 +67,9 @@ const ReelActionBar = ({
   const [currentView, setCurrentView] = useState<"comments" | "replies">(
     "comments"
   );
-  const [selectedComment, setSelectedComment] = useState<Comment | null>(null); // Updated type here too
+  const [selectedComment, setSelectedComment] = useState<CommentType | null>(
+    null
+  ); // Changed from Comment to CommentType
 
   const handleMoreClick = () => {
     setIsMoreSheetOpen(true);
@@ -92,7 +96,8 @@ const ReelActionBar = ({
     }, 300);
   };
 
-  const handleViewReplies = (comment: Comment, title: string) => {
+  const handleViewReplies = (comment: CommentType, title: string) => {
+    // Changed from Comment to CommentType
     setSelectedComment(comment);
     setBottomSheetTitle(title);
     setCurrentView("replies");
@@ -118,24 +123,25 @@ const ReelActionBar = ({
 
   return (
     <>
-      <div className="absolute right-3 bottom-4 flex flex-col items-center gap-6">
+      <div className="absolute right-3 bottom-4 flex flex-col items-center gap-4">
         <div className="flex flex-col items-center">
           {/* Like button */}
           <button
-            onClick={onLike}
-            className="flex items-center justify-center transition-all"
+            onClick={(e) => {
+              e.stopPropagation();
+              onLike();
+            }}
+            className="reel-action-button flex items-center justify-center"
           >
             <Heart
               size={32}
               weight="fill"
-              className={`${
-                isLiked
-                  ? "text-red-500 filter drop-shadow-[0_1.5px_0.5px_rgba(0,0,0,0.2)]"
-                  : "text-white/80 filter drop-shadow-[0_1.5px_0.5px_rgba(0,0,0,0.2)]"
+              className={`reel-action-icon ${
+                isLiked ? "liked text-red-500" : "text-white/90"
               }`}
             />
           </button>
-          <span className="text-white/80 text-sm font-medium translate-y-1 filter drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.15)]">
+          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
             {formatCount(likeCount)}
           </span>
         </div>
@@ -144,15 +150,15 @@ const ReelActionBar = ({
           {/* Comment button */}
           <button
             onClick={openComments}
-            className="flex items-center justify-center transition-all"
+            className="reel-action-button flex items-center justify-center"
           >
             <ChatCircle
               size={32}
               weight="fill"
-              className="text-white/80 filter drop-shadow-[0_1.5px_0.5px_rgba(0,0,0,0.2)]"
+              className="reel-action-icon text-white/90"
             />
           </button>
-          <span className="text-white/80 text-sm font-medium translate-y-1 filter drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.15)]">
+          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
             {formatCount(commentCount)}
           </span>
         </div>
@@ -160,16 +166,19 @@ const ReelActionBar = ({
         <div className="flex flex-col items-center">
           {/* Share button */}
           <button
-            onClick={onShare}
-            className="flex items-center justify-center transition-all"
+            onClick={(e) => {
+              e.stopPropagation();
+              onShare();
+            }}
+            className="reel-action-button flex items-center justify-center"
           >
             <PaperPlaneTilt
               size={32}
               weight="fill"
-              className="text-white/80 filter drop-shadow-[0_1.5px_0.5px_rgba(0,0,0,0.2)]"
+              className="reel-action-icon text-white/90"
             />
           </button>
-          <span className="text-white/80 text-sm font-medium translate-y-1 filter drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.15)]">
+          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
             {formatCount(shareCount)}
           </span>
         </div>
@@ -177,16 +186,19 @@ const ReelActionBar = ({
         <div className="flex flex-col items-center">
           {/* Save/Repost button */}
           <button
-            onClick={onSave}
-            className="flex items-center justify-center transition-all"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSave();
+            }}
+            className="reel-action-button flex items-center justify-center"
           >
             <ArrowsClockwise
               size={32}
               weight="fill"
-              className="text-white/80 filter drop-shadow-[0_1.5px_0.5px_rgba(0,0,0,0.2)]"
+              className="reel-action-icon text-white/90"
             />
           </button>
-          <span className="text-white/80 text-sm font-medium translate-y-1 filter drop-shadow-[0_1px_0.5px_rgba(0,0,0,0.15)]">
+          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
             {formatCount(saveCount)}
           </span>
         </div>
@@ -195,19 +207,19 @@ const ReelActionBar = ({
           {/* More options button */}
           <button
             onClick={handleMoreClick}
-            className="flex items-center justify-center transition-all"
+            className="reel-action-button flex items-center justify-center"
           >
-            <DotsThreeOutlineVertical
-              size={24}
-              weight="fill"
-              className="text-white/80 filter drop-shadow-[0_1.5px_0.5px_rgba(0,0,0,0.2)]"
+            <DotsThreeVertical
+              size={32}
+              weight="bold"
+              className="reel-action-icon text-white/90"
             />
           </button>
         </div>
 
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center">
-            <div className="w-10 h-10 rounded-full overflow-hidden border border-white/15 shadow-[0_2px_4px_rgba(0,0,0,0.1)] animate-pulse-subtle">
+            <div className="reel-album-cover w-10 h-10 rounded-full overflow-hidden border border-white/15 animate-pulse-subtle">
               <img
                 src={albumCover}
                 alt="Album Cover"

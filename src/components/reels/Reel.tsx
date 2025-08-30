@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { Play } from "@phosphor-icons/react";
+import { Play } from "phosphor-react";
 import ReelActionBar from "./ReelActionBar";
 import ReelContentInfo from "./ReelContentInfo";
 import type { Comment } from "../../types";

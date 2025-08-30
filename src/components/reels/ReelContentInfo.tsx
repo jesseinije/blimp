@@ -1,15 +1,17 @@
 import { MusicalNoteIcon } from "@heroicons/react/24/solid";
-import { CheckCircle } from "@phosphor-icons/react";
+import { CheckCircle } from "phosphor-react";
 import Caption from "../ui/Caption";
 
 interface ReelContentInfoProps {
   username: string;
   caption: string;
-  timestamp: string; // This will still be ISO string input
+  timestamp: string;
   music: string;
   avatar: string;
   isVerified?: boolean;
   location?: string;
+  isFollowing: boolean; // Add this line
+  onFollow: () => void; // Add this line
 }
 
 // Helper function to format relative time
@@ -41,16 +43,14 @@ const ReelContentInfo = ({
   avatar,
   isVerified = false,
   location,
+  isFollowing, // Add this line
+  onFollow, // Add this line
 }: ReelContentInfoProps) => {
   return (
     <div className="absolute left-3 bottom-7 right-20 flex flex-col">
       <div className="flex items-center gap-3 mb-3">
         <div className="relative">
-          <img
-            src={avatar}
-            alt={username}
-            className="w-10 h-10 rounded-full border-2 border-white"
-          />
+          <img src={avatar} alt={username} className="w-10 h-10 rounded-full" />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
@@ -77,7 +77,7 @@ const ReelContentInfo = ({
 
       <Caption
         text={caption}
-        className="text-white mb-3 [&_button]:text-white/70 [&_button]:hover:text-white"
+        className="mb-3 [&_span]:text-white [&_button]:text-white/70 [&_button]:hover:text-white"
         maxLength={37}
       />
 

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { MagnifyingGlass, CheckCircle } from "@phosphor-icons/react"; // Replace Check with CheckCircle
+import { MagnifyingGlass, CheckCircle } from "phosphor-react"; // Replace Check with CheckCircle
 import { useAppStore } from "../../store/appStore";
 import type { FeedFilterType } from "../../store/appStore";
 import BottomSheet from "../ui/BottomSheet";
@@ -57,7 +57,7 @@ const MenuIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 256 256"
-    className="w-6 h-6"
+    className="w-[24px] h-[24px]"
   >
     <rect width="256" height="256" fill="none" />
     <line
@@ -74,7 +74,7 @@ const MenuIcon = () => (
     <line
       x1="40"
       y1="160"
-      x2="200" // Changed from 216 to 156 to make it shorter
+      x2="200"
       y2="160"
       fill="none"
       stroke="currentColor"
@@ -217,7 +217,7 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
               activeTab === "posts"
                 ? "font-bold text-gray-900 dark:text-white after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-black dark:after:bg-white"
                 : activeTab === "videos"
-                ? "font-normal text-white/70 text-shadow-realistic"
+                ? "font-normal text-white/80 text-shadow-realistic"
                 : "font-normal text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => onTabChange("posts")}

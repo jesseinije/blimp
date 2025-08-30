@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BottomSheet from "../ui/BottomSheet";
-import { Timer } from "@phosphor-icons/react";
+import { Timer } from "phosphor-react";
 
 interface TimerBottomSheetProps {
   isOpen: boolean;

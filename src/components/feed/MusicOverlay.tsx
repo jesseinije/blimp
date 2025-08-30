@@ -5,7 +5,7 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { MusicalNoteIcon } from "@heroicons/react/24/outline";
+import { MusicNote } from "phosphor-react";
 
 interface MusicOverlayProps {
   musicUrl: string;
@@ -140,9 +140,9 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
     }, [isVisible]);
 
     // Handle music click to toggle play/pause
-    const handleMusicClick = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
+    const handleMusicClick = (e?: React.MouseEvent) => {
+      e?.stopPropagation(); // Only call stopPropagation if event exists
+      e?.preventDefault(); // Only call preventDefault if event exists
 
       if (!audioRef.current) return;
 
@@ -165,7 +165,7 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
           isTransitioning ? "opacity-0" : "opacity-100"
         }`}
         onClick={handleMusicClick}
-        style={maxWidth ? { maxWidth } : {}} // Apply maxWidth if provided
+        style={maxWidth ? { maxWidth } : {}}
       >
         {showMusicInfo ? (
           <>
@@ -176,7 +176,7 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
               }`}
             >
               <span className={shouldMarquee ? "marquee-text" : ""}>
-                <MusicalNoteIcon className="w-3 h-3 mr-1 inline-block" />
+                <MusicNote size={12} className="mr-1 inline-block" />
                 {musicTitle}
               </span>
             </span>

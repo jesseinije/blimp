@@ -1,11 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store/appStore";
-import {
-  HouseSimple,
-  MagnifyingGlass,
-  Plus,
-  Bell,
-} from "@phosphor-icons/react";
+import { HouseSimple, MagnifyingGlass, Plus, Bell } from "phosphor-react";
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
 import "./NavBar.css";

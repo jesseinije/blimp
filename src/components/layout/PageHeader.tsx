@@ -1,5 +1,5 @@
 import React from "react";
-import { CaretLeft, DotsThreeVertical, Gear } from "@phosphor-icons/react";
+import { CaretLeft, DotsThreeVertical, Gear } from "phosphor-react";
 import "./PageHeader.css";
 
 export type IconType = "more" | "settings" | "none";
@@ -12,6 +12,7 @@ interface PageHeaderProps {
   onRightIconClick?: () => void;
   className?: string;
   titleAlign?: "left" | "center";
+  showBorder?: boolean; // Add this line
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({
@@ -21,7 +22,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   onBackClick,
   onRightIconClick,
   className = "",
-  titleAlign = "center",
+  showBorder = false, // Add this line with a default value
 }) => {
   const handleBackClick = () => {
     if (onBackClick) {
@@ -46,7 +47,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   };
 
   return (
-    <div className={`page-header p-3 ${className}`}>
+    <div
+      className={`page-header p-3 ${className} ${
+        showBorder ? "border-b border-gray-200" : ""
+      }`}
+    >
       {showBackButton ? (
         <div className="flex items-center gap-3">
           <button onClick={handleBackClick} aria-label="Go back">

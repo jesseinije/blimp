@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CaretLeft, MusicNote } from "@phosphor-icons/react";
+import { CaretLeft, MusicNote } from "phosphor-react";
 import BottomSheet from "../ui/BottomSheet";
 
 const TopBar = () => {

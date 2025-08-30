@@ -55,7 +55,7 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
     return (
       <div className={`${className}`}>
         <div>
-          <span className="text-sm text-gray-900 dark:text-white">
+          <span className="text-sm">
             {renderTextWithHashtags(text)}{" "}
             {shouldShowButton && (
               <button
@@ -77,10 +77,7 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
       <div className="relative">
         {shouldShowButton ? (
           <div>
-            <span
-              ref={textRef}
-              className="text-sm text-gray-900 dark:text-white"
-            >
+            <span ref={textRef} className="text-sm">
               {renderTextWithHashtags(truncatedText)}
               {!isExpanded && "... "}
             </span>
@@ -92,9 +89,7 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
             </button>
           </div>
         ) : (
-          <span className="text-sm text-gray-900 dark:text-white">
-            {renderTextWithHashtags(text)}
-          </span>
+          <span className="text-sm">{renderTextWithHashtags(text)}</span>
         )}
       </div>
     </div>

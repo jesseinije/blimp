@@ -71,6 +71,11 @@ interface AppState {
   setPostsFilter: (filter: FeedFilterType) => void;
   videosFilter: FeedFilterType;
   setVideosFilter: (filter: FeedFilterType) => void;
+
+  // Add these new properties
+  isVideoPage: boolean;
+  setIsVideoPage: (isVideoPage: boolean) => void;
+  restoreReels: () => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -142,4 +147,14 @@ export const useAppStore = create<AppState>((set) => ({
   setPostsFilter: (filter) => set({ postsFilter: filter }),
   videosFilter: "for-you",
   setVideosFilter: (filter) => set({ videosFilter: filter }),
+
+  // Add these new implementations
+  isVideoPage: false,
+  setIsVideoPage: (isVideoPage: boolean) => set({ isVideoPage }),
+
+  // Store the original reels separately for restoration
+  restoreReels: () =>
+    set((state) => ({
+      reels: processPosts(getReelsForFeed()),
+    })),
 }));

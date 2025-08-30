@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import VideoPageFeed from "../components/reels/ReelsFeed";
 import { mockPosts } from "../data/mockData";
 import { useAppStore } from "../store/appStore";
-import { ArrowLeft, MagnifyingGlass } from "@phosphor-icons/react";
+import { ArrowLeft, MagnifyingGlass } from "phosphor-react";
 
 const VideoPage = () => {
   const { videoId } = useParams<{ videoId: string }>();
@@ -58,11 +58,8 @@ const VideoPage = () => {
         // Reset any filters that might be applied in ReelsFeed
         setVideosFilter("for-you");
 
-        // Set a flag in app store to indicate we're in VideoPage
-        // This way ReelsFeed component can know to check for the isSuggested flag
-        if (typeof useAppStore.getState().setIsVideoPage === "function") {
-          useAppStore.getState().setIsVideoPage(true);
-        }
+        // Set VideoPage flag
+        useAppStore.getState().setIsVideoPage(true);
 
         setLoading(false);
       } else {
@@ -75,22 +72,11 @@ const VideoPage = () => {
       setLoading(false);
     }
 
-    // When component unmounts, restore the full reels list
+    // Cleanup function
     return () => {
-      if (typeof useAppStore.getState().restoreReels === "function") {
-        useAppStore.getState().restoreReels();
-      } else {
-        // Alternative: just set all video posts from mockData
-        const videoPosts = mockPosts.filter((post) =>
-          post.media.some((media) => media.type === "video")
-        );
-        useAppStore.getState().setReels(videoPosts);
-      }
-
-      // Reset VideoPage flag when unmounting
-      if (typeof useAppStore.getState().setIsVideoPage === "function") {
-        useAppStore.getState().setIsVideoPage(false);
-      }
+      // Restore reels and reset VideoPage flag
+      useAppStore.getState().restoreReels();
+      useAppStore.getState().setIsVideoPage(false);
     };
   }, [videoId, setReels, setVideosFilter]);
 

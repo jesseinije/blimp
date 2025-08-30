@@ -9,7 +9,7 @@ import {
   ChatCircle,
   PaperPlaneTilt,
   CheckCircle,
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 // Remove FontAwesome imports as they're no longer needed
 import { useAppStore } from "../../store/appStore";
 import { getUserById } from "../../data/mockData";
@@ -57,7 +57,7 @@ const getRelativeTime = (timestamp: string): string => {
   return `${yearsDiff}y`;
 };
 
-const Post = ({ post, isFirst = false }: PostProps) => {
+const Post = ({ post }: PostProps) => {
   const { likePost, savePost } = useAppStore();
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [bottomSheetTitle, setBottomSheetTitle] = useState("Comments");
@@ -72,7 +72,7 @@ const Post = ({ post, isFirst = false }: PostProps) => {
   const [isFollowing, setIsFollowing] = useState(false); // Add this with your other state declarations
   const postRef = useRef<HTMLDivElement>(null);
   const musicOverlayRef = useRef<{
-    handleMusicClick: (e: React.MouseEvent) => void;
+    handleMusicClick: (e?: React.MouseEvent | undefined) => void;
     isPlaying: boolean;
   }>(null);
 
@@ -91,7 +91,7 @@ const Post = ({ post, isFirst = false }: PostProps) => {
 
         // Autoplay music when post comes into view
         if (entry.isIntersecting && post.music && musicOverlayRef.current) {
-          musicOverlayRef.current.handleMusicClick(new MouseEvent("click"));
+          musicOverlayRef.current.handleMusicClick();
         }
       },
       {

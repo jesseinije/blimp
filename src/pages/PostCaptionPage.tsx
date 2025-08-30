@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   At,
-  CheckCircle, // Add this
+  CheckCircle,
   Globe,
   Hash,
   Lock,
@@ -10,7 +10,8 @@ import {
   Spinner,
   User,
   Users,
-} from "@phosphor-icons/react";
+  X, // Add this
+} from "phosphor-react";
 import BottomSheet from "../components/ui/BottomSheet";
 import PageHeader from "../components/layout/PageHeader";
 
@@ -245,15 +246,32 @@ const PostCaptionPage = ({
         showBackButton={true}
         rightIcon="none"
         onBackClick={handleBack}
-        showBorder={true}
       />
 
       {/* Main Content */}
-      <div className="flex-grow overflow-y-auto p-4">
+      <div className=" p-3">
         {/* Media Upload and Preview Section */}
         <div className=" dark:border-gray-700 pb-4">
           {/* Media Grid */}
           <div className="grid grid-cols-3 gap-2 mb-4">
+            {/* If no files are selected yet, show the initial video/thumbnail */}
+            {selectedFiles.length === 0 && (
+              <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                {mode === "video" ? (
+                  <video
+                    src={videoSrc}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={thumbnailSrc}
+                    alt="Media preview"
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+            )}
+
             {selectedFiles.map((file, index) => (
               <div
                 key={index}
@@ -298,7 +316,7 @@ const PostCaptionPage = ({
                   }}
                   className="absolute top-2 left-2 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
                 >
-                  <XMarkIcon className="w-4 h-4 text-white" />
+                  <X size={16} className="text-white" />
                 </button>
               </div>
             ))}
@@ -467,7 +485,7 @@ const PostCaptionPage = ({
                     onClick={() => removeMentionedUser(user.id)}
                     className="w-5 h-5 flex items-center justify-center text-gray-900 dark:text-gray-100"
                   >
-                    <XMarkIcon className="w-3.5 h-3.5" />
+                    <X size={14} className="text-current" />
                   </button>
                 </div>
               ))}
@@ -536,31 +554,33 @@ const PostCaptionPage = ({
       </div>
 
       {/* Bottom Action Buttons */}
-      <div className="p-4 dark:border-gray-700 flex space-x-3">
-        <button
-          onClick={handleSaveAsDraft}
-          disabled={isPostingInProgress}
-          className="flex-1 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-gray-100 font-medium text-center disabled:opacity-50"
-        >
-          Save as draft
-        </button>
-        <button
-          onClick={handlePost}
-          disabled={isPostingInProgress || caption.length === 0}
-          className="flex-1 py-3 rounded-xl font-medium text-center flex items-center justify-center bg-blue-600 text-white dark:bg-blue-600 dark:text-white disabled:opacity-50"
-        >
-          {isPostingInProgress ? (
-            <>
-              <Spinner className="animate-spin -ml-1 mr-2 h-5 w-5" />
-              Posting...
-            </>
-          ) : (
-            <>
-              <CheckCircle className="w-5 h-5 mr-1.5" />
-              Post
-            </>
-          )}
-        </button>
+      <div className="p-3 dark:border-gray-700">
+        <div className="flex gap-2 w-full max-w-md mx-auto">
+          <button
+            onClick={handleSaveAsDraft}
+            disabled={isPostingInProgress}
+            className="flex-1 border border-gray-300 hover:bg-gray-50 transition-colors py-2.5 rounded-lg font-medium disabled:opacity-50"
+          >
+            Save as draft
+          </button>
+          <button
+            onClick={handlePost}
+            disabled={isPostingInProgress || caption.length === 0}
+            className="flex-1 bg-blue-500 hover:bg-blue-600 transition-colors text-white py-2.5 rounded-lg font-medium shadow-sm disabled:opacity-50 flex items-center justify-center"
+          >
+            {isPostingInProgress ? (
+              <>
+                <Spinner className="animate-spin -ml-1 mr-2 h-5 w-5" />
+                Posting...
+              </>
+            ) : (
+              <>
+                <CheckCircle className="w-5 h-5 mr-1.5" />
+                Post
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Bottom Sheets */}

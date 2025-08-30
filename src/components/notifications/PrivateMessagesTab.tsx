@@ -22,30 +22,35 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
       username: "tiffanyleechambers",
       name: "Tiffany Lee Chambers",
       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      followers: 15400,
     },
     {
       id: "2",
       username: "natestackondeckjenninhs",
       name: "Nate Jennings",
       avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      followers: 8900,
     },
     {
       id: "3",
       username: "ruelettienne",
       name: "Ruel Ettienne",
       avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+      followers: 12300,
     },
     {
       id: "4",
       username: "dte1973",
       name: "Darcy Thompson-Edwards",
       avatar: "https://randomuser.me/api/portraits/women/28.jpg",
+      followers: 5600,
     },
     {
       id: "5",
       username: "tdogforreal",
       name: "Terrence Marshall",
       avatar: "https://randomuser.me/api/portraits/men/52.jpg",
+      followers: 9200,
     },
   ];
 

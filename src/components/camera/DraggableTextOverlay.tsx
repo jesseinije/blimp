@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { Trash } from "phosphor-react";
 // Use import type for type-only imports
 import type { TextOverlay } from "./textOverlayTypes";
 
@@ -211,7 +211,7 @@ const DraggableTextOverlay = ({
             isDragging ? "opacity-100" : "opacity-0"
           }`}
         >
-          <TrashIcon className="h-10 w-10 text-white" />
+          <Trash size={32} className="text-white" />
           <span className="text-white text-sm absolute bottom-4">
             Drag here to delete
           </span>

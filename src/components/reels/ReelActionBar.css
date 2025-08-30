@@ -1,0 +1,31 @@
+/* Subtle, thin shadow for action bar text with light from above */
+.reel-action-text {
+  text-shadow: 0 0.18em 0.12em rgba(0, 0, 0, 0.18),
+    0 0.09em 0.08em rgba(0, 0, 0, 0.1);
+}
+
+/* For action bar icons - very thin, subtle shadow below */
+.reel-action-icon {
+  filter: drop-shadow(0 0.18em 0.12em rgba(0, 0, 0, 0.22))
+    drop-shadow(0 0.09em 0.08em rgba(0, 0, 0, 0.1));
+}
+
+/* Special shadow for liked state (still subtle) */
+.reel-action-icon.liked {
+  filter: drop-shadow(0 0.18em 0.13em rgba(239, 68, 68, 0.18))
+    drop-shadow(0 0.09em 0.08em rgba(0, 0, 0, 0.1));
+}
+
+/* Remove all transform scale and hover effect */
+.reel-action-button {
+  transition: none;
+}
+
+/* Optional: ambient light effect for the action bar */
+.reel-action-bar {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01) 0%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+}
