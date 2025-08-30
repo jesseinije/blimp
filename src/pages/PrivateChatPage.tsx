@@ -8,7 +8,7 @@ import {
   Smiley,
   CheckCircle,
   Gear,
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 import { mockUsers } from "../data/mockData"; // Import mockUsers
 
 // Define the chat message interface
@@ -44,7 +44,6 @@ const PrivateChatPage = () => {
   const [contact, setContact] = useState<ChatContact | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [isFollowing, setIsFollowing] = useState(false);
 
   // Mock data for demonstration
   useEffect(() => {
@@ -138,16 +137,6 @@ const PrivateChatPage = () => {
 
   const handleBack = () => {
     navigate(-1);
-  };
-
-  const handleFollow = () => {
-    setIsFollowing(!isFollowing);
-  };
-
-  const handleViewProfile = () => {
-    if (contact) {
-      navigate(`/profile/${contact.username}`);
-    }
   };
 
   const formatMessageDate = (timestamp: string) => {

@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { useAppStore } from "../../store/appStore";
 import Comment from "./Comment";
 import type { Comment as CommentType } from "../../types";
-import { getUserById } from "../../data/mockData";
 
 interface CommentsListProps {
   postId: string;
@@ -51,8 +50,6 @@ const CommentsList = ({
   };
 
   const handleViewReplies = (comment: CommentType) => {
-    const user = getUserById(comment.userId);
-    const username = user?.username || "";
     onViewReplies(comment, "Replies");
   };
 

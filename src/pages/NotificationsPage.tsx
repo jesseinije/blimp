@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import PageHeader from "../components/layout/PageHeader";
-import { useAppStore } from "../store/appStore";
 import { useElementHeight } from "../hooks/useElementHeight";
 import PrivateMessagesTab from "../components/notifications/PrivateMessagesTab";
 import GeneralNotificationsTab from "../components/notifications/GeneralNotificationsTab";
@@ -9,7 +8,6 @@ import {
   mockNotifications,
 } from "../data/notificationsData";
 import BottomSheet from "../components/ui/BottomSheet";
-import { Envelope, Bell } from "@phosphor-icons/react";
 
 type NotificationTabType = "private" | "general";
 
@@ -17,7 +15,6 @@ const NotificationsPage = () => {
   const [activeTab, setActiveTab] = useState<NotificationTabType>("private");
   const [showFilters, setShowFilters] = useState(false);
   const [showHeaderBorder, setShowHeaderBorder] = useState(false);
-  const { isDarkMode } = useAppStore();
   const headerHeight = useElementHeight(".page-header");
 
   // Add scroll listener effect

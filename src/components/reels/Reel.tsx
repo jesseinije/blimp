@@ -2,7 +2,6 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Play } from "phosphor-react";
 import ReelActionBar from "./ReelActionBar";
 import ReelContentInfo from "./ReelContentInfo";
-import type { Comment } from "../../types";
 import { getPostById } from "../../data/mockData";
 
 export type ReelData = {
@@ -170,43 +169,6 @@ const Reel = ({
       }
     }
   }, [isVisible]);
-
-  const handleVideoClick = (e: React.MouseEvent) => {
-    // Add check for progress bar
-    if (
-      actionBarRef.current?.contains(e.target as Node) ||
-      progressBarRef.current?.contains(e.target as Node)
-    ) {
-      return;
-    }
-
-    if (
-      contentInfoRef.current &&
-      contentInfoRef.current.contains(e.target as Node)
-    ) {
-      const target = e.target as HTMLElement;
-      if (
-        target.tagName === "BUTTON" ||
-        target.tagName === "A" ||
-        target.closest("button") ||
-        target.closest("a")
-      ) {
-        return;
-      }
-    }
-
-    console.log("Video area clicked!");
-    e.stopPropagation();
-
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
 
   const containerRef = useRef<HTMLDivElement>(null);
 

@@ -59,7 +59,6 @@ const ReelActionBar = ({
   onShare,
   onSave,
   isLiked,
-  username = "User",
 }: ReelActionBarProps) => {
   const [isMoreSheetOpen, setIsMoreSheetOpen] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);

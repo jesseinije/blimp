@@ -15,14 +15,13 @@ import type {
   TrendingTopic,
 } from "../types/searchTypes";
 import type { SuggestedAccount } from "../types/notificationTypes";
-import type { Post } from "../types";
 import {
   mockSearchHistory,
   mockSuggestedSearches,
   mockTrendingTopics,
 } from "../data/searchData";
 import { mockPosts } from "../data/mockData";
-import { motion } from "framer-motion";
+
 import SuggestedAccounts from "../components/notifications/SuggestedAccounts";
 
 const SearchPage = () => {
@@ -33,8 +32,7 @@ const SearchPage = () => {
   const [suggestedSearches, setSuggestedSearches] = useState<
     SuggestedSearchItem[]
   >(mockSuggestedSearches);
-  const [trendingTopics, setTrendingTopics] =
-    useState<TrendingTopic[]>(mockTrendingTopics);
+  const [trendingTopics] = useState<TrendingTopic[]>(mockTrendingTopics);
   const [showClearButton, setShowClearButton] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [activeTab, setActiveTab] = useState("trending");

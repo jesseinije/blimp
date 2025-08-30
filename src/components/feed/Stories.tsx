@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppStore } from "../../store/appStore";
 import StoryItem from "./StoryItem";
 import { getUserById } from "../../data/mockData";
-import type { Story, User } from "../../types";
+import type { User } from "../../types";
 
 const Stories = () => {
   const { stories, currentUser } = useAppStore();
@@ -74,11 +74,11 @@ const Stories = () => {
   }
 
   return (
-    <div className="bg-white px-3 py-4.5 w-full overflow-x-auto no-scrollbar">
+    <div className="bg-white px-3 py-6 w-full overflow-x-auto no-scrollbar">
       <div className="flex space-x-6">
         {" "}
         {/* Changed from space-x-4 to space-x-6 */}
-        {storyUsers.map((user, index) => (
+        {storyUsers.map((user) => (
           <StoryItem
             key={user.id}
             user={user}

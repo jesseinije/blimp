@@ -43,8 +43,6 @@ const ReelContentInfo = ({
   avatar,
   isVerified = false,
   location,
-  isFollowing, // Add this line
-  onFollow, // Add this line
 }: ReelContentInfoProps) => {
   return (
     <div className="absolute left-3 bottom-7 right-20 flex flex-col">

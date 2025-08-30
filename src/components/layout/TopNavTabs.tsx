@@ -86,11 +86,9 @@ const MenuIcon = () => (
 );
 
 const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
-  const { postsFilter, setPostsFilter, videosFilter, setVideosFilter } =
-    useAppStore();
+  const { postsFilter, setPostsFilter } = useAppStore();
   const [menuSheetOpen, setMenuSheetOpen] = useState(false);
-  const [postsBottomSheetOpen, setPostsBottomSheetOpen] = useState(false);
-  const [videosBottomSheetOpen, setVideosBottomSheetOpen] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const postsButtonRef = useRef<HTMLButtonElement>(null);
   const videosButtonRef = useRef<HTMLButtonElement>(null);

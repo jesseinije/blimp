@@ -351,14 +351,7 @@ const PostCaptionPage = ({
           <input
             type="file"
             ref={fileInputRef}
-            onChange={(event) => {
-              const files = event.target.files;
-              if (files && files.length > 0) {
-                const remainingSlots = MAX_FILES - selectedFiles.length;
-                const newFiles = Array.from(files).slice(0, remainingSlots);
-                setSelectedFiles((prev) => [...prev, ...newFiles]);
-              }
-            }}
+            onChange={handleFileSelect}
             accept="image/*,video/*"
             className="hidden"
             multiple

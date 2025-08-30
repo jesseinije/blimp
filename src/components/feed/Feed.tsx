@@ -1,7 +1,7 @@
 import { useAppStore } from "../../store/appStore";
 import Post from "./Post";
 import Stories from "./Stories";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { PostSkeleton } from "../ui/skeletons/PostSkeleton";
 import { StoriesSkeleton } from "../ui/skeletons/StoriesSkeleton";

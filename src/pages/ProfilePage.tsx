@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppStore } from "../store/appStore";
+
 import {
   CheckCircle,
   UserPlus,
@@ -26,7 +26,6 @@ const ProfilePage = ({
   showBackButton = false,
   username,
 }: ProfilePageProps) => {
-  const { currentUser } = useAppStore();
   const [selectedTab, setSelectedTab] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMentions, setHasMentions] = useState(false);
@@ -348,15 +347,5 @@ const ProfilePage = ({
     </div>
   );
 };
-
-function formatCount(count: number): string {
-  if (count >= 1000000) {
-    return `${(count / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
-  }
-  if (count >= 1000) {
-    return `${(count / 1000).toFixed(1).replace(/\.0$/, "")}K`;
-  }
-  return count.toString();
-}
 
 export default ProfilePage;

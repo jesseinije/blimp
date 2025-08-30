@@ -14,7 +14,7 @@ interface CommentProps {
 const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
-  const [replyCount, setReplyCount] = useState(comment.replies?.length || 0);
+  const [replyCount] = useState(comment.replies?.length || 0);
 
   const user = getUserById(comment.userId);
 

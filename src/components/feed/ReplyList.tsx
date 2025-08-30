@@ -36,7 +36,7 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
     setReplyToUser(null);
   };
 
-  const handleReplyToReply = (replyId: string, username: string) => {
+  const handleReplyToReply = (username: string) => {
     setReplyToUser(username);
     if (inputRef.current) {
       inputRef.current.focus();

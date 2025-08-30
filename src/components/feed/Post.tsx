@@ -132,19 +132,26 @@ const Post = ({ post }: PostProps) => {
   };
 
   const openComments = () => {
-    setBottomSheetTitle("Comments");
+    // First set the view and title
     setCurrentView("comments");
-    setCommentsOpen(true);
+    setBottomSheetTitle("Comments");
+
+    // Add a longer delay (50ms) before opening the sheet
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        setCommentsOpen(true);
+      });
+    }, 50);
   };
 
   const closeComments = () => {
     setCommentsOpen(false);
-    // Reset the view state when closing
+    // Keep the existing reset timeout
     setTimeout(() => {
       setCurrentView("comments");
       setBottomSheetTitle("Comments");
       setSelectedComment(null);
-    }, 300); // Wait for the close animation to finish
+    }, 300);
   };
 
   const handleViewReplies = (comment: CommentType, title: string) => {

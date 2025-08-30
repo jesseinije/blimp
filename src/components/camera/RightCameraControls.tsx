@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState } from "react";
 import {
   TextT,
   Microphone,
@@ -21,9 +21,7 @@ const RightCameraControls = ({
   onFiltersClick,
   onTextClick,
   onVoiceoverClick,
-  onCapturePress,
   activeButtons = ["Beautify", "Filters"],
-  isRecording = false,
 }: RightCameraControlsProps) => {
   // State declarations first
   const [showLabels, setShowLabels] = useState(false);
@@ -31,11 +29,6 @@ const RightCameraControls = ({
   // Define all functions before using them
   const toggleLabels = () => {
     setShowLabels(!showLabels);
-  };
-
-  // Update handleCapturePress to remove timer logic
-  const handleCapturePress = () => {
-    onCapturePress();
   };
 
   // Define controls after all functions are defined

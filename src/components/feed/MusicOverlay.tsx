@@ -40,7 +40,6 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
     const [shouldMarquee, setShouldMarquee] = useState(false);
     const textRef = useRef<HTMLSpanElement>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const audioInitialized = useRef(false);
 
     // Check if text needs marquee effect
     useEffect(() => {
@@ -82,7 +81,7 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
         setIsPlaying(false);
       };
 
-      const onError = (e: Event) => {
+      const onError = () => {
         console.error("Audio error:", audioRef.current?.error);
       };
 

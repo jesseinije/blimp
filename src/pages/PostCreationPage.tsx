@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopBar from "../components/post/TopBar";
 import BottomCameraControls from "../components/camera/BottomCameraControls";
@@ -94,13 +94,6 @@ const PostCreationPage = () => {
     console.log("Upload clicked");
     // You'd implement a file picker here
   };
-
-  // Modify handleCapturePress to handle timer mode
-  const handleCapturePress = useCallback(() => {
-    if (!isRecording) {
-      handleRecordingStart();
-    }
-  }, [isRecording]);
 
   // Update the recording start handler to handle timer state
   const handleRecordingStart = () => {
