@@ -1,0 +1,24 @@
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .nav-bar {
+    top: 0;
+    bottom: auto;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: between;
+    padding: 0 1rem;
+  }
+}
+
+.nav-bar.dark {
+  background-color: rgb(17 24 39);
+}

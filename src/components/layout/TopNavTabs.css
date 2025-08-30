@@ -1,0 +1,29 @@
+.top-nav-tabs {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  box-shadow: none;
+  transition: background-color 0.2s ease;
+}
+
+.top-nav-tabs--posts {
+  background-color: white;
+}
+
+.top-nav-tabs--videos {
+  background-color: transparent;
+}
+
+/* Custom realistic text shadow for videos tab */
+.text-shadow-realistic {
+  text-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.9), 0 2px 1px rgba(0, 0, 0, 0.7);
+}
+
+/* For icons - slightly stronger effect */
+.icon-shadow-realistic {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 1.5px 0.5px rgba(0, 0, 0, 0.7));
+}
