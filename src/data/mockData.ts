@@ -11,12 +11,12 @@ import { userData, userPosts } from "./userData";
 export const mockUsers: User[] = [
   {
     id: "1",
-    username: "johndoe",
-    displayName: "John Doe",
-    avatar: "https://i.pravatar.cc/150?img=1",
-    bio: "Digital creator | Travel enthusiast | Food lover",
-    followers: 1520,
-    following: 345,
+    username: "peller",
+    displayName: "Peller",
+    avatar: "/assets/images/peller1.jpg",
+    bio: "Content creator | Comedian",
+    followers: 2252000,
+    following: 5,
     isVerified: true,
   },
   {
@@ -33,7 +33,7 @@ export const mockUsers: User[] = [
     id: "3",
     username: "mrbeast",
     displayName: "Mr Beast",
-    avatar: "/src/assets/images/mrb.jpg", // Add leading slash here
+    avatar: "/assets/images/mrb.jpg", // Updated path
     bio: "DONATE TO TEAMWATER $1 IS 1 YEAR OF CLEAN WATER FOR SOMEONE IN NEED!",
     followers: 33002000,
     following: 235,
@@ -63,7 +63,7 @@ export const mockUsers: User[] = [
     id: "6",
     username: "DonaldTrump",
     displayName: "President Donald Trump",
-    avatar: "/src/assets/videos/testPhoto.webp", // Updated avatar to use local file
+    avatar: "/assets/videos/testPhoto.webp", // Updated path
     bio: "45th President of the United States | Businessman | Author",
     followers: 3500000, // <-- Increased followers
     following: 50,
@@ -73,7 +73,7 @@ export const mockUsers: User[] = [
     id: "7",
     username: "drake",
     displayName: "Drake",
-    avatar: "/src/assets/images/drakeImg.webp", // Changed to image instead of video
+    avatar: "/assets/images/drakeImg.webp", // Updated path
     bio: "Singer | Rapper | Record Producer | Actor",
     followers: 5200000,
     following: 1250,
@@ -347,29 +347,18 @@ export const mockPosts: Post[] = [
   {
     id: "1",
     userId: "1",
-    caption:
-      "Enjoying the most breathtaking sunset at Malibu Beach today! The colors in the sky were absolutely incredible - layers of pink, orange, and gold reflecting on the water. These moments make me appreciate nature's beauty. Nothing beats the feeling of sand between your toes and the sound of waves crashing as the day comes to a close. Definitely a perfect way to end the weekend! #sunset #beachvibes #naturelovers #peaceful #goldenhour",
+    caption: "Me and my queen inside JP🥰",
     media: [
       {
         id: "1-1",
-        url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
-      },
-      {
-        id: "1-2",
-        url: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
-      },
-      {
-        id: "1-3",
-        url: "https://images.unsplash.com/photo-1501436513145-30f24e19fcc8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+        url: "/assets/images/peller.jpg",
         type: "image",
       },
     ],
     likes: 1240,
     comments: mockComments["1"],
     createdAt: "2025-08-16T18:30:00Z",
-    location: "Malibu Beach",
+    location: "MMIA, Ikeja, Nigeria",
     tags: ["sunset", "beachvibes", "summer"],
     saved: false,
     liked: true,
@@ -405,7 +394,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "3-1",
-        url: "/src/assets/images/mrb1.jpg",
+        url: "/assets/images/mrb1.jpg", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -479,12 +468,11 @@ export const mockPosts: Post[] = [
   {
     id: "6",
     userId: "1",
-    caption:
-      "Summer vibes in the city! Spent the day exploring hidden gems in NYC with friends. Started with brunch at that new rooftop spot everyone's been talking about, then wandered through the park and discovered an amazing street art festival. #rooftopviews #cityexploration #streetart #summerinthacity",
+    caption: "Such a beautiful soul😍",
     media: [
       {
         id: "6-1",
-        url: "/src/assets/videos/test1.mp4",
+        url: "/assets/videos/test1.mp4", // Updated path
         type: "video",
       },
     ],
@@ -506,7 +494,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "7-1",
-        url: "/src/assets/videos/test.mp4",
+        url: "/assets/videos/test.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
@@ -528,7 +516,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "8-1",
-        url: "/src/assets/videos/test3.mp4",
+        url: "/assets/videos/test3.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
@@ -551,7 +539,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "9-1",
-        url: "/src/assets/images/testPhoto1.webp",
+        url: "/assets/images/testPhoto1.webp", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -568,11 +556,11 @@ export const mockPosts: Post[] = [
   {
     id: "10",
     userId: "7",
-    caption: "New music video dropping soon 🎵 #ForAllTheDogs #Certified",
+    caption: "Drake @Stake",
     media: [
       {
         id: "10-1",
-        url: "/src/assets/videos/drake.mp4",
+        url: "/assets/videos/drake.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
@@ -589,7 +577,7 @@ export const mockPosts: Post[] = [
     music: {
       title: "Rich Flex",
       artist: "Drake",
-      url: "/src/assets/audio/drake.mp3",
+      url: "/assets/audio/drake.mp3", // Update from /src/assets to /assets
     },
   },
   {
@@ -599,7 +587,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "11-1",
-        url: "/src/assets/images/drakepost.jpg",
+        url: "/assets/images/drakepost.jpg", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -615,7 +603,7 @@ export const mockPosts: Post[] = [
     music: {
       title: "Laugh now cry later",
       artist: "Drake & Lil' Durk",
-      url: "/src/assets/audio/drake.mp3",
+      url: "/assets/audio/drake.mp3", // Update from /src/assets to /assets
     },
   },
   {
@@ -626,7 +614,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "3-1",
-        url: "/src/assets/images/mrb2.jpg",
+        url: "/assets/images/mrb2.jpg", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -686,7 +674,7 @@ export const mockStories: Story[] = [
   {
     id: "s6",
     userId: "7",
-    mediaUrl: "/src/assets/audio/drake.mp3",
+    mediaUrl: "/assets/audio/drake.mp3", // Updated path
     createdAt: "2025-08-28T01:30:00Z",
     seen: false,
   },

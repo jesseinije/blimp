@@ -3,21 +3,24 @@ import { useState, useEffect, useRef } from "react";
 interface CaptionProps {
   text: string;
   className?: string;
-  maxLength?: number; // Add new prop for customizing max length
+  maxLength?: number;
+  highlightClassName?: string; // Add new prop for highlight color customization
 }
 
-const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
+const Caption = ({
+  text,
+  className = "",
+  maxLength = 85,
+  highlightClassName = "text-blue-500", // Default blue highlight
+}: CaptionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [shouldShowButton, setShouldShowButton] = useState(false);
   const [truncatedText, setTruncatedText] = useState("");
   const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    // Check if text is long enough to need truncation
-    // Using the maxLength prop to determine when to truncate
     if (text.length > maxLength) {
       setShouldShowButton(true);
-      // Truncate text with a buffer for "... more" text
       setTruncatedText(text.substring(0, maxLength - 5));
     } else {
       setTruncatedText(text);
@@ -29,19 +32,14 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
     setIsExpanded(!isExpanded);
   };
 
-  // Function to render text with highlighted hashtags
-  const renderTextWithHashtags = (text: string) => {
-    // Regular expression to match hashtags (word beginning with # and containing letters, numbers, and underscores)
-    const hashtagRegex = /(#\w+)/g;
-
-    // Split the text by hashtags and map through parts
-    const parts = text.split(hashtagRegex);
+  const renderTextWithHighlights = (text: string) => {
+    const highlightRegex = /(#\w+|@\w+)/g;
+    const parts = text.split(highlightRegex);
 
     return parts.map((part, index) => {
-      // If the part matches hashtag pattern, render it with blue color
-      if (part.match(hashtagRegex)) {
+      if (part.match(highlightRegex)) {
         return (
-          <span key={index} className="text-blue-500">
+          <span key={index} className={highlightClassName}>
             {part}
           </span>
         );
@@ -50,13 +48,12 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
     });
   };
 
-  // For expanded view, show full text with Less button
   if (isExpanded) {
     return (
       <div className={`${className}`}>
         <div>
           <span className="text-sm">
-            {renderTextWithHashtags(text)}{" "}
+            {renderTextWithHighlights(text)}{" "}
             {shouldShowButton && (
               <button
                 onClick={toggleExpanded}
@@ -71,14 +68,13 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
     );
   }
 
-  // For collapsed view, show truncated text with More button
   return (
     <div className={`${className}`}>
       <div className="relative">
         {shouldShowButton ? (
           <div>
             <span ref={textRef} className="text-sm">
-              {renderTextWithHashtags(truncatedText)}
+              {renderTextWithHighlights(truncatedText)}
               {!isExpanded && "... "}
             </span>
             <button
@@ -89,7 +85,7 @@ const Caption = ({ text, className = "", maxLength = 85 }: CaptionProps) => {
             </button>
           </div>
         ) : (
-          <span className="text-sm">{renderTextWithHashtags(text)}</span>
+          <span className="text-sm">{renderTextWithHighlights(text)}</span>
         )}
       </div>
     </div>

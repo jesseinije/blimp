@@ -74,8 +74,9 @@ const ReelContentInfo = ({
 
       <Caption
         text={caption}
-        className="mb-3 [&_span]:text-white [&_button]:text-white/70 [&_button]:hover:text-white"
+        className="mb-3 [&_span:not(.text-blue-400)]:text-white [&_button]:text-white/70 [&_button]:hover:text-white"
         maxLength={37}
+        highlightClassName="text-blue-400 !important"
       />
 
       <div className="flex items-center gap-1">

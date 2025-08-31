@@ -25,7 +25,7 @@ export const userData: User[] = [
     id: "10",
     username: "nba",
     displayName: "NBA",
-    avatar: "https://i.pravatar.cc/150?img=12",
+    avatar: "/assets/images/nba.jpg",
     bio: "Official account of the National Basketball Association",
     followers: 3200000,
     following: 245,
@@ -161,7 +161,7 @@ export const userPosts: Post[] = [
     media: [
       {
         id: "14-1",
-        url: "https://images.unsplash.com/photo-1504450758481-7338eba7524a",
+        url: "/assets/videos/nba.mp4",
         type: "video",
       },
     ],
