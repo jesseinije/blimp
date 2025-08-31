@@ -13,8 +13,8 @@ export interface TextOverlay {
 }
 
 import { useState, useRef, useEffect } from "react";
+import { Plus, Minus, Check } from "phosphor-react"; // Replace Heroicons imports
 import BottomSheet from "../ui/BottomSheet";
-import { PlusIcon, MinusIcon, CheckIcon } from "@heroicons/react/24/outline";
 
 interface TextOverlayBottomSheetProps {
   isOpen: boolean;
@@ -182,7 +182,7 @@ const TextOverlayBottomSheet = ({
                 className="w-9 h-9 rounded-full flex items-center justify-center bg-gray-700 disabled:opacity-50"
                 aria-label="Decrease font size"
               >
-                <MinusIcon className="h-5 w-5" />
+                <Minus size={20} /> {/* Replace MinusIcon */}
               </button>
               <span className="w-14 text-center">{textStyle.fontSize}px</span>
               <button
@@ -191,7 +191,7 @@ const TextOverlayBottomSheet = ({
                 className="w-9 h-9 rounded-full flex items-center justify-center bg-gray-700 disabled:opacity-50"
                 aria-label="Increase font size"
               >
-                <PlusIcon className="h-5 w-5" />
+                <Plus size={20} /> {/* Replace PlusIcon */}
               </button>
             </div>
           </div>
@@ -232,8 +232,10 @@ const TextOverlayBottomSheet = ({
                   aria-label={`Select ${color.name} color`}
                 >
                   {textStyle.color === color.value && (
-                    <CheckIcon
-                      className={`h-4 w-4 ${
+                    <Check
+                      size={16} // Specify size for Phosphor icon
+                      weight="bold"
+                      className={`${
                         ["#FFFFFF", "#FFFF00", "#00FF00"].includes(color.value)
                           ? "text-black"
                           : "text-white"

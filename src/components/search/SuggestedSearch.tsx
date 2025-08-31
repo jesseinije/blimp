@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  MagnifyingGlassIcon,
-  ArrowPathIcon,
-} from "@heroicons/react/24/outline";
+import { MagnifyingGlass, ArrowClockwise } from "phosphor-react";
 import type { SuggestedSearchItem } from "../../types/searchTypes";
 
 interface SuggestedSearchProps {
@@ -28,7 +25,7 @@ const SuggestedSearch: React.FC<SuggestedSearchProps> = ({
           aria-label="Refresh suggestions"
         >
           <span className="mr-1">Refresh</span>
-          <ArrowPathIcon className="h-4 w-4" />
+          <ArrowClockwise size={16} />
         </button>
       </div>
       <div className="space-y-3">
@@ -56,7 +53,7 @@ const SuggestedSearch: React.FC<SuggestedSearchProps> = ({
                 />
               </div>
             ) : (
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 ml-3" />
+              <MagnifyingGlass size={20} className="text-gray-400 ml-3" />
             )}
           </div>
         ))}

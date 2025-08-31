@@ -1,5 +1,5 @@
 import React from "react";
-import { XMarkIcon, ClockIcon } from "@heroicons/react/24/outline";
+import { X, Clock } from "phosphor-react"; // Replace Heroicons imports
 import type { SearchHistoryItem } from "../../types/searchTypes";
 
 interface SearchHistoryProps {
@@ -24,7 +24,8 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({
           onClick={() => onSelectItem(item.query)}
         >
           <div className="flex items-center space-x-3">
-            <ClockIcon className="h-5 w-5 text-gray-400" />
+            <Clock size={20} className="text-gray-400" />{" "}
+            {/* Replace ClockIcon */}
             <span className="text-base">{item.query}</span>
           </div>
           <button
@@ -34,7 +35,7 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({
             }}
             className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            <XMarkIcon className="h-5 w-5 text-gray-400" />
+            <X size={20} className="text-gray-400" /> {/* Replace XMarkIcon */}
           </button>
         </div>
       ))}

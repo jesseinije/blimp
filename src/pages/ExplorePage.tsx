@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { MagnifyingGlass } from "phosphor-react";
 import ExploreGrid from "../components/explore/ExploreGrid";
 import { ExploreGridSkeleton } from "../components/ui/skeletons/ExploreGridSkeleton";
 import { SkeletonProvider } from "../components/ui/skeletons/SkeletonProvider";

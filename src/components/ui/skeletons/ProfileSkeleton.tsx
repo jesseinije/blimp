@@ -58,7 +58,8 @@ export const ProfileSkeleton = () => {
       <div className="grid grid-cols-3 gap-0.5 mt-0.5">
         {[...Array(9)].map((_, i) => (
           <div key={i} className="aspect-[3/4]">
-            <Skeleton height="100%" />
+            <Skeleton height="100%" borderRadius={0} />{" "}
+            {/* Added borderRadius={0} */}
           </div>
         ))}
       </div>

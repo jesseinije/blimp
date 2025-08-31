@@ -1,5 +1,4 @@
-import { MusicalNoteIcon } from "@heroicons/react/24/solid";
-import { CheckCircle } from "phosphor-react";
+import { CheckCircle, MusicNote } from "phosphor-react"; // Update imports
 import Caption from "../ui/Caption";
 
 interface ReelContentInfoProps {
@@ -10,8 +9,8 @@ interface ReelContentInfoProps {
   avatar: string;
   isVerified?: boolean;
   location?: string;
-  isFollowing: boolean; // Add this line
-  onFollow: () => void; // Add this line
+  isFollowing: boolean;
+  onFollow: () => void;
 }
 
 // Helper function to format relative time
@@ -80,7 +79,8 @@ const ReelContentInfo = ({
       />
 
       <div className="flex items-center gap-1">
-        <MusicalNoteIcon className="w-4 h-4 text-white" />
+        <MusicNote size={16} className="text-white" />{" "}
+        {/* Replace MusicalNoteIcon */}
         <span className="text-white text-xs truncate max-w-[180px]">
           {music}
         </span>

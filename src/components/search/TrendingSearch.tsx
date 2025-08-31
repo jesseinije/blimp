@@ -1,5 +1,5 @@
 import React from "react";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { DotsThree } from "phosphor-react"; // Replace Heroicons import
 import type { TrendingTopic } from "../../types/searchTypes";
 
 interface TrendingSearchProps {
@@ -28,7 +28,8 @@ const TrendingSearch: React.FC<TrendingSearchProps> = ({
                 Trending in {topic.location}
               </div>
               <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                <EllipsisHorizontalIcon className="h-5 w-5 text-gray-400" />
+                <DotsThree size={20} className="text-gray-400" />{" "}
+                {/* Replace EllipsisHorizontalIcon */}
               </button>
             </div>
             <div className="font-semibold text-base">{topic.topic}</div>
