@@ -213,26 +213,26 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
             id="posts-tab-button"
             className={`relative py-3 text-lg focus:outline-none ${
               activeTab === "posts"
-                ? "font-bold text-gray-900 dark:text-white after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-black dark:after:bg-white"
+                ? "font-bold text-gray-900 dark:text-white"
                 : activeTab === "videos"
                 ? "font-normal text-white/80 text-shadow-realistic"
                 : "font-normal text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => onTabChange("posts")}
           >
-            <span className="text-base">Posts</span>
+            <span className="text-base tab-name">Posts</span>
           </button>
           <button
             ref={videosButtonRef}
             id="videos-tab-button"
             className={`relative py-3 text-lg focus:outline-none ${
               activeTab === "videos"
-                ? "font-bold text-white text-shadow-realistic after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-white"
+                ? "font-bold text-white text-shadow-realistic "
                 : "text-gray-500 dark:text-gray-400 font-normal"
             }`}
             onClick={() => onTabChange("videos")}
           >
-            <span className="text-base">Videos</span>
+            <span className="text-base tab-name">Videos</span>
           </button>
         </nav>
 

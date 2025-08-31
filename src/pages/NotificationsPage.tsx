@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PageHeader from "../components/layout/PageHeader";
 import { useElementHeight } from "../hooks/useElementHeight";
 import PrivateMessagesTab from "../components/notifications/PrivateMessagesTab";
@@ -14,24 +14,7 @@ type NotificationTabType = "private" | "general";
 const NotificationsPage = () => {
   const [activeTab, setActiveTab] = useState<NotificationTabType>("private");
   const [showFilters, setShowFilters] = useState(false);
-  const [showHeaderBorder, setShowHeaderBorder] = useState(false);
   const headerHeight = useElementHeight(".page-header");
-
-  // Add scroll listener effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setShowHeaderBorder(currentScrollY > 0);
-    };
-
-    // Set initial border state
-    setShowHeaderBorder(window.scrollY > 0);
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const handleTabChange = (tab: NotificationTabType) => {
     setActiveTab(tab);
@@ -50,7 +33,7 @@ const NotificationsPage = () => {
           title="Activities"
           showBackButton={false}
           rightIcon="more"
-          showBorder={showHeaderBorder}
+          showBorder={false}
         />
       </div>
 
@@ -126,13 +109,13 @@ const NotificationsPage = () => {
         height="80vh"
         showHandle={true}
       >
-        <div className="px-4 space-y-6">
+        <div className="px-0 space-y-6">
           {/* Time Filter */}
           <div>
             <h3 className="text-base font-medium text-gray-900 dark:text-white mb-3">
               Time Period
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-3 text-sm">
               <div className="py-2 text-gray-900 dark:text-white">All Time</div>
               <div className="py-2 text-gray-900 dark:text-white">Today</div>
               <div className="py-2 text-gray-900 dark:text-white">
@@ -152,7 +135,7 @@ const NotificationsPage = () => {
             <h3 className="text-base font-medium text-gray-900 dark:text-white mb-3">
               Read Status
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-3 text-sm">
               <div className="py-2 text-gray-900 dark:text-white">All</div>
               <div className="py-2 text-gray-900 dark:text-white">Read</div>
               <div className="py-2 text-gray-900 dark:text-white">Unread</div>
@@ -167,7 +150,7 @@ const NotificationsPage = () => {
             <h3 className="text-base font-medium text-gray-900 dark:text-white mb-3">
               Type
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-3 text-sm">
               <div className="py-2 text-gray-900 dark:text-white">
                 All Types
               </div>

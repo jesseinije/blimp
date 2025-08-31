@@ -11,10 +11,8 @@ import {
   ChatDots,
   At,
   Info,
-  Check,
-  Sliders,
   CheckCircle, // Add this import
-} from "@phosphor-icons/react";
+} from "phosphor-react";
 
 // Define filter options
 type TimeFilter = "all" | "today" | "thisWeek" | "thisMonth";
@@ -44,15 +42,6 @@ const GeneralNotificationsTab = ({
     readStatus: "all",
     type: "all",
   });
-
-  // Bottom sheet state
-  const [showFilters, setShowFilters] = useState(false);
-
-  // Find a random user from mockUsers for notifications without actors
-  const getRandomUser = () => {
-    const randomIndex = Math.floor(Math.random() * mockUsers.length);
-    return mockUsers[randomIndex];
-  };
 
   // Helper function to format preview text with highlighted mentions
   const formatPreviewWithMentions = (text: string) => {
@@ -250,37 +239,6 @@ const GeneralNotificationsTab = ({
       (notif.timestamp.includes("w ago") && notif.timestamp.startsWith("1"))
   );
 
-  // Option selectors for the filter bottom sheet
-  const FilterOption = ({
-    selected,
-    onClick,
-    children,
-  }: {
-    selected: boolean;
-    onClick: () => void;
-    children: React.ReactNode;
-  }) => (
-    <button
-      onClick={onClick}
-      className={`flex items-center justify-between w-full py-3 px-4 ${
-        selected ? "bg-blue-50 dark:bg-blue-900/20" : ""
-      }`}
-    >
-      <span
-        className={`${
-          selected
-            ? "text-blue-600 dark:text-blue-400"
-            : "text-gray-900 dark:text-white"
-        }`}
-      >
-        {children}
-      </span>
-      {selected && (
-        <Check size={20} className="text-blue-600 dark:text-blue-400" />
-      )}
-    </button>
-  );
-
   const hasActiveFilters =
     filters.time !== "all" ||
     filters.readStatus !== "all" ||
@@ -288,6 +246,35 @@ const GeneralNotificationsTab = ({
 
   return (
     <div id="general-panel" role="tabpanel" aria-labelledby="general-tab">
+      {/* Filter Button - removed sticky positioning */}
+      <div className="bg-white dark:bg-gray-800 px-3 py-4  dark:border-gray-700">
+        <button
+          onClick={onFilterButtonClick}
+          className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm ${
+            externalFiltersActive
+              ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+              : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+          }`}
+        >
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+            />
+          </svg>
+          <span className="font-medium">
+            {externalFiltersActive ? "Filters Active" : "Filter"}
+          </span>
+        </button>
+      </div>
+
       {/* Main content */}
       {filteredNotifications.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-20 p-4">

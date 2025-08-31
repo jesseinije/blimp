@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cal+Sans:wght@600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,6 +18,13 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Add this new class for the tab names */
+  .tab-name {
+    font-family: "Cal Sans", sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   /* Optimize font loading for different weights */

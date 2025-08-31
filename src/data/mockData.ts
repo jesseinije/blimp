@@ -1,5 +1,5 @@
-import type { User, Post, Story, Comment, MediaItem } from "../types";
-import { userData, userPosts, userComments } from "./userData";
+import type { User, Post, Story, Comment } from "../types";
+import { userData, userPosts } from "./userData";
 
 // First, let's extend the Post type to include our new property
 // This would normally go in types/index.ts, but we'll add it here for reference
@@ -31,11 +31,11 @@ export const mockUsers: User[] = [
   },
   {
     id: "3",
-    username: "techguru",
-    displayName: "Tech Guru",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    bio: "Tech enthusiast | Software developer",
-    followers: 5200,
+    username: "mrbeast",
+    displayName: "Mr Beast",
+    avatar: "/src/assets/images/mrb.jpg", // Add leading slash here
+    bio: "DONATE TO TEAMWATER $1 IS 1 YEAR OF CLEAN WATER FOR SOMEONE IN NEED!",
+    followers: 33002000,
     following: 235,
     isVerified: true,
   },
@@ -401,30 +401,15 @@ export const mockPosts: Post[] = [
     id: "3",
     userId: "3",
     caption:
-      "Check out my new gadget! Just unboxed this incredible piece of technology that's going to revolutionize my workflow. The build quality is exceptional, and the performance so far has exceeded all my expectations. It's amazing how quickly technology advances these days - what was cutting edge just a year ago now seems outdated. I'll be posting a full review and some detailed tests on my blog next week, so stay tuned if you're interested in learning more about this device's capabilities. #tech #gadgets #innovation #unboxing #techreview #newtech #productivitytools",
+      "Beast Games Season 2 wrapped filming!!! We gathered the strongest and the smartest people on earth to compete for $5,000,000! I’M SO EXCITED SEASON 2 IS 10X BETTER THAN SEASON 1 :D",
     media: [
       {
         id: "3-1",
-        url: "https://images.unsplash.com/photo-1550029402-226115b7c579?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
-      },
-      {
-        id: "3-2",
-        url: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
-      },
-      {
-        id: "3-3",
-        url: "https://images.unsplash.com/photo-1484704849700-f032a568e944?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
-      },
-      {
-        id: "3-4",
-        url: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+        url: "/src/assets/images/mrb1.jpg",
         type: "image",
       },
     ],
-    likes: 432,
+    likes: 432000,
     comments: mockComments["3"],
     createdAt: "2025-08-15T19:45:10Z",
     tags: ["tech", "gadgets", "innovation"],
@@ -437,7 +422,7 @@ export const mockPosts: Post[] = [
     id: "4",
     userId: "4",
     caption:
-      "Exploring the hidden gems of Paris! Skipped the typical tourist spots today and ventured into the lesser-known neighborhoods. Found this charming café where all the locals eat, with the most amazing croissants I've ever tasted. Then discovered a small art gallery showcasing works from emerging French artists - picked up a beautiful watercolor piece to remember this trip by. It's fascinating how a city so well-known can still surprise you when you step off the beaten path. The authentic Paris experience is found in these quiet corners and local interactions, away from the crowds at the Eiffel Tower and Louvre. Tomorrow we're planning to explore the canal area and visit some vintage shops recommended by our Airbnb host. #travel #paris #hiddengems #localexperience #parisianlife #offthebeatenpath #travelphotography #wanderlust #europetrip #parisfrance",
+      "Exploring the hidden gems of Paris! Skipped the typical tourist spots today and ventured into the lesser-known neighborhoods. Found this charming café where all the locals eat, with the most amazing croissants I've ever tasted.  #travel #paris #hiddengems #localexperience #parisianlife #offthebeatenpath #travelphotography #wanderlust #europetrip #parisfrance",
     media: [
       {
         id: "4-1",
@@ -469,7 +454,7 @@ export const mockPosts: Post[] = [
     id: "5",
     userId: "5",
     caption:
-      "Made this delicious pasta completely from scratch today! The secret is using fresh, high-quality ingredients and taking your time with each step of the process. I used organic semolina flour, farm-fresh eggs, and a touch of olive oil to create the perfect pasta dough. Then I rolled it by hand to get that authentic texture you just can't achieve with store-bought pasta. The sauce is a family recipe that's been passed down for generations - slow-simmered for hours with San Marzano tomatoes, fresh basil from my garden, and a blend of herbs and spices. Paired with a glass of Chianti, this was the perfect Sunday meal! Full recipe now in my bio if you want to try it yourself. #food #homemade #pasta #italianfood #fromscratch #foodie #cooking #homechef #foodphotography #sundaycooking",
+      "Made this delicious pasta completely from scratch today! The secret is using fresh, high-quality ingredients and taking your time with each step of the process. I used organic semolina flour, farm-fresh eggs, and a touch of olive oil to create the perfect pasta dough. #food #homemade #pasta #italianfood #fromscratch #foodie #cooking #homechef #foodphotography #sundaycooking",
     media: [
       {
         id: "5-1",
@@ -495,7 +480,7 @@ export const mockPosts: Post[] = [
     id: "6",
     userId: "1",
     caption:
-      "Summer vibes in the city! Spent the day exploring hidden gems in NYC with friends. Started with brunch at that new rooftop spot everyone's been talking about, then wandered through the park and discovered an amazing street art festival. The energy in this city during summer is absolutely electric - musicians playing on every corner, people lounging in parks, and the sunset reflecting off the skyscrapers created the most beautiful urban landscape. These are the days that make city living worth it, despite the heat and crowds. Already planning our next adventure for next weekend! #summer #citylife #newyork #urbanadventures #rooftopviews #cityexploration #streetart #summerinthacity",
+      "Summer vibes in the city! Spent the day exploring hidden gems in NYC with friends. Started with brunch at that new rooftop spot everyone's been talking about, then wandered through the park and discovered an amazing street art festival. #rooftopviews #cityexploration #streetart #summerinthacity",
     media: [
       {
         id: "6-1",
@@ -632,6 +617,27 @@ export const mockPosts: Post[] = [
       artist: "Drake & Lil' Durk",
       url: "/src/assets/audio/drake.mp3",
     },
+  },
+  {
+    id: "20",
+    userId: "3",
+    caption:
+      "Me - I raised $12M to get hundreds of thousands of people clean water and save countless people from dying! 🥰",
+    media: [
+      {
+        id: "3-1",
+        url: "/src/assets/images/mrb2.jpg",
+        type: "image",
+      },
+    ],
+    likes: 33200000,
+    comments: mockComments["3"],
+    createdAt: "2025-08-15T19:45:10Z",
+    tags: ["tech", "gadgets", "innovation"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("3"),
+    views: 5400, // <-- Added
   },
   ...userPosts, // Add this line to combine the arrays
 ];

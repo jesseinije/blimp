@@ -154,7 +154,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   // Store the original reels separately for restoration
   restoreReels: () =>
-    set((state) => ({
+    set(() => ({
       reels: processPosts(getReelsForFeed()),
     })),
 }));

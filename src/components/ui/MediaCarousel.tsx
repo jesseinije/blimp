@@ -1,10 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  SpeakerWaveIcon,
-  SpeakerXMarkIcon,
-} from "@heroicons/react/24/outline";
+import { CaretLeft, CaretRight, SpeakerHigh, SpeakerX } from "phosphor-react";
 import type { MediaItem } from "../../types";
 
 interface MediaCarouselProps {
@@ -140,7 +135,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {media.map((item, index) => (
+        {media.map((item) => (
           <div
             key={item.id}
             className="flex-none w-full relative bg-black flex justify-center"
@@ -168,9 +163,9 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
                 aria-label={videoMuted ? "Unmute video" : "Mute video"}
               >
                 {videoMuted ? (
-                  <SpeakerXMarkIcon className="w-5 h-5" />
+                  <SpeakerX size={20} />
                 ) : (
-                  <SpeakerWaveIcon className="w-5 h-5" />
+                  <SpeakerHigh size={20} />
                 )}
               </button>
             )}
@@ -185,9 +180,9 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
                 }
               >
                 {musicControl.isPlaying ? (
-                  <SpeakerWaveIcon className="w-5 h-5" />
+                  <SpeakerHigh size={20} />
                 ) : (
-                  <SpeakerXMarkIcon className="w-5 h-5" />
+                  <SpeakerX size={20} />
                 )}
               </button>
             )}
@@ -204,7 +199,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
               className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 rounded-full p-1 text-white shadow-md backdrop-blur-sm"
               aria-label="Previous"
             >
-              <ChevronLeftIcon className="w-6 h-6" />
+              <CaretLeft size={24} />
             </button>
           )}
 
@@ -214,7 +209,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
               className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 rounded-full p-1 text-white shadow-md backdrop-blur-sm"
               aria-label="Next"
             >
-              <ChevronRightIcon className="w-6 h-6" />
+              <CaretRight size={24} />
             </button>
           )}
         </>

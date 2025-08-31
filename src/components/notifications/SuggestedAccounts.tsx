@@ -11,7 +11,6 @@ interface SuggestedAccountsProps {
 }
 
 const SuggestedAccounts = ({
-  accounts: initialAccounts,
   showDismiss = true,
   showHeader = true, // Default to true to maintain existing behavior
 }: SuggestedAccountsProps) => {
