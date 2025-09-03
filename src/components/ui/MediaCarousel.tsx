@@ -8,9 +8,17 @@ interface MediaCarouselProps {
     isPlaying: boolean;
     onTogglePlay: (e: React.MouseEvent) => void;
   };
+  sponsored?: {
+    buttonText: string;
+    buttonUrl: string;
+  };
 }
 
-const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
+const MediaCarousel = ({
+  media,
+  musicControl,
+  sponsored,
+}: MediaCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -152,14 +160,14 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
                 muted={videoMuted}
                 playsInline
                 loop
-              ></video>
+              />
             )}
 
             {/* Video Sound Control - only show if current item is video */}
             {isCurrentItemVideo && (
               <button
                 onClick={toggleMute}
-                className="absolute bottom-4 right-4 bg-black/40 rounded-full p-2 text-white shadow-lg hover:bg-opacity-80 transition-all z-10 backdrop-blur-sm"
+                className="absolute bottom-3 right-3 bg-gray-900/40 rounded-full p-2 text-white shadow-lg hover:bg-opacity-80 transition-all z-10 backdrop-blur-sm"
                 aria-label={videoMuted ? "Unmute video" : "Mute video"}
               >
                 {videoMuted ? (
@@ -174,7 +182,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
             {musicControl && item.type === "image" && (
               <button
                 onClick={musicControl.onTogglePlay}
-                className="absolute bottom-4 right-4 bg-black/40 rounded-full p-2 text-white shadow-lg hover:bg-opacity-80 transition-all z-10 backdrop-blur-sm"
+                className="absolute bottom-3 right-3 bg-gray-900/40 rounded-full p-2 text-white shadow-lg transition-all z-10 backdrop-blur-sm"
                 aria-label={
                   musicControl.isPlaying ? "Pause music" : "Play music"
                 }
@@ -186,6 +194,18 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
                 )}
               </button>
             )}
+
+            {/* Add sponsored button */}
+            {sponsored && (
+              <a
+                href={sponsored.buttonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-3 left-3 bg-white  text-gray-900 text-sm font-semibold px-4 py-2 rounded-md transition-colors"
+              >
+                {sponsored.buttonText}
+              </a>
+            )}
           </div>
         ))}
       </div>
@@ -196,7 +216,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
           {currentIndex > 0 && (
             <button
               onClick={goToPrev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 rounded-full p-1 text-white shadow-md backdrop-blur-sm"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-900/40 rounded-full p-1 text-white shadow-md backdrop-blur-sm"
               aria-label="Previous"
             >
               <CaretLeft size={24} />
@@ -206,7 +226,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
           {currentIndex < media.length - 1 && (
             <button
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 rounded-full p-1 text-white shadow-md backdrop-blur-sm"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-900/40 rounded-full p-1 text-white shadow-md backdrop-blur-sm"
               aria-label="Next"
             >
               <CaretRight size={24} />
@@ -217,7 +237,7 @@ const MediaCarousel = ({ media, musicControl }: MediaCarouselProps) => {
 
       {/* Photo counter - visible on all screens */}
       {media.length > 1 && (
-        <div className="absolute top-4 right-4 bg-black/40 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+        <div className="absolute top-4 right-4 bg-gray-900/40 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
           {currentIndex + 1}/{media.length}
         </div>
       )}

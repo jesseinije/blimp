@@ -75,7 +75,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                 {user.isVerified ? (
                   <span className="text-blue-500 mr-2">
                     <CheckCircle
-                      size={20}
+                      size={18}
                       weight="fill"
                       className="text-blue-500"
                     />
@@ -83,9 +83,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                 ) : (
                   <span className="mr-2"></span>
                 )}
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {formattedDate}
-                </span>
+                <span className="text-xs text-gray-400">{formattedDate}</span>
               </div>
             </div>
 
@@ -99,7 +97,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                   onClick={handleViewReplies}
                   className="text-gray-900 hover:text-gray-700 mr-1.5"
                 >
-                  <ArrowBendUpLeft size={20} />
+                  <ArrowBendUpLeft size={18} />
                 </button>
                 <span className="text-xs text-gray-900 font-medium">
                   {replyCount > 0 ? replyCount : ""}
@@ -109,7 +107,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
               <div className="flex items-center">
                 <button onClick={handleLike} className="mr-1.5 text-gray-900">
                   <Heart
-                    size={20}
+                    size={18}
                     weight={liked ? "fill" : "regular"}
                     className={liked ? "text-red-500" : ""}
                   />

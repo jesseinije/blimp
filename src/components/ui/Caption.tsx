@@ -57,7 +57,7 @@ const Caption = ({
             {shouldShowButton && (
               <button
                 onClick={toggleExpanded}
-                className="text-gray-500 dark:text-gray-400 text-sm font-medium focus:outline-none hover:text-gray-700 dark:hover:text-gray-300"
+                className="text-gray-400  text-sm font-medium focus:outline-none"
               >
                 less
               </button>
@@ -79,7 +79,7 @@ const Caption = ({
             </span>
             <button
               onClick={toggleExpanded}
-              className="text-gray-500 dark:text-gray-400 font-medium focus:outline-none hover:text-gray-700 dark:hover:text-gray-300 text-sm"
+              className="text-gray-400 font-medium focus:outline-none  text-sm"
             >
               more
             </button>

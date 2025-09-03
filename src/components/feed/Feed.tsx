@@ -101,7 +101,7 @@ const Feed = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-gray-400">
               {postsFilter === "following"
                 ? "Follow some users to see their posts here."
                 : postsFilter === "live"

@@ -116,7 +116,7 @@ const ProfilePage = ({
   }
 
   return (
-    <div className="pb-16 bg-white text-black">
+    <div className="pb-16 bg-white text-gray-900">
       <PageHeader
         title={username ? user.displayName : "Profile"}
         showBackButton={showBackButton}
@@ -127,7 +127,7 @@ const ProfilePage = ({
       {/* Profile Header - Improved vertical spacing */}
       <div className="flex flex-col items-center pt-8 px-3 space-y-4">
         {/* Profile Image with story ring - Adjusted margin */}
-        <div className="w-24 h-24 rounded-full overflow-hidden ring-2 ring-offset-2 ring-blue-500">
+        <div className="w-24 h-24 rounded-full overflow-hidden ">
           <img
             src={user.avatar || "https://via.placeholder.com/150?text=Profile"}
             alt={`${user.displayName}'s profile`}
@@ -140,9 +140,9 @@ const ProfilePage = ({
         </div>
 
         {/* User info container - Better spacing */}
-        <div className="flex flex-col items-center space-y-2">
+        <div className="flex flex-col items-center space-y-1">
           <div className="flex items-center gap-1">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-xl font-bold text-gray-900">
               {user.displayName}
             </h1>
             {user.isVerified && (
@@ -150,32 +150,30 @@ const ProfilePage = ({
             )}
           </div>
 
-          <p className="text-gray-500">@{user.username}</p>
+          <p className="text-gray-400">@{user.username}</p>
         </div>
 
-        {/* Stats section - Equal width blocks with shorter dividers */}
-        <div className="grid grid-cols-3 w-full max-w-md">
-          <div className="flex flex-col items-center py-4 space-y-1">
-            <span className="text-xl font-bold text-gray-900 truncate">
+        {/* Stats section */}
+        <div className="grid grid-cols-3 w-full max-w-md px-4">
+          <div className="flex flex-col items-center py-4 space-y-1 relative">
+            <span className="text-base font-bold text-gray-900 truncate">
               {formatNumber(user.followers)}
             </span>
-            <span className="text-gray-500 text-sm">Followers</span>
+            <span className="text-gray-900 text-sm">Followers</span>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-8 bg-gray-200"></div>
           </div>
           <div className="flex flex-col items-center py-4 space-y-1 relative">
-            {/* Left border */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-8 bg-gray-200" />
-            {/* Right border */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-8 bg-gray-200" />
-            <span className="text-xl font-bold text-gray-900 truncate">
+            <span className="text-base font-bold text-gray-900 truncate">
               {formatNumber(user.following)}
             </span>
-            <span className="text-gray-500 text-sm">Following</span>
+            <span className="text-gray-900 text-sm">Following</span>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-8 bg-gray-200"></div>
           </div>
           <div className="flex flex-col items-center py-4 space-y-1">
-            <span className="text-xl font-bold text-gray-900 truncate">
+            <span className="text-base font-bold text-gray-900 truncate">
               {formatNumber(imagePosts.length + videoPosts.length)}
             </span>
-            <span className="text-gray-500 text-sm">Posts</span>
+            <span className="text-gray-900 text-sm">Posts</span>
           </div>
         </div>
 
@@ -196,14 +194,14 @@ const ProfilePage = ({
         </div>
 
         {/* Action Buttons with improved styling */}
-        <div className="flex gap-2 w-full max-w-md mb-8">
-          <button className="flex-1 bg-blue-500 hover:bg-blue-600 transition-colors text-white py-2.5 rounded-lg font-medium shadow-sm">
+        <div className="flex gap-2 w-full max-w-md mb-8 text-base">
+          <button className="flex-1 bg-blue-500 hover:bg-blue-600 transition-colors text-white py-2.5 rounded-lg font-medium ">
             Message
           </button>
-          <button className="flex-1 border border-gray-300 hover:bg-gray-50 transition-colors py-2.5 rounded-lg font-medium">
+          <button className="flex-1  bg-gray-100  py-2.5 rounded-lg font-medium">
             Following
           </button>
-          <button className="w-14 border border-gray-300 hover:bg-gray-50 transition-colors py-2.5 rounded-lg flex items-center justify-center">
+          <button className="w-14 bg-gray-100 transition-colors py-2.5 rounded-lg flex items-center justify-center">
             <UserPlus size={24} />
           </button>
         </div>
@@ -218,8 +216,8 @@ const ProfilePage = ({
               onClick={() => setSelectedTab(index)}
               className={`flex-1 py-3.5 text-center font-medium transition-colors ${
                 selectedTab === index
-                  ? "text-gray-900 border-b-2 border-black"
-                  : "text-gray-500 hover:text-gray-900"
+                  ? "text-gray-900 border-b-2 border-gray-900"
+                  : "text-gray-400"
               }`}
             >
               {tab}

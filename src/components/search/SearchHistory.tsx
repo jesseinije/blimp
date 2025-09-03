@@ -33,7 +33,7 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({
               e.stopPropagation();
               onClearItem(item.id);
             }}
-            className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-1 rounded-full hover:bg-gray-100"
           >
             <X size={20} className="text-gray-400" /> {/* Replace XMarkIcon */}
           </button>

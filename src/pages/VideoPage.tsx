@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import VideoPageFeed from "../components/reels/ReelsFeed";
 import { mockPosts } from "../data/mockData";
 import { useAppStore } from "../store/appStore";
-import { ArrowLeft, MagnifyingGlass } from "phosphor-react";
+import { CaretLeft, MagnifyingGlass } from "phosphor-react";
 
 const VideoPage = () => {
   const { videoId } = useParams<{ videoId: string }>();
@@ -119,7 +119,7 @@ const VideoPage = () => {
           className="p-2 rounded-full text-white"
           aria-label="Go back"
         >
-          <ArrowLeft size={24} />
+          <CaretLeft size={24} />
         </button>
 
         <div

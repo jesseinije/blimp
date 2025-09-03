@@ -1,14 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store/appStore";
-import { HouseSimple, MagnifyingGlass, Plus, Bell } from "phosphor-react";
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
+import { House, Search, Plus, Bell } from "../../Icons"; // Update imports to use custom icons
 import "./NavBar.css";
 
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { activeTab, currentUser } = useAppStore(); // Add currentUser from store
+  const { activeTab, currentUser } = useAppStore();
   const navRef = useRef<HTMLElement>(null);
 
   const isActive = (path: string) => location.pathname === path;
@@ -21,6 +21,9 @@ const NavBar = () => {
   const handleAddPost = () => {
     navigate("/create");
   };
+
+  // Check if we're on homepage and videos tab is active
+  const isVideoMode = location.pathname === "/" && activeTab === "videos";
 
   useEffect(() => {
     if (navRef.current) {
@@ -49,28 +52,23 @@ const NavBar = () => {
           const scrollDiff = currentScrollY - lastScrollY.current;
           const currentDirection = Math.sign(scrollDiff);
 
-          // Clear existing timeout
           if (scrollTimeout.current) {
             clearTimeout(scrollTimeout.current);
           }
 
-          // Ignore very small scroll movements
           if (Math.abs(scrollDiff) < 3) {
             ticking = false;
             return;
           }
 
-          // If direction changed, immediately snap based on the new direction
           if (currentDirection !== lastDirection) {
             if (currentDirection > 0) {
-              // Scrolling down - hide navbar
               animate(y, navHeight.current, {
                 type: "tween",
                 duration: 0.2,
                 ease: "easeOut",
               });
             } else {
-              // Scrolling up - show navbar
               animate(y, 0, {
                 type: "tween",
                 duration: 0.2,
@@ -96,20 +94,21 @@ const NavBar = () => {
     };
   }, [location.pathname, activeTab]);
 
-  // Remove the inline border class and use our new CSS class
-  const navBarClasses = "nav-bar dark:bg-gray-900 z-10";
-
   return (
     <motion.nav
       ref={navRef}
-      className={navBarClasses}
-      style={{
-        y,
-      }}
+      className={`nav-bar z-10 ${isVideoMode ? "video-mode" : ""}`}
+      style={{ y }}
     >
       <div className="hidden sm:block sm:flex-1">
         <Link to="/" className="flex items-center">
-          <h1 className="text-xl font-bold">BlimpSocial</h1>
+          <h1
+            className={`text-xl font-bold ${
+              isVideoMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            BlimpSocial
+          </h1>
         </Link>
       </div>
 
@@ -118,22 +117,30 @@ const NavBar = () => {
           to="/"
           className={`flex items-center ${
             isActive("/")
-              ? "text-black dark:text-white"
-              : "text-gray-500 dark:text-gray-400"
+              ? isVideoMode
+                ? "text-white"
+                : "text-gray-900"
+              : isVideoMode
+              ? "text-white/80"
+              : "text-gray-400"
           }`}
         >
-          <HouseSimple size={26} weight={isActive("/") ? "fill" : "regular"} />
+          <House size={26} weight={isActive("/") ? "fill" : "regular"} />
         </Link>
 
         <Link
           to="/explore"
           className={`flex items-center ${
             isActive("/explore")
-              ? "text-black dark:text-white"
-              : "text-gray-500 dark:text-gray-400"
+              ? isVideoMode
+                ? "text-white"
+                : "text-gray-900"
+              : isVideoMode
+              ? "text-white/80"
+              : "text-gray-400"
           }`}
         >
-          <MagnifyingGlass
+          <Search
             size={26}
             weight={isActive("/explore") ? "bold" : "regular"}
           />
@@ -141,10 +148,8 @@ const NavBar = () => {
 
         <button
           onClick={handleAddPost}
-          className={`flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 ${
-            isActive("/create")
-              ? "text-black dark:text-white"
-              : "text-gray-500 dark:text-gray-400"
+          className={`flex items-center justify-center w-10 h-10 rounded-lg ${
+            isVideoMode ? "bg-white text-gray-900" : "bg-gray-100 text-gray-400"
           }`}
         >
           <Plus size={22} weight="bold" />
@@ -152,16 +157,22 @@ const NavBar = () => {
 
         <Link
           to="/notifications"
-          className={`flex items-center ${
+          className={`flex items-center relative ${
             isActive("/notifications")
-              ? "text-black dark:text-white"
-              : "text-gray-500 dark:text-gray-400"
+              ? isVideoMode
+                ? "text-white"
+                : "text-gray-900"
+              : isVideoMode
+              ? "text-white/80"
+              : "text-gray-400"
           }`}
         >
           <Bell
             size={26}
             weight={isActive("/notifications") ? "fill" : "regular"}
           />
+          {/* Notification Badge */}
+          <span className="absolute top-2 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
         </Link>
 
         <Link to="/profile" className="flex items-center">

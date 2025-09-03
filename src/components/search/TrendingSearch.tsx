@@ -24,16 +24,16 @@ const TrendingSearch: React.FC<TrendingSearchProps> = ({
             onClick={() => onSelectTopic(topic.topic)}
           >
             <div className="flex justify-between items-center mb-1">
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-gray-400">
                 Trending in {topic.location}
               </div>
-              <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+              <button className="p-1 rounded-full hover:bg-gray-100 ">
                 <DotsThree size={20} className="text-gray-400" />{" "}
                 {/* Replace EllipsisHorizontalIcon */}
               </button>
             </div>
             <div className="font-semibold text-base">{topic.topic}</div>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-400">
               {topic.postCount.toLocaleString()} posts
             </div>
           </div>

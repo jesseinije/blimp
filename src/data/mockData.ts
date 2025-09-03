@@ -63,7 +63,8 @@ export const mockUsers: User[] = [
     id: "6",
     username: "DonaldTrump",
     displayName: "President Donald Trump",
-    avatar: "/assets/videos/testPhoto.webp", // Updated path
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756808515/trump_hoe9f0.jpg", // Updated path
     bio: "45th President of the United States | Businessman | Author",
     followers: 3500000, // <-- Increased followers
     following: 50,
@@ -80,6 +81,39 @@ export const mockUsers: User[] = [
     isVerified: true,
   },
   ...userData,
+  {
+    id: "14",
+    username: "bad_gyal",
+    displayName: "Ruth Kadirc",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756815232/ruth_dc370q.jpg", // Updated path
+    bio: "Singer & Dancer",
+    followers: 120000,
+    following: 1250,
+    isVerified: false,
+  },
+  {
+    id: "15",
+    username: "skyFootball",
+    displayName: "Sky Sports Football",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756817095/sky_cudz51.jpg", // Updated path
+    bio: "Singer & Dancer",
+    followers: 5200000,
+    following: 120,
+    isVerified: false,
+  },
+  {
+    id: "16",
+    username: "indomie_nigeria",
+    displayName: "Indomie",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756820331/indo_vyp5ph.jpg", // Updated path
+    bio: "Indomie - The Noodle of Champions",
+    followers: 5200000,
+    following: 120,
+    isVerified: true,
+  },
 ];
 
 export const mockComments: Record<string, Comment[]> = {
@@ -345,6 +379,28 @@ const createUserInfo = (
 
 export const mockPosts: Post[] = [
   {
+    id: "22",
+    userId: "15",
+    caption:
+      "UST SARINA WIEGMAN LOSING HER MIND AS BURNA BOY JOINS HER ON STAGE.😀",
+    media: [
+      {
+        id: "1-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756817000/ssstwitter.com_1756816889384_ji3o8x.mp4",
+        type: "video",
+      },
+    ],
+    likes: 14000,
+    comments: mockComments["1"],
+    createdAt: "2025-08-16T18:30:00Z",
+    tags: ["sunset", "beachvibes", "summer"],
+    saved: false,
+    liked: true,
+    user: createUserInfo("15"),
+    views: 15400,
+  },
+
+  {
     id: "1",
     userId: "1",
     caption: "Me and my queen inside JP🥰",
@@ -364,6 +420,27 @@ export const mockPosts: Post[] = [
     liked: true,
     user: createUserInfo("1"),
     views: 15400,
+  },
+  {
+    id: "19",
+    userId: "14",
+    caption: "Me and my bestie for life🥰 ",
+    media: [
+      {
+        id: "1-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756814493/black_bsogv3.mp4",
+        type: "video",
+      },
+    ],
+    likes: 740,
+    comments: mockComments["1"],
+    createdAt: "2025-08-16T18:30:00Z",
+    tags: ["sunset", "beachvibes", "summer"],
+    saved: false,
+    liked: true,
+    user: createUserInfo("14"),
+    views: 15400,
+    isReelOnly: true,
   },
   {
     id: "2",
@@ -472,7 +549,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "6-1",
-        url: "/assets/videos/test1.mp4", // Updated path
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756770048/test1_axzcbt.mp4", // Updated path
         type: "video",
       },
     ],
@@ -494,7 +571,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "7-1",
-        url: "/assets/videos/test.mp4", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756770779/test_mlanl5.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
@@ -511,12 +588,11 @@ export const mockPosts: Post[] = [
   {
     id: "8",
     userId: "6",
-    caption:
-      "Just finished this amazing creative project! Check out the result. #creativity #design #artproject #videoart",
+    caption: "Make America Great Again! #MAGA",
     media: [
       {
         id: "8-1",
-        url: "/assets/videos/test3.mp4", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756770400/test3_r2tbzl.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
@@ -539,7 +615,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "9-1",
-        url: "/assets/images/testPhoto1.webp", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756808822/trump1_g6eimn.jpg", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -560,7 +636,7 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "10-1",
-        url: "/assets/videos/drake.mp4", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756770618/drake_daggbl.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
@@ -626,6 +702,33 @@ export const mockPosts: Post[] = [
     liked: false,
     user: createUserInfo("3"),
     views: 5400, // <-- Added
+  },
+  {
+    id: "16",
+    userId: "16", // Indomie account
+    caption:
+      "Fuel your day with the taste of champions! 🍜✨ #IndomieNoodles #NoodlesOfChampions",
+    media: [
+      {
+        id: "m16",
+        type: "video",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756819148/get_jvqxwx.mp4",
+      },
+    ],
+    likes: 15420,
+    comments: [],
+    repostsCount: 234,
+    sharesCount: 456,
+    location: "Lagos, Nigeria",
+    createdAt: "2025-09-01T10:00:00Z",
+    liked: false,
+    saved: false,
+    sponsored: {
+      buttonText: "Learn More",
+      buttonUrl: "https://www.indomie.com/products",
+    },
+    user: createUserInfo("16"), // Add this line to include the user info
+    views: 25000, // Add this line since it's used in other posts
   },
   ...userPosts, // Add this line to combine the arrays
 ];

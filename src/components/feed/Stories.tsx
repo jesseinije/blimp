@@ -74,19 +74,26 @@ const Stories = () => {
   }
 
   return (
-    <div className="bg-white px-3 py-6 w-full overflow-x-auto no-scrollbar">
-      <div className="flex space-x-6">
-        {" "}
-        {/* Changed from space-x-4 to space-x-6 */}
-        {storyUsers.map((user) => (
-          <StoryItem
-            key={user.id}
-            user={user}
-            isCurrentUser={currentUser?.id === user.id}
-          />
-        ))}
-        {/* Add an empty div with width of 4px to ensure right padding when scrolling */}
-        <div style={{ width: "4px" }} className="flex-shrink-0"></div>
+    <div className="bg-white overflow-x-auto no-scrollbar">
+      <div className="px-3">
+        <div className="flex py-6">
+          {/* Add left spacer */}
+          <div className="flex-shrink-0" />
+
+          {/* Stories list with consistent spacing */}
+          <div className="flex space-x-6">
+            {storyUsers.map((user) => (
+              <StoryItem
+                key={user.id}
+                user={user}
+                isCurrentUser={currentUser?.id === user.id}
+              />
+            ))}
+          </div>
+
+          {/* Add right spacer */}
+          <div className="flex-shrink-0 w-3" />
+        </div>
       </div>
     </div>
   );

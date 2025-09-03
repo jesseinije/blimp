@@ -31,6 +31,39 @@ export const userData: User[] = [
     following: 245,
     isVerified: true,
   },
+  {
+    id: "11",
+    username: "kim_winnifred",
+    displayName: "Kim Winnifred",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756772400/kim_ndqevm.jpg",
+    bio: "Digital Media Specialist",
+    followers: 1200000,
+    following: 245,
+    isVerified: true,
+  },
+  {
+    id: "12",
+    username: "realbbymula",
+    displayName: "MULA🍒",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756774159/user2_j2fe7v.jpg",
+    bio: "Digital Media Specialist",
+    followers: 1200000,
+    following: 245,
+    isVerified: true,
+  },
+  {
+    id: "13",
+    username: "casie",
+    displayName: "Casie",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756814016/casie_wgoset.jpg",
+    bio: "Dancer",
+    followers: 4200000,
+    following: 205,
+    isVerified: true,
+  },
 ];
 
 // Comments for the new posts
@@ -105,6 +138,27 @@ const createUserInfo = (
 
 export const userPosts: Post[] = [
   {
+    id: "21",
+    userId: "13",
+    caption: "Killing every single move🥰",
+    media: [
+      {
+        id: "12-2",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756816214/casie_dldsoh.mp4",
+        type: "video",
+      },
+    ],
+    likes: 2900000,
+    comments: userComments["12"],
+    createdAt: "2025-08-29T15:00:00Z",
+    location: "New York City",
+    tags: ["ErasTour", "TaylorSwift", "Swifties"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("13"),
+    views: 5000000,
+  },
+  {
     id: "12",
     userId: "8",
     caption:
@@ -161,7 +215,7 @@ export const userPosts: Post[] = [
     media: [
       {
         id: "14-1",
-        url: "/assets/videos/nba.mp4",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756770608/nba_ko7mjt.mp4",
         type: "video",
       },
     ],
@@ -174,6 +228,73 @@ export const userPosts: Post[] = [
     liked: false,
     user: createUserInfo("10"),
     views: 4500000,
+    isReelOnly: true,
+  },
+  {
+    id: "15",
+    userId: "11",
+    caption: "Who kills it?😇",
+    media: [
+      {
+        id: "13-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756771959/user1_rcbnks.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1800000,
+    comments: userComments["13"],
+    createdAt: "2025-08-29T13:45:00Z",
+    location: "",
+    tags: ["Moment she called chanllage"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("11"),
+    views: 3200000,
+    isReelOnly: true,
+  },
+  {
+    id: "17",
+    userId: "12",
+    caption:
+      "We decided to jump on this challenge!🤣🤣🤣 @Stephany @Isibaby - The momment she calls",
+    media: [
+      {
+        id: "13-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756773574/user2_hvl0jn.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1800000,
+    comments: userComments["13"],
+    createdAt: "2025-08-29T13:45:00Z",
+    location: "",
+    tags: ["Tesla", "Innovation", "CleanEnergy"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("12"),
+    views: 3200000,
+    isReelOnly: true,
+  },
+  {
+    id: "18",
+    userId: "13",
+    caption: "Jumping on the trend! 😂 #Urbandancecrew",
+    media: [
+      {
+        id: "13-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756813547/userp_xjlvpi.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1800000,
+    comments: userComments["13"],
+    createdAt: "2025-08-29T13:45:00Z",
+    location: "",
+    tags: ["Tesla", "Innovation", "CleanEnergy"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("13"),
+    views: 4200000,
     isReelOnly: true,
   },
 ];

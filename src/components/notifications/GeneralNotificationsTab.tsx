@@ -4,14 +4,14 @@ import type {
   Notification,
   NotificationType,
 } from "../../types/notificationTypes";
-import { mockUsers } from "../../data/mockData"; // Import mockUsers
+import { mockUsers } from "../../data/mockData";
 import {
   UserPlus,
   Heart,
   ChatDots,
   At,
   Info,
-  CheckCircle, // Add this import
+  CheckCircle,
 } from "phosphor-react";
 
 // Define filter options
@@ -84,22 +84,16 @@ const GeneralNotificationsTab = ({
   const getNotificationIcon = (type: NotificationType) => {
     switch (type) {
       case "follow":
-        return (
-          <UserPlus size={14} className="text-blue-500 dark:text-blue-300" />
-        );
+        return <UserPlus size={14} className="text-blue-500" />;
       case "like":
-        return <Heart size={14} className="text-red-500 dark:text-red-400" />;
+        return <Heart size={14} className="text-red-500" />;
       case "comment":
-        return (
-          <ChatDots size={14} className="text-green-500 dark:text-green-400" />
-        );
+        return <ChatDots size={14} className="text-green-500 " />;
       case "mention":
-        return (
-          <At size={14} className="text-purple-500 dark:text-purple-400" />
-        );
+        return <At size={14} className="text-purple-500 " />;
       case "system":
       default:
-        return <Info size={14} className="text-blue-500 dark:text-blue-300" />;
+        return <Info size={14} className="text-blue-500 " />;
     }
   };
 
@@ -129,7 +123,7 @@ const GeneralNotificationsTab = ({
             loading="lazy"
           />
           {/* Small icon overlay for notification type - FIXED SIZE */}
-          <div className="absolute bottom-0 right-0 h-5 w-5 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center shadow-sm">
+          <div className="absolute bottom-0 right-0 h-5 w-5 rounded-full bg-white  flex items-center justify-center shadow-sm">
             {getNotificationIcon(notification.type)}
           </div>
         </div>
@@ -139,7 +133,7 @@ const GeneralNotificationsTab = ({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 {/* Username - always use mock user data */}
-                <span className="font-semibold text-sm text-gray-900 dark:text-white flex items-center">
+                <span className="font-semibold text-sm text-gray-900  flex items-center">
                   {user.username}
                   {user.isVerified && (
                     <span className="ml-1">
@@ -151,26 +145,26 @@ const GeneralNotificationsTab = ({
                     </span>
                   )}
                   {notification.otherActors && notification.otherActors > 0 && (
-                    <span className="font-normal text-xs text-gray-500 ml-1">
+                    <span className="font-normal text-xs text-gray-400 ml-1">
                       and {notification.otherActors} others{" "}
                     </span>
                   )}
                 </span>
                 {/* Notification content */}
-                <span className="text-gray-900 text-sm dark:text-white">
+                <span className="text-gray-900 text-sm">
                   {notification.content}
                 </span>
               </div>
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-2 whitespace-nowrap flex-shrink-0">
+              <span className="text-xs text-gray-400 ml-2 whitespace-nowrap flex-shrink-0">
                 {notification.timestamp}
               </span>
             </div>
             {/* Preview of the target content with highlighted username mentions */}
             {notification.targetPost && notification.targetPost.preview && (
-              <div className="mt-1.5 text-sm text-gray-900 dark:text-white flex">
-                <span className="mr-1">❝</span>
+              <div className="mt-1.5 text-sm text-gray-900  flex">
+                <span className="mr-1">"</span>
                 {formatPreviewWithMentions(notification.targetPost.preview)}
-                <span className="ml-1">❞</span>
+                <span className="ml-1">"</span>
               </div>
             )}
           </div>
@@ -246,14 +240,14 @@ const GeneralNotificationsTab = ({
 
   return (
     <div id="general-panel" role="tabpanel" aria-labelledby="general-tab">
-      {/* Filter Button - removed sticky positioning */}
-      <div className="bg-white dark:bg-gray-800 px-3 py-4  dark:border-gray-700">
+      {/* Filter Button */}
+      <div className="bg-white px-3 py-4">
         <button
           onClick={onFilterButtonClick}
           className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm ${
             externalFiltersActive
-              ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-              : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+              ? "bg-blue-50 text-blue-600"
+              : "bg-gray-100 text-gray-700"
           }`}
         >
           <svg
@@ -278,7 +272,7 @@ const GeneralNotificationsTab = ({
       {/* Main content */}
       {filteredNotifications.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-20 p-4">
-          <div className="h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+          <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center mb-4">
             <svg
               className="h-12 w-12 text-gray-400"
               fill="none"
@@ -294,12 +288,12 @@ const GeneralNotificationsTab = ({
               />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-gray-900">
             {hasActiveFilters
               ? "No matching notifications"
               : "No notifications yet"}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2 max-w-xs">
+          <p className="text-sm text-gray-400 text-center mt-2 max-w-xs">
             {hasActiveFilters
               ? "Try changing your filter settings to see more notifications."
               : "When you get notifications, they'll show up here."}
@@ -321,7 +315,7 @@ const GeneralNotificationsTab = ({
           {todayNotifications.length > 0 && (
             <>
               <div className="pt-3 px-3 pb-1">
-                <h3 className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <h3 className="text-xs font-medium uppercase tracking-wider text-gray-400">
                   Today
                 </h3>
               </div>
@@ -331,7 +325,7 @@ const GeneralNotificationsTab = ({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`px-3 py-4 ${
-                    !notification.read ? "bg-gray-50 dark:bg-gray-800/40" : ""
+                    !notification.read ? "bg-gray-50" : ""
                   }`}
                   tabIndex={0}
                   role="button"
@@ -348,8 +342,8 @@ const GeneralNotificationsTab = ({
           {/* This Week's Notifications Group */}
           {thisWeekNotifications.length > 0 && (
             <>
-              <div className="pt-3 px-3 pb-1 border-t border-gray-100 dark:border-gray-800 mt-1">
-                <h3 className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <div className="pt-3 px-3 pb-1 border-t border-gray-100 mt-1">
+                <h3 className="text-xs font-medium uppercase tracking-wider text-gray-400">
                   This Week
                 </h3>
               </div>
@@ -359,7 +353,7 @@ const GeneralNotificationsTab = ({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`px-3 py-4 ${
-                    !notification.read ? "bg-gray-50 dark:bg-gray-800/40" : ""
+                    !notification.read ? "bg-gray-50" : ""
                   }`}
                   tabIndex={0}
                   role="button"
@@ -377,8 +371,8 @@ const GeneralNotificationsTab = ({
           {filteredNotifications.length >
             todayNotifications.length + thisWeekNotifications.length && (
             <>
-              <div className="pt-3 px-3 pb-1 border-t border-gray-100 dark:border-gray-800 mt-1">
-                <h3 className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <div className="pt-3 px-3 pb-1 border-t border-gray-100 mt-1">
+                <h3 className="text-xs font-medium uppercase tracking-wider text-gray-400">
                   Earlier
                 </h3>
               </div>
@@ -394,7 +388,7 @@ const GeneralNotificationsTab = ({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`px-3 py-4 ${
-                      !notification.read ? "bg-gray-50 dark:bg-gray-800/40" : ""
+                      !notification.read ? "bg-gray-50" : ""
                     }`}
                     tabIndex={0}
                     role="button"

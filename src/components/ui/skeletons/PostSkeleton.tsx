@@ -2,7 +2,7 @@ import Skeleton from "react-loading-skeleton";
 
 export const PostSkeleton = () => {
   return (
-    <div className="bg-white dark:bg-gray-800 mb-0 overflow-hidden">
+    <div className="bg-white  mb-0 overflow-hidden">
       {/* Post Header */}
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center space-x-2">

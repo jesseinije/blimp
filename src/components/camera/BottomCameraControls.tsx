@@ -325,7 +325,7 @@ const BottomCameraControls = ({
                 className={`${
                   canUndo && !isRecordingFinished
                     ? "text-white"
-                    : "text-gray-500"
+                    : "text-gray-400"
                 }`}
               />
             </button>
@@ -466,7 +466,7 @@ const BottomCameraControls = ({
                 className={`${
                   canRedo && !isRecordingFinished
                     ? "text-white"
-                    : "text-gray-500"
+                    : "text-gray-400"
                 }`}
               />
             </button>

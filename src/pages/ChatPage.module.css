@@ -1,0 +1,16 @@
+/* ChatPage.module.css */
+.chatContainer {
+  height: 100dvh;
+  max-height: 100dvh;
+}
+
+@supports (height: 100dvh) {
+  .chatContainer {
+    height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
+    max-height: calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
+  }
+}

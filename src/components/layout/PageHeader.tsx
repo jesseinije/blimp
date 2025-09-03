@@ -1,5 +1,5 @@
 import React from "react";
-import { CaretLeft, DotsThreeVertical, Gear } from "phosphor-react";
+import { CaretLeft, Settings, DotsVertical } from "../../Icons"; // Update the import path based on your file structure
 import "./PageHeader.css";
 
 export type IconType = "more" | "settings" | "none";
@@ -12,7 +12,7 @@ interface PageHeaderProps {
   onRightIconClick?: () => void;
   className?: string;
   titleAlign?: "left" | "center";
-  showBorder?: boolean; // Add this line
+  showBorder?: boolean;
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({
@@ -22,7 +22,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   onBackClick,
   onRightIconClick,
   className = "",
-  showBorder = false, // Add this line with a default value
+  showBorder = false,
 }) => {
   const handleBackClick = () => {
     if (onBackClick) {
@@ -36,13 +36,13 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const renderRightIcon = () => {
     switch (rightIcon) {
       case "more":
-        return <DotsThreeVertical size={24} />;
+        return <DotsVertical size={24} />;
       case "settings":
-        return <Gear size={24} />;
+        return <Settings size={24} />;
       case "none":
         return null;
       default:
-        return <DotsThreeVertical size={24} />;
+        return <DotsVertical size={24} />;
     }
   };
 
@@ -55,16 +55,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       {showBackButton ? (
         <div className="flex items-center gap-3">
           <button onClick={handleBackClick} aria-label="Go back">
-            <CaretLeft size={24} className="text-gray-900 dark:text-gray-100" />
+            <CaretLeft size={24} className="text-gray-900" />
           </button>
-          <h2 className="font-bold text-gray-900 dark:text-white text-base">
-            {title}
-          </h2>
+          <h2 className="font-bold text-gray-900  text-base">{title}</h2>
         </div>
       ) : (
-        <h2 className="font-semibold text-gray-900 dark:text-white text-base">
-          {title}
-        </h2>
+        <h2 className="font-semibold text-gray-900  text-base">{title}</h2>
       )}
 
       {rightIcon !== "none" ? (
@@ -72,9 +68,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
           onClick={onRightIconClick}
           aria-label={rightIcon === "settings" ? "Settings" : "More options"}
         >
-          <div className="text-gray-900 dark:text-gray-100">
-            {renderRightIcon()}
-          </div>
+          <div className="text-gray-900">{renderRightIcon()}</div>
         </button>
       ) : (
         <div className="w-6"></div>

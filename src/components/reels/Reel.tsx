@@ -3,6 +3,7 @@ import { Play } from "phosphor-react";
 import ReelActionBar from "./ReelActionBar";
 import ReelContentInfo from "./ReelContentInfo";
 import { getPostById } from "../../data/mockData";
+import { useNavBarHeight } from "../../hooks/useNavBarHeight";
 
 export type ReelData = {
   id: string;
@@ -23,6 +24,7 @@ export type ReelData = {
   albumCover: string;
   isLiked: boolean;
   location?: string;
+  sponsored?: { buttonText: string; buttonUrl: string }; // <-- Add this line
 };
 
 interface ReelProps {
@@ -44,6 +46,7 @@ const Reel = ({
   onSave,
   onFollow,
 }: ReelProps) => {
+  const navBarHeight = useNavBarHeight();
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -131,23 +134,42 @@ const Reel = ({
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => handleDragMove(e.clientX);
     const handleMouseUp = (e: MouseEvent) => handleDragEnd(e.clientX);
+    const handleTouchMove = (e: TouchEvent) =>
+      handleDragMove(e.touches[0].clientX);
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (e.changedTouches.length > 0) {
+        handleDragEnd(e.changedTouches[0].clientX);
+      }
+    };
 
     if (isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
     }
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isDragging, handleDragMove, handleDragEnd]);
 
-  // Progress bar click handler
+  // Progress bar click and touch handlers
   const handleProgressBarClick = useCallback(
-    (e: React.MouseEvent) => {
+    (e: React.MouseEvent | React.TouchEvent) => {
       e.stopPropagation();
-      const result = calculateTimeFromPosition(e.clientX);
+      let clientX: number;
+
+      if ("touches" in e) {
+        clientX = e.touches[0].clientX;
+      } else {
+        clientX = e.clientX;
+      }
+
+      const result = calculateTimeFromPosition(clientX);
       if (result && videoRef.current) {
         videoRef.current.currentTime = result.time;
         setProgress(result.percentage);
@@ -241,38 +263,86 @@ const Reel = ({
   return (
     <div
       ref={containerRef}
-      className="relative h-full w-full bg-black cursor-pointer"
+      className="relative w-full bg-black cursor-pointer"
+      style={{
+        height: navBarHeight ? `calc(100vh - ${navBarHeight}px)` : "100vh",
+        maxHeight: "-webkit-fill-available",
+      }}
     >
-      <video
-        ref={videoRef}
-        src={data.videoUrl}
-        className="h-full w-full object-cover"
-        loop
-        playsInline
-      />
+      {/* Main video container */}
+      <div className="absolute inset-0">
+        <video
+          ref={videoRef}
+          src={data.videoUrl}
+          className="h-full w-full object-cover"
+          loop
+          playsInline
+        />
 
-      {/* Gradient overlay for better text visibility */}
-      <div
-        className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"
-        style={{ pointerEvents: "none" }} // Make sure this doesn't block clicks
-      />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
 
-      {/* Show play icon only when video is paused */}
-      {!isPlaying && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-          <Play
-            size={54}
-            weight="fill"
-            className="text-white/80 filter drop-shadow-[0_2px_1px_rgba(0,0,0,0.2)]"
-          />
+        {/* Play button */}
+        {!isPlaying && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+            <Play
+              size={54}
+              weight="fill"
+              className="text-white/80 filter drop-shadow-[0_2px_1px_rgba(0,0,0,0.2)]"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Content wrapper - adjusted bottom padding to account for NavBar */}
+      <div className="absolute inset-0 flex flex-col justify-between">
+        <div className="flex-1" /> {/* Spacer */}
+        {/* Bottom content area */}
+        <div className="space-y-4 p-4 pb-6">
+          {/* ReelContentInfo */}
+          <div ref={contentInfoRef} onClick={(e) => e.stopPropagation()}>
+            <ReelContentInfo
+              username={data.user.username}
+              caption={data.caption}
+              timestamp={data.timestamp}
+              music={data.music}
+              avatar={data.user.avatar}
+              isFollowing={data.user.isFollowing}
+              isVerified={data.user.isVerified}
+              location={data.location}
+              sponsored={postData?.sponsored ? "Sponsored" : undefined} // <-- Pass sponsored prop
+              onFollow={() => onFollow(data.user.id)}
+            />
+          </div>
+
+          {/* Action bar */}
+          <div ref={actionBarRef} onClick={(e) => e.stopPropagation()}>
+            <ReelActionBar
+              reelId={data.id}
+              comments={postData?.comments || []}
+              likeCount={likeCount}
+              commentCount={data.comments}
+              shareCount={data.shares}
+              saveCount={0}
+              albumCover={data.albumCover}
+              onLike={handleLike}
+              onComment={handleCommentClick}
+              onShare={handleShareClick}
+              onSave={handleSaveClick}
+              isLiked={isLiked}
+              username={data.user.username}
+              videoElement={videoRef.current}
+            />
+          </div>
         </div>
-      )}
+      </div>
 
-      {/* Updated progress bar with smaller dimensions */}
+      {/* Progress bar */}
       <div
         ref={progressBarRef}
-        className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/30 cursor-pointer group hover:h-[4px] transition-all"
+        className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/30 cursor-pointer group hover:h-[4px] transition-all z-20"
         onClick={handleProgressBarClick}
+        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
         onMouseDown={(e) => handleDragStart(e.clientX)}
         role="slider"
         aria-label="Video progress"
@@ -285,52 +355,12 @@ const Reel = ({
           className="h-full bg-blue-500 transition-all duration-100 ease-linear relative"
           style={{ width: `${progress}%` }}
         >
-          {/* Smaller drag handle */}
           <div
             className={`absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-blue-500 rounded-full transform scale-0 group-hover:scale-100 transition-transform ${
               isDragging ? "scale-100" : ""
             }`}
           />
         </div>
-      </div>
-
-      {/* ReelContentInfo with selective pointer events */}
-      <div ref={contentInfoRef} className="relative z-10">
-        <ReelContentInfo
-          username={data.user.username}
-          caption={data.caption}
-          timestamp={data.timestamp}
-          music={data.music}
-          avatar={data.user.avatar}
-          isFollowing={data.user.isFollowing}
-          isVerified={data.user.isVerified}
-          location={data.location}
-          onFollow={() => onFollow(data.user.id)}
-        />
-      </div>
-
-      {/* Action bar with ref for click detection */}
-      <div
-        ref={actionBarRef}
-        className="relative z-10 mb-1"
-        onClick={(e) => e.stopPropagation()} // Explicitly stop propagation for all clicks in action bar
-      >
-        <ReelActionBar
-          reelId={data.id}
-          comments={postData?.comments || []}
-          likeCount={likeCount}
-          commentCount={data.comments}
-          shareCount={data.shares}
-          saveCount={0}
-          albumCover={data.albumCover}
-          onLike={handleLike}
-          onComment={handleCommentClick}
-          onShare={handleShareClick}
-          onSave={handleSaveClick}
-          isLiked={isLiked}
-          username={data.user.username}
-          videoElement={videoRef.current} // Pass the video element
-        />
       </div>
     </div>
   );

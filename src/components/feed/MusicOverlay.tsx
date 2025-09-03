@@ -9,11 +9,12 @@ import { MusicNote } from "phosphor-react";
 
 interface MusicOverlayProps {
   musicUrl: string;
-  musicTitle?: string;
-  location: string;
+  musicTitle: string;
+  location?: string; // Make location optional since it might not always be present
   isVisible: boolean;
   inView: boolean;
   maxWidth?: string;
+  sponsored?: string; // Add the sponsored prop
 }
 
 // Define the ref type

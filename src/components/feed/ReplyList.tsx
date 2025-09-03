@@ -62,7 +62,7 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
       </div>
 
       {/* Divider between comment and replies */}
-      <hr className="my-2 mx-[-16px] border-gray-200 dark:border-gray-700" />
+      <hr className="my-2 mx-[-16px] border-gray-200 " />
 
       {/* Replies list */}
       <div className="flex-1 overflow-y-auto">
@@ -77,7 +77,7 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-40 text-center text-gray-500 dark:text-gray-400">
+          <div className="flex flex-col items-center justify-center h-40 text-center text-gray-400">
             <p className="text-lg font-medium">No replies yet</p>
             <p className="text-sm">Be the first to reply to this comment</p>
           </div>
@@ -85,13 +85,13 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
       </div>
 
       {/* Reply input area */}
-      <div className="border-t border-gray-200 dark:border-gray-700 -mx-4">
+      <div className="border-t border-gray-200 -mx-4">
         <div className="px-4 py-3">
           {replyToUser && (
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-400">
                 Replying to{" "}
-                <span className="font-medium text-gray-900 dark:text-gray-100">
+                <span className="font-medium text-gray-900">
                   @{replyToUser}
                 </span>
               </span>
@@ -100,7 +100,7 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
                   setReplyToUser(null);
                   setReplyText("");
                 }}
-                className="text-gray-500 dark:hover:text-gray-300 text-sm"
+                className="text-gray-400 text-sm"
               >
                 Cancel
               </button>
@@ -119,7 +119,7 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
                 ref={inputRef}
                 type="text"
                 placeholder="Add a reply..."
-                className="flex-1 text-sm py-1 px-0 border-none bg-transparent placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none"
+                className="flex-1 text-sm py-1 px-0 border-none bg-transparent placeholder-gray-400 focus:outline-none"
                 value={replyText}
                 onChange={handleReplyChange}
                 onKeyDown={(e) => {
@@ -133,7 +133,7 @@ const ReplyList = ({ comment, onReply }: ReplyListProps) => {
                 disabled={replyText.trim() === ""}
                 className={`ml-2 ${
                   replyText.trim() === ""
-                    ? "text-blue-200 dark:text-blue-800"
+                    ? "text-blue-200 "
                     : "text-blue-500 hover:text-blue-600"
                 }`}
               >

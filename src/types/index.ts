@@ -63,6 +63,10 @@ export type Post = {
     isFollowing: boolean;
     isVerified?: boolean;
   };
+  sponsored?: {
+    buttonText: string;
+    buttonUrl: string;
+  };
 };
 
 export type Story = {

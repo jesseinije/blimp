@@ -54,7 +54,7 @@ const TopBar = () => {
         title="Save or Discard?"
       >
         <div className="space-y-3 p-4">
-          <p className="text-base text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-base text-gray-600  mb-6">
             Do you want to save this post as a draft or discard it?
           </p>
 
@@ -74,7 +74,7 @@ const TopBar = () => {
 
           <button
             onClick={() => setShowDiscardModal(false)}
-            className="w-full py-3 px-4 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-medium text-center border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            className="w-full py-3 px-4 rounded-lg bg-white  text-gray-900  font-medium text-center border border-gray-200  hover:bg-gray-50"
           >
             Continue Editing
           </button>

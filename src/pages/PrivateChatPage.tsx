@@ -10,6 +10,7 @@ import {
   Gear,
 } from "phosphor-react";
 import { mockUsers } from "../data/mockData"; // Import mockUsers
+import styles from "./ChatPage.module.css";
 
 // Define the chat message interface
 interface ChatMessage {
@@ -181,7 +182,7 @@ const PrivateChatPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className={`flex flex-col bg-white relative ${styles.chatContainer}`}>
       {/* Header */}
       <header
         className="flex items-center px-3 py-2 bg-white sticky top-0 z-10"
@@ -209,7 +210,7 @@ const PrivateChatPage = () => {
 
             <div className="ml-2 max-w-[120px]">
               <div className="flex items-center">
-                <h2 className="font-semibold text-sm text-gray-900 dark:text-white truncate flex items-center whitespace-nowrap">
+                <h2 className="font-semibold text-sm text-gray-900  truncate flex items-center whitespace-nowrap">
                   {contact.username}
                   {contact.isVerified && (
                     <CheckCircle
@@ -220,7 +221,7 @@ const PrivateChatPage = () => {
                   )}
                 </h2>
               </div>
-              <div className="text-xs text-gray-500 truncate">
+              <div className="text-xs text-gray-400 truncate">
                 {contact.isOnline ? "Active now" : contact.lastSeen}
               </div>
             </div>
@@ -251,7 +252,7 @@ const PrivateChatPage = () => {
           </div>
 
           {/* User Info */}
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+          <h1 className="text-xl font-bold text-gray-900 flex items-center">
             {contact.name}
             {contact.isVerified && (
               <CheckCircle
@@ -264,7 +265,7 @@ const PrivateChatPage = () => {
           <p className="text-gray-600 mb-2">{contact.username}</p>
 
           {/* Stats */}
-          <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+          <div className="flex items-center space-x-4 text-sm text-gray-400 mb-4">
             <span>{formatNumber(contact.followers)} followers</span>
           </div>
         </div>
@@ -302,13 +303,13 @@ const PrivateChatPage = () => {
                     className={`px-4 py-2 rounded-2xl ${
                       msg.isFromMe
                         ? "bg-blue-500 text-white rounded-tr-none"
-                        : "bg-gray-100 text-gray-900 dark:text-white rounded-tl-none"
+                        : "bg-gray-100 text-gray-900  rounded-tl-none"
                     }`}
                   >
                     <p className="text-sm">{msg.content}</p>
                   </div>
                   <div
-                    className={`mt-1 flex items-center text-xs text-gray-500 ${
+                    className={`mt-1 flex items-center text-xs text-gray-400 ${
                       msg.isFromMe ? "justify-end" : "justify-start"
                     }`}
                   >
@@ -362,7 +363,7 @@ const PrivateChatPage = () => {
       {/* Message Input Area */}
       <div className=" py-3 border-t border-gray-200 bg-white">
         <div className="flex items-center">
-          <button className="p-2 text-gray-500 rounded-full hover:bg-gray-100 transition-colors">
+          <button className="p-2 text-gray-400 rounded-full hover:bg-gray-100 transition-colors">
             <Smiley size={24} />
           </button>
 
@@ -383,10 +384,10 @@ const PrivateChatPage = () => {
 
           {!message.trim() ? (
             <>
-              <button className="p-2 text-gray-500 rounded-full hover:bg-gray-100 transition-colors mr-1">
+              <button className="p-2 text-gray-400 rounded-full hover:bg-gray-100 transition-colors mr-1">
                 <Image size={24} />
               </button>
-              <button className="p-2 text-gray-500 rounded-full hover:bg-gray-100 transition-colors">
+              <button className="p-2 text-gray-400 rounded-full hover:bg-gray-100 transition-colors">
                 <Microphone size={24} />
               </button>
             </>

@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { CaretLeft, CheckCircle } from "phosphor-react";
 import {
+  Chat,
+  Repost,
+  Share,
   Heart,
-  ArrowsClockwise,
-  DotsThreeVertical,
-  CaretLeft,
-  BookmarkSimple,
-  ChatCircle,
-  PaperPlaneTilt,
-  CheckCircle,
-} from "phosphor-react";
+  Bookmark,
+  DotsVertical,
+} from "../../Icons"; // Add Heart to this import
+
 // Remove FontAwesome imports as they're no longer needed
 import { useAppStore } from "../../store/appStore";
 import { getUserById } from "../../data/mockData";
@@ -57,10 +57,11 @@ const getRelativeTime = (timestamp: string): string => {
   return `${yearsDiff}y`;
 };
 
+// First, simplify the state management at the top of the component
 const Post = ({ post }: PostProps) => {
   const { likePost, savePost } = useAppStore();
-  const [commentsOpen, setCommentsOpen] = useState(false);
-  const [bottomSheetTitle, setBottomSheetTitle] = useState("Comments");
+  // Simplify to just two essential states
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [currentView, setCurrentView] = useState<"comments" | "replies">(
     "comments"
   );
@@ -131,47 +132,30 @@ const Post = ({ post }: PostProps) => {
     setIsFollowing(!isFollowing);
   };
 
-  const openComments = () => {
-    // First set the view and title
-    setCurrentView("comments");
-    setBottomSheetTitle("Comments");
-
-    // Add a longer delay (50ms) before opening the sheet
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        setCommentsOpen(true);
-      });
-    }, 50);
-  };
-
-  const closeComments = () => {
-    setCommentsOpen(false);
-    // Keep the existing reset timeout
-    setTimeout(() => {
-      setCurrentView("comments");
-      setBottomSheetTitle("Comments");
-      setSelectedComment(null);
-    }, 300);
-  };
-
-  const handleViewReplies = (comment: CommentType, title: string) => {
-    setSelectedComment(comment);
-    setBottomSheetTitle(title);
-    setCurrentView("replies");
-  };
-
-  const handleBackToComments = () => {
-    setBottomSheetTitle("Comments");
+  // Simplify the opening and closing handlers
+  const handleCommentsOpen = () => setIsCommentsOpen(true);
+  const handleCommentsClose = () => {
+    setIsCommentsOpen(false);
     setCurrentView("comments");
     setSelectedComment(null);
   };
 
-  // Custom close button with back functionality when in replies view
+  const handleViewReplies = (comment: CommentType) => {
+    setSelectedComment(comment);
+    setCurrentView("replies");
+  };
+
+  const handleBackToComments = () => {
+    setCurrentView("comments");
+    setSelectedComment(null);
+  };
+
+  // Simplify custom close button logic
   const customCloseButton =
     currentView === "replies" ? (
       <button
         onClick={handleBackToComments}
-        className="inline-flex justify-center rounded-full p-1.5 text-gray-900 dark:hover:bg-gray-700 focus:outline-none"
+        className="inline-flex justify-center rounded-full p-1.5 text-gray-900  focus:outline-none"
         aria-label="Back"
       >
         <CaretLeft size={24} />
@@ -180,10 +164,7 @@ const Post = ({ post }: PostProps) => {
     ) : undefined;
 
   return (
-    <div
-      ref={postRef}
-      className="bg-white dark:bg-gray-800 mb-0 overflow-hidden dark:border-gray-700"
-    >
+    <div ref={postRef} className="bg-white mb-0 overflow-hidden">
       {/* Post header */}
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center space-x-2">
@@ -196,12 +177,12 @@ const Post = ({ post }: PostProps) => {
           </Link>
           <div>
             <div className="flex items-center justify-between">
-              <p className="font-semibold text-sm flex items-center text-gray-900 dark:text-white">
+              <p className="font-semibold text-sm flex items-center text-gray-900">
                 <Link to={`/profile/${user.username}`}>{user.username}</Link>
                 {user.isVerified && (
                   <span className="ml-1">
                     <CheckCircle
-                      size={16}
+                      size={18}
                       weight="fill"
                       className="text-blue-500"
                     />
@@ -210,22 +191,28 @@ const Post = ({ post }: PostProps) => {
               </p>
             </div>
             {/* Location and Music overlay section */}
-            {post.location && (
-              <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center h-5">
+            {(post.location || post.sponsored) && (
+              <div className="text-xs text-gray-400 flex items-center h-5">
                 <span className="inline-flex items-center h-full">
                   {post.music ? (
                     <MusicOverlay
                       ref={musicOverlayRef}
                       musicUrl={post.music.url}
                       musicTitle={`${post.music.title} - ${post.music.artist}`}
-                      location={post.location}
+                      location={post.location || undefined} // Explicitly handle undefined case
                       isVisible={true}
                       inView={isInView}
                       maxWidth="170px"
+                      sponsored={post.sponsored ? "Sponsored" : undefined}
                     />
                   ) : (
-                    // Just show location if no music
-                    <span>{post.location}</span>
+                    // Show location or sponsored
+                    <span className="flex items-center">
+                      {post.location}
+                      {post.sponsored && (
+                        <span className="ml-1 font-medium">• Sponsored</span>
+                      )}
+                    </span>
                   )}
                 </span>
               </div>
@@ -243,8 +230,8 @@ const Post = ({ post }: PostProps) => {
             </button>
           )}
           {/* More button with vertical dots */}
-          <button className="text-gray-500 dark:text-gray-400">
-            <DotsThreeVertical size={24} />
+          <button className="text-gray-900">
+            <DotsVertical size={24} />
           </button>
         </div>
       </div>
@@ -266,6 +253,7 @@ const Post = ({ post }: PostProps) => {
                 }
               : undefined
           }
+          sponsored={post.sponsored} // Add this line
         />
       </div>
 
@@ -274,62 +262,52 @@ const Post = ({ post }: PostProps) => {
         <div className="flex justify-between items-center mb-2">
           <div className="flex space-x-4">
             <div className="flex items-center">
-              <button
-                onClick={handleLike}
-                className="mr-1 text-gray-900 dark:text-white"
-              >
-                {post.liked ? (
-                  <Heart size={24} weight="fill" className="text-red-500" />
-                ) : (
-                  <Heart size={24} />
-                )}
+              <button onClick={handleLike} className="mr-1 text-gray-900">
+                <Heart
+                  size={24}
+                  weight={post.liked ? "fill" : "regular"}
+                  color={post.liked ? "rgb(239, 68, 68)" : "currentColor"}
+                />
               </button>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.likes)}
               </span>
             </div>
 
             <div className="flex items-center">
               <button
-                onClick={openComments}
-                className="mr-1 text-gray-900 dark:text-white"
+                onClick={handleCommentsOpen}
+                className="mr-1 text-gray-900"
               >
-                <ChatCircle size={24} />
+                <Chat size={24} />
               </button>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.comments?.length || 0)}
               </span>
             </div>
 
             <div className="flex items-center">
-              <button className="mr-1 text-gray-900 dark:text-white">
-                <ArrowsClockwise size={24} />
+              <button className="mr-1 text-gray-900">
+                <Repost size={24} />
               </button>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.repostsCount || 0)}
               </span>
             </div>
 
             <div className="flex items-center">
-              <button className="mr-1 text-gray-900 dark:text-white">
-                <PaperPlaneTilt size={24} />
+              <button className="mr-1 text-gray-900">
+                <Share size={24} />
               </button>
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.sharesCount || 0)}
               </span>
             </div>
           </div>
 
           <div className="flex items-center">
-            <button
-              onClick={handleSave}
-              className="text-gray-900 dark:text-white"
-            >
-              {post.saved ? (
-                <BookmarkSimple size={24} weight="fill" />
-              ) : (
-                <BookmarkSimple size={24} />
-              )}
+            <button onClick={handleSave} className="text-gray-900">
+              <Bookmark size={24} weight={post.saved ? "fill" : "regular"} />
             </button>
           </div>
         </div>
@@ -337,35 +315,41 @@ const Post = ({ post }: PostProps) => {
         {/* Caption */}
         {post.caption && <Caption text={post.caption} className="mt-2" />}
         {/* Timestamp below caption */}
-        <span className="text-xs text-gray-500 dark:text-gray-400 block mt-1">
+        <span className="text-sm text-gray-400 block mt-1">
           {getRelativeTime(post.createdAt)}
         </span>
       </div>
 
       {/* Comments Bottom Sheet with dynamic content */}
       <BottomSheet
-        isOpen={commentsOpen}
-        onClose={closeComments}
-        title={bottomSheetTitle}
+        isOpen={isCommentsOpen}
+        onClose={handleCommentsClose}
+        title={currentView === "comments" ? "Comments" : "Replies"}
         height="full"
         showHandle={true}
         customCloseButton={customCloseButton}
+        showBackdrop={true}
       >
-        {currentView === "comments" ? (
-          <CommentsList
-            postId={post.id}
-            comments={post.comments || []}
-            onViewReplies={handleViewReplies}
-          />
-        ) : selectedComment ? (
-          <ReplyList
-            comment={selectedComment}
-            onReply={(commentId, username) => {
-              // Handle reply to a reply
-              console.log(`Replying to ${username}'s comment: ${commentId}`);
-            }}
-          />
-        ) : null}
+        <div className="flex flex-col h-full pt-safe">
+          <div className="flex-1">
+            {currentView === "comments" ? (
+              <CommentsList
+                postId={post.id}
+                comments={post.comments || []}
+                onViewReplies={handleViewReplies}
+              />
+            ) : selectedComment ? (
+              <ReplyList
+                comment={selectedComment}
+                onReply={(commentId, username) => {
+                  console.log(
+                    `Replying to ${username}'s comment: ${commentId}`
+                  );
+                }}
+              />
+            ) : null}
+          </div>
+        </div>
       </BottomSheet>
     </div>
   );

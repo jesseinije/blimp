@@ -234,13 +234,13 @@ const PostCaptionPage = ({
     // Replace mentions and hashtags with colored spans
     const coloredText = caption.replace(
       /(@\w+|#\w+)/g,
-      '<span class="text-blue-600 dark:text-blue-400">$1</span>'
+      '<span class="text-blue-500">$1</span>'
     );
     return { __html: coloredText };
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-gray-900">
+    <div className="flex flex-col h-screen bg-white ">
       <PageHeader
         title={headerTitle}
         showBackButton={true}
@@ -251,12 +251,12 @@ const PostCaptionPage = ({
       {/* Main Content */}
       <div className=" p-3">
         {/* Media Upload and Preview Section */}
-        <div className=" dark:border-gray-700 pb-4">
+        <div className="  pb-4">
           {/* Media Grid */}
           <div className="grid grid-cols-3 gap-2 mb-4">
             {/* If no files are selected yet, show the initial video/thumbnail */}
             {selectedFiles.length === 0 && (
-              <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+              <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
                 {mode === "video" ? (
                   <video
                     src={videoSrc}
@@ -275,7 +275,7 @@ const PostCaptionPage = ({
             {selectedFiles.map((file, index) => (
               <div
                 key={index}
-                className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800"
+                className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 "
               >
                 {file.type.startsWith("video/") ? (
                   <div className="h-full">
@@ -284,7 +284,7 @@ const PostCaptionPage = ({
                       className="w-full h-full object-cover"
                     />
                     {/* Video indicator */}
-                    <div className="absolute top-2 right-2 bg-black/50 rounded-full p-1">
+                    <div className="absolute top-2 right-2 bg-gray-900/50 rounded-full p-1">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -325,10 +325,10 @@ const PostCaptionPage = ({
             {selectedFiles.length < MAX_FILES && (
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="aspect-square rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+                className="aspect-square rounded-lg border-2 border-dashed border-gray-300  flex flex-col items-center justify-center hover:border-gray-400  transition-colors"
               >
                 <svg
-                  className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2"
+                  className="w-8 h-8 text-gray-400  mb-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -340,7 +340,7 @@ const PostCaptionPage = ({
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-xs text-gray-400">
                   {selectedFiles.length === 0 ? "Add media" : "Add more"}
                 </span>
               </button>
@@ -364,15 +364,15 @@ const PostCaptionPage = ({
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
               placeholder="Add a caption..."
-              className="w-full h-20 text-transparent bg-transparent placeholder-gray-500 dark:placeholder-gray-400 resize-none focus:outline-none text-base absolute inset-0 caret-gray-900 dark:caret-gray-100"
+              className="w-full h-20 text-transparent bg-transparent placeholder-gray-400  resize-none focus:outline-none text-base absolute inset-0 caret-gray-900 "
               maxLength={2200}
             />
             <div
               dangerouslySetInnerHTML={renderStyledCaption()}
-              className="w-full h-20 text-gray-900 dark:text-gray-100 text-base pointer-events-none whitespace-pre-wrap break-words"
+              className="w-full h-20 text-gray-900  text-base pointer-events-none whitespace-pre-wrap break-words"
             />
             <div className="flex justify-end">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+              <span className="text-xs text-gray-400">
                 {caption.length}/2200
               </span>
             </div>
@@ -382,7 +382,7 @@ const PostCaptionPage = ({
         {/* Quick access buttons */}
         <div className="flex flex-wrap items-center gap-2 mb-6">
           <button
-            className="flex items-center space-x-1.5 bg-gray-100 dark:bg-gray-800 px-3.5 py-2 rounded-full"
+            className="flex items-center space-x-1.5 bg-gray-100  px-3.5 py-2 rounded-full"
             onClick={() => {
               if (captionRef.current) {
                 const cursorPos = captionRef.current.selectionStart;
@@ -401,13 +401,11 @@ const PostCaptionPage = ({
               }
             }}
           >
-            <At className="w-4 h-4 text-gray-900 dark:text-gray-100" />
-            <span className="text-sm text-gray-900 dark:text-white">
-              Mention
-            </span>
+            <At className="w-4 h-4 text-gray-900 " />
+            <span className="text-sm text-gray-900">Mention</span>
           </button>
           <button
-            className="flex items-center space-x-1.5 bg-gray-100 dark:bg-gray-800 px-3.5 py-2 rounded-full"
+            className="flex items-center space-x-1.5 bg-gray-100 px-3.5 py-2 rounded-full"
             onClick={() => {
               if (captionRef.current) {
                 const cursorPos = captionRef.current.selectionStart;
@@ -426,25 +424,23 @@ const PostCaptionPage = ({
               }
             }}
           >
-            <Hash className="w-4 h-4 text-gray-900 dark:text-gray-100" />
-            <span className="text-sm text-gray-900 dark:text-white">
-              Hashtag
-            </span>
+            <Hash className="w-4 h-4 text-gray-900" />
+            <span className="text-sm text-gray-900">Hashtag</span>
           </button>
         </div>
 
         {/* Hashtags preview */}
         {hashtags.length > 0 && (
-          <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2.5 flex items-center">
-              <Hash className="w-4 h-4 mr-1.5 text-gray-900 dark:text-white" />
+          <div className="mb-6 border-b border-gray-200  pb-4">
+            <h3 className="text-sm font-medium text-gray-900  mb-2.5 flex items-center">
+              <Hash className="w-4 h-4 mr-1.5 text-gray-900 " />
               Hashtags
             </h3>
             <div className="flex flex-wrap gap-2">
               {hashtags.map((tag, index) => (
                 <span
                   key={`tag-${index}`}
-                  className="border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-xs px-3 py-1.5 rounded-full"
+                  className="border border-gray-200  text-gray-900  text-xs px-3 py-1.5 rounded-full"
                 >
                   {tag}
                 </span>
@@ -455,28 +451,28 @@ const PostCaptionPage = ({
 
         {/* Mentioned users preview */}
         {mentionedUsers.length > 0 && (
-          <div className="mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2.5 flex items-center">
-              <At className="w-4 h-4 mr-1.5 text-gray-900 dark:text-white" />
+          <div className="mb-6 border-b border-gray-200 pb-4">
+            <h3 className="text-sm font-medium text-gray-900 mb-2.5 flex items-center">
+              <At className="w-4 h-4 mr-1.5 text-gray-900" />
               Mentioned Users
             </h3>
             <div className="flex flex-wrap gap-2">
               {mentionedUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex items-center border border-gray-200 dark:border-gray-700 pl-2 pr-1 py-1 rounded-full"
+                  className="flex items-center border border-gray-200 pl-2 pr-1 py-1 rounded-full"
                 >
                   <img
                     src={user.avatar}
                     alt={user.username}
                     className="w-5 h-5 rounded-full mr-1.5"
                   />
-                  <span className="text-sm text-gray-900 dark:text-gray-100 mr-1">
+                  <span className="text-sm text-gray-900  mr-1">
                     @{user.username}
                   </span>
                   <button
                     onClick={() => removeMentionedUser(user.id)}
-                    className="w-5 h-5 flex items-center justify-center text-gray-900 dark:text-gray-100"
+                    className="w-5 h-5 flex items-center justify-center text-gray-900 "
                   >
                     <X size={14} className="text-current" />
                   </button>
@@ -488,23 +484,19 @@ const PostCaptionPage = ({
 
         {/* Settings Section */}
         <div className="space-y-4 mt-6 mb-20">
-          <h3 className="text-sm font-medium text-gray-900 dark:text-white">
-            Post Settings
-          </h3>
+          <h3 className="text-sm font-medium text-gray-900 ">Post Settings</h3>
 
-          <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+          <div className="border border-gray-200  rounded-xl overflow-hidden">
             {/* Location */}
             <button
               onClick={() => setIsLocationSheetOpen(true)}
-              className="flex items-center justify-between w-full px-4 py-3.5 border-b border-gray-200 dark:border-gray-700"
+              className="flex items-center justify-between w-full px-4 py-3.5 border-b border-gray-200 "
             >
               <div className="flex items-center">
-                <MapPin className="w-5 h-5 text-gray-900 dark:text-gray-100 mr-3" />
-                <span className="text-gray-900 dark:text-white">
-                  Add location
-                </span>
+                <MapPin className="w-5 h-5 text-gray-900 mr-3" />
+                <span className="text-gray-900 ">Add location</span>
               </div>
-              <span className="text-gray-500 dark:text-gray-400 text-sm">
+              <span className="text-gray-400 text-sm">
                 {locationState || "None"}
               </span>
             </button>
@@ -512,15 +504,13 @@ const PostCaptionPage = ({
             {/* Audience */}
             <button
               onClick={() => setIsAudienceSheetOpen(true)}
-              className="flex items-center justify-between w-full px-4 py-3.5 border-b border-gray-200 dark:border-gray-700"
+              className="flex items-center justify-between w-full px-4 py-3.5 border-b border-gray-200 "
             >
               <div className="flex items-center">
                 {audienceIcons[audience]}
-                <span className="text-gray-900 dark:text-white ml-3">
-                  Audience
-                </span>
+                <span className="text-gray-900  ml-3">Audience</span>
               </div>
-              <span className="text-gray-500 dark:text-gray-400 text-sm">
+              <span className="text-gray-400 text-sm">
                 {audienceLabels[audience]}
               </span>
             </button>
@@ -531,12 +521,10 @@ const PostCaptionPage = ({
               className="flex items-center justify-between w-full px-4 py-3.5"
             >
               <div className="flex items-center">
-                <At className="w-5 h-5 text-gray-900 dark:text-gray-100 mr-3" />
-                <span className="text-gray-900 dark:text-white">
-                  Mention people
-                </span>
+                <At className="w-5 h-5 text-gray-900  mr-3" />
+                <span className="text-gray-900 ">Mention people</span>
               </div>
-              <span className="text-gray-500 dark:text-gray-400 text-sm">
+              <span className="text-gray-400 text-sm">
                 {mentionedUsers.length > 0
                   ? `${mentionedUsers.length} people`
                   : "None"}
@@ -547,12 +535,12 @@ const PostCaptionPage = ({
       </div>
 
       {/* Bottom Action Buttons */}
-      <div className="p-3 dark:border-gray-700">
+      <div className="p-3 ">
         <div className="flex gap-2 w-full max-w-md mx-auto">
           <button
             onClick={handleSaveAsDraft}
             disabled={isPostingInProgress}
-            className="flex-1 border border-gray-300 hover:bg-gray-50 transition-colors py-2.5 rounded-lg font-medium disabled:opacity-50"
+            className="flex-1 border border-gray-300   py-2.5 rounded-lg font-medium disabled:opacity-50"
           >
             Save as draft
           </button>
@@ -594,7 +582,7 @@ const PostCaptionPage = ({
               placeholder="Search for a location..."
               value={locationSearchTerm}
               onChange={(e) => setLocationSearchTerm(e.target.value)}
-              className="w-full px-4 py-3.5 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 dark:bg-gray-900 dark:text-gray-100"
+              className="w-full px-4 py-3.5 border border-gray-200  rounded-xl focus:outline-none "
             />
           </div>
 
@@ -604,20 +592,18 @@ const PostCaptionPage = ({
                 <button
                   key={`loc-${index}`}
                   onClick={() => handleLocationSelect(loc)}
-                  className="flex items-center w-full px-4 py-3.5 border border-gray-200 dark:border-gray-700 rounded-xl"
+                  className="flex items-center w-full px-4 py-3.5 border border-gray-200 rounded-xl"
                 >
-                  <MapPin className="w-5 h-5 text-gray-900 dark:text-gray-100 mr-3" />
-                  <span className="text-gray-900 dark:text-white">{loc}</span>
+                  <MapPin className="w-5 h-5 text-gray-900  mr-3" />
+                  <span className="text-gray-900">{loc}</span>
                 </button>
               ))}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <MapPin className="w-6 h-6 text-gray-400 dark:text-gray-500 mb-3" />
-              <p className="text-gray-500 dark:text-gray-400">
-                No locations found
-              </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <MapPin className="w-6 h-6 text-gray-400  mb-3" />
+              <p className="text-gray-400">No locations found</p>
+              <p className="text-xs text-gray-400  mt-1">
                 Try a different search term
               </p>
             </div>
@@ -634,70 +620,55 @@ const PostCaptionPage = ({
         <div className="p-4 space-y-2">
           <button
             onClick={() => handleAudienceSelect("public")}
-            className="flex items-center justify-between w-full px-4 py-3.5 border border-gray-200 dark:border-gray-700 rounded-xl"
+            className="flex items-center justify-between w-full px-4 py-3.5 border border-gray-200  rounded-xl"
           >
             <div className="flex items-center">
-              <Globe className="w-5 h-5 text-gray-900 dark:text-gray-100 mr-3" />
+              <Globe className="w-5 h-5 text-gray-900  mr-3" />
               <div>
-                <h4 className="text-gray-900 dark:text-white font-medium">
-                  Everyone
-                </h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                <h4 className="text-gray-900  font-medium">Everyone</h4>
+                <p className="text-xs text-gray-400 mt-0.5">
                   Anyone can see this post
                 </p>
               </div>
             </div>
             {audience === "public" && (
-              <CheckCircle
-                weight="fill"
-                className="w-5 h-5 text-blue-600 dark:text-blue-600"
-              />
+              <CheckCircle weight="fill" className="w-5 h-5 text-blue-600 " />
             )}
           </button>
 
           <button
             onClick={() => handleAudienceSelect("followers")}
-            className="flex items-center justify-between w-full px-4 py-3.5 border border-gray-200 dark:border-gray-700 rounded-xl"
+            className="flex items-center justify-between w-full px-4 py-3.5 border border-gray-200  rounded-xl"
           >
             <div className="flex items-center">
-              <Users className="w-5 h-5 text-gray-900 dark:text-gray-100 mr-3" />
+              <Users className="w-5 h-5 text-gray-900  mr-3" />
               <div>
-                <h4 className="text-gray-900 dark:text-white font-medium">
-                  Followers only
-                </h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                <h4 className="text-gray-900  font-medium">Followers only</h4>
+                <p className="text-xs text-gray-400 mt-0.5">
                   Only your followers can see this post
                 </p>
               </div>
             </div>
             {audience === "followers" && (
-              <CheckCircle
-                weight="fill"
-                className="w-5 h-5 text-blue-600 dark:text-blue-600"
-              />
+              <CheckCircle weight="fill" className="w-5 h-5 text-blue-500 " />
             )}
           </button>
 
           <button
             onClick={() => handleAudienceSelect("private")}
-            className="flex items-center justify-between w-full px-4 py-3.5 border border-gray-200 dark:border-gray-700 rounded-xl"
+            className="flex items-center justify-between w-full px-4 py-3.5 border border-gray-200  rounded-xl"
           >
             <div className="flex items-center">
-              <Lock className="w-5 h-5 text-gray-900 dark:text-gray-100 mr-3" />
+              <Lock className="w-5 h-5 text-gray-900  mr-3" />
               <div>
-                <h4 className="text-gray-900 dark:text-white font-medium">
-                  Only me
-                </h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                <h4 className="text-gray-900  font-medium">Only me</h4>
+                <p className="text-xs text-gray-400 mt-0.5">
                   Only you can see this post
                 </p>
               </div>
             </div>
             {audience === "private" && (
-              <CheckCircle
-                weight="fill"
-                className="w-5 h-5 text-blue-600 dark:text-blue-600"
-              />
+              <CheckCircle weight="fill" className="w-5 h-5 text-blue-500" />
             )}
           </button>
         </div>
@@ -717,7 +688,7 @@ const PostCaptionPage = ({
               placeholder="Search for a person..."
               value={mentionSearchTerm}
               onChange={(e) => setMentionSearchTerm(e.target.value)}
-              className="w-full px-4 py-3.5 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 dark:bg-gray-900 dark:text-gray-100"
+              className="w-full px-4 py-3.5 border border-gray-200  rounded-xl focus:outline-none "
             />
           </div>
 
@@ -727,19 +698,19 @@ const PostCaptionPage = ({
                 <button
                   key={user.id}
                   onClick={() => handleUserMention(user)}
-                  className="flex items-center justify-between w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl"
+                  className="flex items-center justify-between w-full px-4 py-3 border border-gray-200 rounded-xl"
                 >
                   <div className="flex items-center">
                     <img
                       src={user.avatar}
                       alt={user.username}
-                      className="w-10 h-10 rounded-full mr-3 border border-gray-200 dark:border-gray-700"
+                      className="w-10 h-10 rounded-full mr-3 border border-gray-200 "
                     />
                     <div>
-                      <h4 className="text-gray-900 dark:text-white font-medium flex items-center">
+                      <h4 className="text-gray-900  font-medium flex items-center">
                         @{user.username}
                       </h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                      <p className="text-xs text-gray-400 mt-0.5">
                         {mentionedUsers.some((u) => u.id === user.id)
                           ? "Already mentioned"
                           : "Tap to mention"}
@@ -749,7 +720,7 @@ const PostCaptionPage = ({
                   {mentionedUsers.some((u) => u.id === user.id) && (
                     <CheckCircle
                       weight="fill"
-                      className="w-5 h-5 text-blue-600 dark:text-blue-600"
+                      className="w-5 h-5 text-blue-500"
                     />
                   )}
                 </button>
@@ -757,9 +728,9 @@ const PostCaptionPage = ({
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-12 text-center">
-              <User className="w-6 h-6 text-gray-400 dark:text-gray-500 mb-3" />
-              <p className="text-gray-500 dark:text-gray-400">No users found</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <User className="w-6 h-6 text-gray-400  mb-3" />
+              <p className="text-gray-400">No users found</p>
+              <p className="text-xs text-gray-400  mt-1">
                 Try a different search term
               </p>
             </div>

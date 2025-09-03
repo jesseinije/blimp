@@ -181,3 +181,40 @@
 .animate-scale-in {
   animation: scaleInPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
+
+/* Add to src/index.css */
+
+/* Safe area utilities */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Dynamic viewport height utilities */
+@supports (height: 100dvh) {
+  .h-screen-dynamic {
+    height: 100dvh;
+  }
+
+  .min-h-screen-dynamic {
+    min-height: 100dvh;
+  }
+
+  .max-h-screen-dynamic {
+    max-height: 100dvh;
+  }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+
+  .max-h-screen {
+    max-height: -webkit-fill-available;
+  }
+}

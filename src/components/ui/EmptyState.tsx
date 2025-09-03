@@ -36,7 +36,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 
       {/* Description - optional */}
       {description && (
-        <p className="text-sm text-gray-500 mb-6 max-w-xs">{description}</p>
+        <p className="text-sm text-gray-400 mb-6 max-w-xs">{description}</p>
       )}
 
       {/* Action button/component - optional */}

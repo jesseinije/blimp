@@ -16,12 +16,12 @@ const SuggestedSearch: React.FC<SuggestedSearchProps> = ({
   if (suggestions.length === 0) return null;
 
   return (
-    <div className="mb-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div className="mb-6 pt-4 border-t border-gray-200 ">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-medium">You may like</h2>
         <button
           onClick={onRefresh}
-          className="text-gray-500 flex items-center text-sm"
+          className="text-gray-400 flex items-center text-sm"
           aria-label="Refresh suggestions"
         >
           <span className="mr-1">Refresh</span>
@@ -38,7 +38,7 @@ const SuggestedSearch: React.FC<SuggestedSearchProps> = ({
             <div className="flex flex-col flex-1">
               <span className="text-base">{suggestion.query}</span>
               {suggestion.postCount && (
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-400">
                   {suggestion.postCount.toLocaleString()} posts
                 </span>
               )}

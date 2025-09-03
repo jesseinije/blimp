@@ -20,7 +20,6 @@ const NotificationsPage = () => {
     setActiveTab(tab);
   };
 
-  // Add this function to handle filter button clicks from the GeneralNotificationsTab
   const handleFilterButtonClick = () => {
     setShowFilters(true);
   };
@@ -45,8 +44,8 @@ const NotificationsPage = () => {
             onClick={() => handleTabChange("private")}
             className={`w-1/2 py-3 text-center focus:outline-none text-sm font-medium transition-colors ${
               activeTab === "private"
-                ? "text-gray-900 dark:text-white border-b-2 border-black bg-gray-50"
-                : "text-gray-500 dark:text-gray-400"
+                ? "text-gray-900  border-b-2 border-black bg-gray-50"
+                : "text-gray-400 "
             }`}
             role="tab"
             aria-selected={activeTab === "private"}
@@ -56,8 +55,8 @@ const NotificationsPage = () => {
           >
             <div className="inline-flex items-center">
               <span>Messages</span>
-              <span className="ml-1.5 bg-red-500 text-white text-xs rounded-full h-5 min-w-[20px] inline-flex items-center justify-center px-1">
-                3
+              <span className="ml-1.5 bg-blue-500 text-white text-xs rounded-full h-5 min-w-[20px] inline-flex items-center justify-center px-1 ring-2 ring-white">
+                2
               </span>
             </div>
           </button>
@@ -65,8 +64,8 @@ const NotificationsPage = () => {
             onClick={() => handleTabChange("general")}
             className={`w-1/2 py-3 text-center focus:outline-none text-sm font-medium transition-colors ${
               activeTab === "general"
-                ? "text-gray-900 dark:text-white border-b-2 border-black bg-gray-50"
-                : "text-gray-500 dark:text-gray-400"
+                ? "text-gray-900  border-b-2 border-gray-900 bg-gray-50"
+                : "text-gray-400"
             }`}
             role="tab"
             aria-selected={activeTab === "general"}
@@ -76,8 +75,8 @@ const NotificationsPage = () => {
           >
             <div className="inline-flex items-center">
               <span>Notifications</span>
-              <span className="ml-1.5 bg-red-500 text-white text-xs rounded-full h-5 min-w-[20px] inline-flex items-center justify-center px-1">
-                5
+              <span className="ml-1.5 bg-blue-500 text-white text-xs rounded-full h-5 min-w-[20px] inline-flex items-center justify-center px-1 ring-2 ring-white">
+                3{" "}
               </span>
             </div>
           </button>
@@ -112,53 +111,45 @@ const NotificationsPage = () => {
         <div className="px-0 space-y-6">
           {/* Time Filter */}
           <div>
-            <h3 className="text-base font-medium text-gray-900 dark:text-white mb-3">
+            <h3 className="text-base font-medium text-gray-900 mb-3">
               Time Period
             </h3>
             <div className="space-y-3 text-sm">
-              <div className="py-2 text-gray-900 dark:text-white">All Time</div>
-              <div className="py-2 text-gray-900 dark:text-white">Today</div>
-              <div className="py-2 text-gray-900 dark:text-white">
-                This Week
-              </div>
-              <div className="py-2 text-gray-900 dark:text-white">
-                This Month
-              </div>
+              <div className="py-2 text-gray-900">All Time</div>
+              <div className="py-2 text-gray-900">Today</div>
+              <div className="py-2 text-gray-900">This Week</div>
+              <div className="py-2 text-gray-900">This Month</div>
             </div>
           </div>
 
           {/* Divider between sections */}
-          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+          <div className="border-t border-gray-200"></div>
 
           {/* Read Status Filter */}
           <div>
-            <h3 className="text-base font-medium text-gray-900 dark:text-white mb-3">
+            <h3 className="text-base font-medium text-gray-900 mb-3">
               Read Status
             </h3>
             <div className="space-y-3 text-sm">
-              <div className="py-2 text-gray-900 dark:text-white">All</div>
-              <div className="py-2 text-gray-900 dark:text-white">Read</div>
-              <div className="py-2 text-gray-900 dark:text-white">Unread</div>
+              <div className="py-2 text-gray-900">All</div>
+              <div className="py-2 text-gray-900">Read</div>
+              <div className="py-2 text-gray-900">Unread</div>
             </div>
           </div>
 
           {/* Divider between sections */}
-          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+          <div className="border-t border-gray-200"></div>
 
           {/* Notification Type Filter */}
           <div>
-            <h3 className="text-base font-medium text-gray-900 dark:text-white mb-3">
-              Type
-            </h3>
+            <h3 className="text-base font-medium text-gray-900 mb-3">Type</h3>
             <div className="space-y-3 text-sm">
-              <div className="py-2 text-gray-900 dark:text-white">
-                All Types
-              </div>
-              <div className="py-2 text-gray-900 dark:text-white">Follows</div>
-              <div className="py-2 text-gray-900 dark:text-white">Likes</div>
-              <div className="py-2 text-gray-900 dark:text-white">Comments</div>
-              <div className="py-2 text-gray-900 dark:text-white">Mentions</div>
-              <div className="py-2 text-gray-900 dark:text-white">System</div>
+              <div className="py-2 text-gray-900">All Types</div>
+              <div className="py-2 text-gray-900">Follows</div>
+              <div className="py-2 text-gray-900">Likes</div>
+              <div className="py-2 text-gray-900">Comments</div>
+              <div className="py-2 text-gray-900">Mentions</div>
+              <div className="py-2 text-gray-900">System</div>
             </div>
           </div>
         </div>

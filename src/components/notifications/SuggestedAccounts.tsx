@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { CheckCircle } from "phosphor-react";
+import { CheckCircle, X } from "phosphor-react";
 import type { SuggestedAccount } from "../../types/notificationTypes";
 import { mockUsers } from "../../data/mockData";
 
@@ -40,7 +40,7 @@ const SuggestedAccounts = ({
     <div className="mb-4">
       {showHeader && (
         <div className="flex items-center justify-between px-3 py-3">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-sm font-semibold text-gray-900 ">
             Accounts to follow
           </h2>
           <a href="#" className="text-blue-600 text-sm font-medium">
@@ -68,19 +68,19 @@ const SuggestedAccounts = ({
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-gray-900 dark:text-white text-sm truncate flex items-center">
+              <p className="font-medium text-gray-900  text-sm truncate flex items-center">
                 {account.username}
                 {account.isVerified && (
                   <span className="ml-1">
                     <CheckCircle
-                      size={16}
+                      size={18}
                       weight="fill"
                       className="text-blue-500"
                     />
                   </span>
                 )}
               </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+              <p className="text-sm text-gray-400 truncate">
                 {formatCount(account.followers)} followers
               </p>
             </div>
@@ -94,24 +94,11 @@ const SuggestedAccounts = ({
               </button>
               {showDismiss && (
                 <button
-                  className="p-1.5 text-gray-500 hover:text-gray-700"
+                  className="p-1.5 text-gray-400"
                   onClick={() => handleDismiss(account.id)}
                   aria-label={`Dismiss ${account.username}`}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-5 w-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <X size={20} />
                 </button>
               )}
             </div>

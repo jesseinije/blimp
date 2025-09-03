@@ -113,34 +113,45 @@ const ReelActionBar = ({
     currentView === "replies" ? (
       <button
         onClick={handleBackToComments}
-        className="p-2 text-gray-900 dark:text-gray-100"
+        className="p-2 text-gray-900 "
         aria-label="Back to comments"
       >
-        <CaretLeft size={28} weight="bold" />
+        <CaretLeft size={32} weight="bold" />
       </button>
     ) : undefined;
 
+  // Add a handler for stopping event propagation
+  const handleActionClick = (e: React.MouseEvent, action: () => void) => {
+    e.preventDefault();
+    e.stopPropagation();
+    action();
+  };
+
   return (
     <>
-      <div className="absolute right-3 bottom-4 flex flex-col items-center gap-4">
+      <div
+        className="absolute right-3 bottom-4 flex flex-col items-center gap-4"
+        onClick={(e) => e.stopPropagation()} // Stop clicks on the entire action bar
+      >
         <div className="flex flex-col items-center">
           {/* Like button */}
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onLike();
-            }}
+            onClick={(e) => handleActionClick(e, onLike)}
             className="reel-action-button flex items-center justify-center"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <Heart
-              size={28}
+              size={32}
               weight="fill"
               className={`reel-action-icon ${
                 isLiked ? "liked text-red-500" : "text-white/90"
               }`}
             />
           </button>
-          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
+          <span
+            className="reel-action-text text-white/90 text-sm font-medium translate-y-0"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
+          >
             {formatCount(likeCount)}
           </span>
         </div>
@@ -148,16 +159,20 @@ const ReelActionBar = ({
         <div className="flex flex-col items-center">
           {/* Comment button */}
           <button
-            onClick={openComments}
+            onClick={(e) => handleActionClick(e, openComments)}
             className="reel-action-button flex items-center justify-center"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <ChatCircle
-              size={28}
+              size={32}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
           </button>
-          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
+          <span
+            className="reel-action-text text-white/90 text-sm font-medium translate-y-0"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
+          >
             {formatCount(commentCount)}
           </span>
         </div>
@@ -165,19 +180,20 @@ const ReelActionBar = ({
         <div className="flex flex-col items-center">
           {/* Share button */}
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onShare();
-            }}
+            onClick={(e) => handleActionClick(e, onShare)}
             className="reel-action-button flex items-center justify-center"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <PaperPlaneTilt
-              size={28}
+              size={32}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
           </button>
-          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
+          <span
+            className="reel-action-text text-white/90 text-sm font-medium translate-y-0"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
+          >
             {formatCount(shareCount)}
           </span>
         </div>
@@ -185,19 +201,20 @@ const ReelActionBar = ({
         <div className="flex flex-col items-center">
           {/* Save/Repost button */}
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onSave();
-            }}
+            onClick={(e) => handleActionClick(e, onSave)}
             className="reel-action-button flex items-center justify-center"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <ArrowsClockwise
-              size={28}
+              size={32}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
           </button>
-          <span className="reel-action-text text-white/90 text-sm font-medium translate-y-0">
+          <span
+            className="reel-action-text text-white/90 text-sm font-medium translate-y-0"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
+          >
             {formatCount(saveCount)}
           </span>
         </div>
@@ -205,20 +222,24 @@ const ReelActionBar = ({
         <div className="flex flex-col items-center">
           {/* More options button */}
           <button
-            onClick={handleMoreClick}
+            onClick={(e) => handleActionClick(e, handleMoreClick)}
             className="reel-action-button flex items-center justify-center"
+            onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <DotsThreeVertical
-              size={28}
+              size={32}
               weight="bold"
               className="reel-action-icon text-white/90"
             />
           </button>
         </div>
 
-        <div className="flex flex-col items-center">
+        <div
+          className="flex flex-col items-center"
+          onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
+        >
           <div className="flex items-center justify-center">
-            <div className="reel-album-cover w-10 h-10 rounded-full overflow-hidden border border-white/15 animate-pulse-subtle">
+            <div className="reel-album-cover w-8 h-8 rounded-full overflow-hidden border border-white/15 animate-pulse-subtle">
               <img
                 src={albumCover}
                 alt="Album Cover"
@@ -268,7 +289,7 @@ const ReelActionBar = ({
         onClose={handleCloseSheet}
         height="70vh"
       >
-        <div className="flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="flex flex-col divide-y divide-gray-200 ">
           {/* Follow Button */}
           <div className="py-4 px-4 flex justify-center">
             <button className="w-32 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">

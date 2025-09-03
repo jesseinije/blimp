@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from "react";
-import { MagnifyingGlass, CheckCircle } from "phosphor-react"; // Replace Check with CheckCircle
+import { CheckCircle } from "phosphor-react";
 import { useAppStore } from "../../store/appStore";
 import type { FeedFilterType } from "../../store/appStore";
 import BottomSheet from "../ui/BottomSheet";
 import { motion, useMotionValue, animate } from "framer-motion";
+import { Menu, Search } from "../../Icons"; // Import your custom icons
 import "./TopNavTabs.css";
 
 type TabType = "posts" | "videos";
@@ -52,38 +53,6 @@ const videoFilterOptions: {
     description: "Real-time videos and active streams",
   },
 ];
-
-const MenuIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-    className="w-[24px] h-[24px]"
-  >
-    <rect width="256" height="256" fill="none" />
-    <line
-      x1="40"
-      y1="96"
-      x2="200"
-      y2="96"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="16"
-    />
-    <line
-      x1="40"
-      y1="160"
-      x2="200"
-      y2="160"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="16"
-    />
-  </svg>
-);
 
 const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
   const { postsFilter, setPostsFilter } = useAppStore();
@@ -189,7 +158,7 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
   return (
     <motion.div ref={containerRef} className={containerClasses} style={{ y }}>
       <div className="flex items-center justify-between w-full max-w-screen-lg mx-auto px-3 h-12">
-        {/* Menu Button */}
+        {/* Menu Button - Updated to use custom Menu icon */}
         <button
           className="flex items-center justify-center"
           aria-label="Open menu"
@@ -199,10 +168,10 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
             className={`${
               activeTab === "videos"
                 ? "text-white icon-shadow-realistic"
-                : "text-gray-500 dark:text-white"
+                : "text-gray-900"
             }`}
           >
-            <MenuIcon />
+            <Menu size={24} />
           </div>
         </button>
 
@@ -213,10 +182,10 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
             id="posts-tab-button"
             className={`relative py-3 text-lg focus:outline-none ${
               activeTab === "posts"
-                ? "font-bold text-gray-900 dark:text-white"
+                ? "font-bold text-gray-900 "
                 : activeTab === "videos"
-                ? "font-normal text-white/80 text-shadow-realistic"
-                : "font-normal text-gray-500 dark:text-gray-400"
+                ? "font-normal text-white/70 text-shadow-realistic"
+                : "font-normal text-gray-400"
             }`}
             onClick={() => onTabChange("posts")}
           >
@@ -228,7 +197,7 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
             className={`relative py-3 text-lg focus:outline-none ${
               activeTab === "videos"
                 ? "font-bold text-white text-shadow-realistic "
-                : "text-gray-500 dark:text-gray-400 font-normal"
+                : "text-gray-400 font-normal"
             }`}
             onClick={() => onTabChange("videos")}
           >
@@ -236,19 +205,19 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
           </button>
         </nav>
 
-        {/* Search Button */}
+        {/* Search Button - Updated to use custom Search icon */}
         <button
           className="flex items-center justify-center"
           aria-label="Search"
         >
-          <MagnifyingGlass
+          <Search
+            size={24}
+            weight="regular"
             className={`${
               activeTab === "videos"
                 ? "text-white icon-shadow-realistic"
-                : "text-gray-500 dark:text-white"
+                : "text-gray-900"
             }`}
-            weight="regular"
-            size={24}
           />
         </button>
       </div>
@@ -259,25 +228,25 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
         onClose={() => setMenuSheetOpen(false)}
         title="Select Feed"
       >
-        <div className="space-y-2 py-2 border border-gray-200 dark:border-gray-700 rounded-lg mb-3">
+        <div className="space-y-2 py-2 border border-gray-200  rounded-lg mb-3">
           {(activeTab === "posts" ? postFilterOptions : videoFilterOptions).map(
             (option) => (
               <button
                 key={option.value}
                 className={`flex items-center justify-between w-full px-4 py-3 rounded-lg text-left bg-transparent ${
                   postsFilter === option.value
-                    ? "text-gray-900 dark:text-white"
-                    : "text-gray-700 dark:text-gray-300"
+                    ? "text-gray-900 "
+                    : "text-gray-700 "
                 } focus:outline-none transition-colors duration-150`}
                 onClick={() => handleMenuSelect(option.value)}
                 tabIndex={0}
                 type="button"
               >
                 <div className="flex-1 pr-4">
-                  <span className="text-base block text-gray-900 dark:text-white">
+                  <span className="text-base block text-gray-900 ">
                     {option.label}
                   </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 block">
+                  <span className="text-xs text-gray-400 mt-0.5 block">
                     {option.description}
                   </span>
                 </div>

@@ -35,6 +35,9 @@ export default {
         semibold: 600,
         bold: 700,
       },
+      padding: {
+        safe: "env(safe-area-inset-top)",
+      },
     },
   },
   plugins: [],

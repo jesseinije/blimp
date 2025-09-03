@@ -40,7 +40,7 @@ const ExplorePage = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white min-h-screen">
+    <div className="max-w-2xl mx-auto bg-white min-h-screen mb-20">
       {/* Container with padding for the search button */}
       <div className="px-3 py-2 bg-white">
         {/* Search button (not a form) */}

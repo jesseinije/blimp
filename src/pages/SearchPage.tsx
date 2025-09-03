@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MagnifyingGlass, X, CaretLeft, Camera } from "phosphor-react";
+import { MagnifyingGlass, X, Camera } from "phosphor-react";
+import { CaretLeft } from "../Icons";
 import SearchHistory from "../components/search/SearchHistory";
 import SuggestedSearch from "../components/search/SuggestedSearch";
 import TrendingSearch from "../components/search/TrendingSearch";
@@ -211,7 +212,7 @@ const SearchPage = () => {
             action={
               <button
                 onClick={handleStartLive}
-                className="mt-2 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="mt-2 px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors"
               >
                 Go Live
               </button>
@@ -226,16 +227,16 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white min-h-screen">
+    <div className="max-w-2xl mx-auto bg-white min-h-screen mb-10">
       {/* Search header with back button and search form/button */}
       <div className="flex items-center space-x-3 p-3">
         {/* Back button */}
         <button
           onClick={handleGoBack}
-          className="flex-shrink- dark:hover:bg-gray-700 transition-colors"
+          className="flex-shrink-0"
           aria-label="Go back"
         >
-          <CaretLeft size={24} className="text-gray-900 dark:text-gray-300" />
+          <CaretLeft size={24} className="text-gray-900 " />
         </button>
 
         {!isSearching ? (
@@ -249,7 +250,7 @@ const SearchPage = () => {
               placeholder="Search"
               value={searchQuery}
               onChange={handleUpdateQuery}
-              className="bg-gray-100 dark:bg-gray-800 border-0 w-full pl-10 pr-10 py-2 rounded-lg focus:outline-none"
+              className="bg-gray-100  border-0 w-full pl-10 pr-10 py-2 rounded-lg focus:outline-none"
               autoFocus
             />
             {showClearButton && (
@@ -266,14 +267,12 @@ const SearchPage = () => {
           /* Search button when in results mode */
           <div
             onClick={() => setIsSearching(false)}
-            className="bg-gray-100 dark:bg-gray-800 border-0 w-full pl-10 pr-10 py-2 rounded-lg flex items-center cursor-pointer relative"
+            className="bg-gray-100  border-0 w-full pl-10 pr-10 py-2 rounded-lg flex items-center cursor-pointer relative"
           >
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <MagnifyingGlass size={20} className="text-gray-400" />
             </div>
-            <span className="text-gray-900 dark:text-white truncate">
-              {searchQuery}
-            </span>
+            <span className="text-gray-900  truncate">{searchQuery}</span>
 
             {searchQuery.length > 0 && (
               <button
@@ -315,7 +314,7 @@ const SearchPage = () => {
         <div className="flex flex-col">
           {/* Filter Tabs - with padding */}
           <div className="px-3 border-b border-gray-200">
-            <div className="w-full dark:border-gray-700">
+            <div className="w-full ">
               <div className="flex overflow-x-auto space-x-4 mb-0">
                 {tabs.map((tab) => (
                   <button
@@ -323,8 +322,8 @@ const SearchPage = () => {
                     onClick={() => setActiveTab(tab.toLowerCase())}
                     className={`px-2 py-1.5 text-sm font-medium whitespace-nowrap ${
                       activeTab === tab.toLowerCase()
-                        ? "text-gray-900 dark:text-white border-b-2 border-black dark:border-white"
-                        : "text-gray-500"
+                        ? "text-gray-900 d border-b-2 border-gray-900"
+                        : "text-gray-400"
                     }`}
                   >
                     {tab}

@@ -78,7 +78,7 @@ const CommentsList = ({
             />
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400">
+          <div className="flex flex-col items-center justify-center h-full text-center text-gray-400">
             <p className="text-lg font-medium">No comments yet</p>
             <p className="text-sm">Be the first to comment on this post!</p>
           </div>
@@ -86,20 +86,17 @@ const CommentsList = ({
       </div>
 
       {/* Comment input area */}
-      <div className="border-t border-gray-200 dark:border-gray-700">
+      <div className="border-t border-gray-200 ">
         <div className="px-4 py-3">
           {replyTo && (
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-400">
                 Replying to{" "}
-                <span className="font-medium text-gray-900 dark:text-gray-100">
+                <span className="font-medium text-gray-900">
                   @{replyTo.username}
                 </span>
               </span>
-              <button
-                onClick={cancelReply}
-                className="text-gray-500 dark:hover:text-gray-300 text-sm"
-              >
+              <button onClick={cancelReply} className="text-gray-400 text-sm">
                 Cancel
               </button>
             </div>
@@ -117,7 +114,7 @@ const CommentsList = ({
                 ref={inputRef}
                 type="text"
                 placeholder="Add a comment..."
-                className="flex-1 text-sm py-1 px-0 border-none bg-transparent placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none"
+                className="flex-1 text-sm py-1 px-0 border-none bg-transparent placeholder-gray-400 focus:outline-none"
                 value={commentText}
                 onChange={handleCommentChange}
                 onKeyDown={(e) => {
@@ -131,7 +128,7 @@ const CommentsList = ({
                 disabled={commentText.trim() === ""}
                 className={`ml-2 ${
                   commentText.trim() === ""
-                    ? "text-blue-200 dark:text-blue-800"
+                    ? "text-blue-200 "
                     : "text-blue-500 hover:text-blue-600"
                 }`}
               >

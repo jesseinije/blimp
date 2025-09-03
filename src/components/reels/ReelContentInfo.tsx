@@ -1,5 +1,6 @@
-import { CheckCircle, MusicNote } from "phosphor-react"; // Update imports
+import { CheckCircle, MusicNote } from "phosphor-react";
 import Caption from "../ui/Caption";
+import React from "react";
 
 interface ReelContentInfoProps {
   username: string;
@@ -7,13 +8,14 @@ interface ReelContentInfoProps {
   timestamp: string;
   music: string;
   avatar: string;
+  isFollowing: boolean;
   isVerified?: boolean;
   location?: string;
-  isFollowing: boolean;
+  sponsored?: string;
   onFollow: () => void;
 }
 
-// Helper function to format relative time
+// Using the exact implementation from Post.tsx
 const getRelativeTime = (timestamp: string): string => {
   const now = new Date();
   const date = new Date(timestamp);
@@ -34,15 +36,16 @@ const getRelativeTime = (timestamp: string): string => {
   return `${yearsDiff}y`;
 };
 
-const ReelContentInfo = ({
+const ReelContentInfo: React.FC<ReelContentInfoProps> = ({
   username,
   caption,
   timestamp,
   music,
   avatar,
-  isVerified = false,
+  isVerified,
   location,
-}: ReelContentInfoProps) => {
+  sponsored,
+}) => {
   return (
     <div className="absolute left-3 bottom-7 right-20 flex flex-col">
       <div className="flex items-center gap-3 mb-3">
@@ -56,32 +59,39 @@ const ReelContentInfo = ({
               {isVerified && (
                 <span className="ml-1">
                   <CheckCircle
-                    size={16}
+                    size={18}
                     weight="fill"
                     className="text-blue-500"
                   />
                 </span>
               )}
             </span>
-            <span className="text-white/70 text-xs">
+            <span className="text-white/70 text-sm">
               {getRelativeTime(timestamp)}
             </span>
           </div>
-          {/* Location display */}
-          {location && <p className="text-xs text-white/70">{location}</p>}
+          {(location || sponsored) && (
+            <div className="text-xs text-white/70 flex items-center h-5">
+              <span className="flex items-center">
+                {location}
+                {sponsored && (
+                  <span className="ml-1 font-medium">• Sponsored</span>
+                )}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       <Caption
         text={caption}
-        className="mb-3 [&_span:not(.text-blue-400)]:text-white [&_button]:text-white/70 [&_button]:hover:text-white"
+        className="mb-3 [&_span:not(.text-blue-400)]:text-white [&_button]:text-white/70"
         maxLength={37}
-        highlightClassName="text-blue-400 !important"
+        highlightClassName="text-blue-500 !important"
       />
 
       <div className="flex items-center gap-1">
-        <MusicNote size={16} className="text-white" />{" "}
-        {/* Replace MusicalNoteIcon */}
+        <MusicNote size={16} className="text-white" />
         <span className="text-white text-xs truncate max-w-[180px]">
           {music}
         </span>
