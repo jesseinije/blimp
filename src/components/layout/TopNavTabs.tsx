@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 import { CheckCircle } from "phosphor-react";
+import { useNavigate } from "react-router-dom"; // Add this import
 import { useAppStore } from "../../store/appStore";
 import type { FeedFilterType } from "../../store/appStore";
 import BottomSheet from "../ui/BottomSheet";
 import { motion, useMotionValue, animate } from "framer-motion";
-import { Menu, Search } from "../../Icons"; // Import your custom icons
+import { Menu, Search } from "../../Icons";
 import "./TopNavTabs.css";
 
 type TabType = "posts" | "videos";
@@ -55,6 +56,7 @@ const videoFilterOptions: {
 ];
 
 const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
+  const navigate = useNavigate(); // Add this hook
   const { postsFilter, setPostsFilter } = useAppStore();
   const [menuSheetOpen, setMenuSheetOpen] = useState(false);
 
@@ -155,6 +157,11 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
     setMenuSheetOpen(false);
   };
 
+  // Add handler for search navigation
+  const handleNavigateToSearch = () => {
+    navigate("/search");
+  };
+
   return (
     <motion.div ref={containerRef} className={containerClasses} style={{ y }}>
       <div className="flex items-center justify-between w-full max-w-screen-lg mx-auto px-3 h-12">
@@ -209,6 +216,7 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
         <button
           className="flex items-center justify-center"
           aria-label="Search"
+          onClick={handleNavigateToSearch}
         >
           <Search
             size={24}

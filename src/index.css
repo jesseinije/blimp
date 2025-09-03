@@ -190,6 +190,10 @@
 }
 
 /* Dynamic viewport height utilities */
+:root {
+  --vh: 1vh;
+}
+
 @supports (height: 100dvh) {
   .h-screen-dynamic {
     height: 100dvh;
@@ -217,4 +221,37 @@
   .max-h-screen {
     max-height: -webkit-fill-available;
   }
+}
+
+/* Add these CSS variables and utilities */
+:root {
+  --vh: 1vh;
+}
+
+/* Update existing utilities or add new ones */
+.h-screen-dynamic {
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.min-h-screen-dynamic {
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+.max-h-screen-dynamic {
+  max-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* iOS-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .h-screen-safe {
+    height: calc(
+      100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
+  }
+}
+
+/* Ensure the body takes full height */
+body {
+  min-height: calc(var(--vh, 1vh) * 100);
+  overflow-x: hidden;
 }

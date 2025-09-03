@@ -27,7 +27,8 @@ const FiltersBottomSheet = ({
 }: FiltersBottomSheetProps) => {
   // We'll use the same balloon image for all filters for demo purposes
   // In a real app, you'd have different images showing the actual filter effects
-  const balloonImageUrl = "/src/assets/images/balloon.png";
+  const balloonImageUrl =
+    "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756755285/samples/balloons.jpg";
 
   // Sample filters with image previews
   const filters: Filter[] = [

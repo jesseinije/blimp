@@ -97,8 +97,13 @@ const NavBar = () => {
   return (
     <motion.nav
       ref={navRef}
-      className={`nav-bar z-10 ${isVideoMode ? "video-mode" : ""}`}
-      style={{ y }}
+      className={`nav-bar z-10 fixed bottom-0 left-0 right-0 pb-safe ${
+        isVideoMode ? "video-mode" : ""
+      }`}
+      style={{
+        y,
+        paddingBottom: `calc(env(safe-area-inset-bottom, 0px))`,
+      }}
     >
       <div className="hidden sm:block sm:flex-1">
         <Link to="/" className="flex items-center">
@@ -148,7 +153,7 @@ const NavBar = () => {
 
         <button
           onClick={handleAddPost}
-          className={`flex items-center justify-center w-10 h-10 rounded-lg ${
+          className={`flex items-center justify-center w-12 h-8 rounded-lg ${
             isVideoMode ? "bg-white text-gray-900" : "bg-gray-100 text-gray-400"
           }`}
         >

@@ -67,6 +67,7 @@ export type Post = {
     buttonText: string;
     buttonUrl: string;
   };
+  pinned?: boolean; // <-- Add this line
 };
 
 export type Story = {

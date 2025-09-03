@@ -103,14 +103,17 @@ const PostPage = () => {
 
   return (
     <div className="max-w-2xl mx-auto bg-white min-h-screen">
-      {/* Header */}
       <PageHeader
         title="Post"
         showBackButton={true}
         onBackClick={handleGoBack}
         rightIcon="more"
-        showBorder={true}
+        showBorder={false}
+        enableScroll={true} // Enable scroll behavior only for PostPage
       />
+
+      {/* Add a spacer div to prevent content jumping */}
+      <div className="h-14" />
 
       {/* Main Post content */}
       <div>

@@ -25,12 +25,13 @@ const convertPostsToReels = (posts: any[]): ReelData[] => {
         caption: post.caption,
         likes: post.likes,
         comments: post.comments?.length || 0,
-        shares: 0, // Not available in mockData, using default
-        timestamp: new Date(post.createdAt).toLocaleDateString(),
-        music: `Track by ${post.user.username}`, // Not available in mockData, creating default
-        albumCover: post.user.avatar, // Using user avatar as album cover
+        shares: 0,
+        timestamp: post.createdAt, // <-- Pass raw date string here!
+        music: `Track by ${post.user.username}`,
+        albumCover: post.user.avatar,
         isLiked: post.liked || false,
-        location: post.location, // Include location data from the post
+        location: post.location,
+        sponsored: post.sponsored,
       };
     });
 };
@@ -189,6 +190,8 @@ const ReelsFeed = () => {
         overscrollBehavior: "contain",
         margin: 0,
         padding: 0,
+        height: "100dvh", // Use dynamic viewport height
+        maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px))`,
       }}
     >
       {filteredReels.length > 0 ? (
@@ -196,7 +199,10 @@ const ReelsFeed = () => {
           <div
             key={reel.id}
             data-index={index}
-            className="reel-item h-full w-full snap-start snap-always relative"
+            className="reel-item w-full snap-start snap-always relative"
+            style={{
+              height: `calc(100dvh - env(safe-area-inset-top, 0px))`, // Dynamic height for each reel
+            }}
           >
             {/* Always render the label but control its visibility with the visible prop */}
             {isVideoPage && index > 0 && (

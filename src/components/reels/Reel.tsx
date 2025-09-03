@@ -260,13 +260,33 @@ const Reel = ({
   // Get the full post data including comments
   const postData = getPostById(data.id);
 
+  // Add useEffect to handle viewport height updates
+  useEffect(() => {
+    const setViewportHeight = () => {
+      // Set CSS variable for viewport height
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setViewportHeight();
+
+    // Update on resize and orientation change
+    window.addEventListener("resize", setViewportHeight);
+    window.addEventListener("orientationchange", setViewportHeight);
+
+    return () => {
+      window.removeEventListener("resize", setViewportHeight);
+      window.removeEventListener("orientationchange", setViewportHeight);
+    };
+  }, []);
+
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-black cursor-pointer"
+      className="relative w-full bg-black cursor-pointer overflow-hidden"
       style={{
-        height: navBarHeight ? `calc(100vh - ${navBarHeight}px)` : "100vh",
-        maxHeight: "-webkit-fill-available",
+        height: `calc(calc(var(--vh, 1vh) * 100) - ${navBarHeight}px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
+        maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
       }}
     >
       {/* Main video container */}

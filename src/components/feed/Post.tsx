@@ -191,22 +191,22 @@ const Post = ({ post }: PostProps) => {
               </p>
             </div>
             {/* Location and Music overlay section */}
-            {(post.location || post.sponsored) && (
+            {(post.location || post.sponsored || post.music) && (
               <div className="text-xs text-gray-400 flex items-center h-5">
                 <span className="inline-flex items-center h-full">
-                  {post.music ? (
+                  {post.music && (
                     <MusicOverlay
                       ref={musicOverlayRef}
                       musicUrl={post.music.url}
                       musicTitle={`${post.music.title} - ${post.music.artist}`}
-                      location={post.location || undefined} // Explicitly handle undefined case
+                      location={post.location || undefined}
                       isVisible={true}
                       inView={isInView}
                       maxWidth="170px"
                       sponsored={post.sponsored ? "Sponsored" : undefined}
                     />
-                  ) : (
-                    // Show location or sponsored
+                  )}
+                  {!post.music && (
                     <span className="flex items-center">
                       {post.location}
                       {post.sponsored && (

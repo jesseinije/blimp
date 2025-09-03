@@ -90,7 +90,12 @@ const VideoPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-black">
+      <div
+        className="flex justify-center items-center bg-black"
+        style={{
+          height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+        }}
+      >
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
       </div>
     );
@@ -98,7 +103,12 @@ const VideoPage = () => {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-black text-white">
+      <div
+        className="flex flex-col items-center justify-center bg-black text-white"
+        style={{
+          height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+        }}
+      >
         <div className="text-lg font-medium mb-4">{error}</div>
         <button
           onClick={handleGoBack}
@@ -111,9 +121,22 @@ const VideoPage = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-black min-h-screen text-white relative">
+    <div
+      className="max-w-2xl mx-auto bg-black relative"
+      style={{
+        minHeight: "100dvh",
+        height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+        maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+      }}
+    >
       {/* Navigation bar with back and search buttons */}
-      <div className="absolute top-0 left-0 right-0 z-50 py-3 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
+      <div
+        className="absolute top-0 left-0 right-0 z-50 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent"
+        style={{
+          paddingTop: `calc(env(safe-area-inset-top, 0px) + 0.75rem)`,
+          paddingBottom: "0.75rem",
+        }}
+      >
         <button
           onClick={handleGoBack}
           className="p-2 rounded-full text-white"
@@ -136,7 +159,12 @@ const VideoPage = () => {
       </div>
 
       {/* Video feed content - full height */}
-      <div className="h-screen">
+      <div
+        style={{
+          height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+          maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+        }}
+      >
         <VideoPageFeed />
       </div>
     </div>

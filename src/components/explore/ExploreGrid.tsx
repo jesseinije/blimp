@@ -1,16 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { PushPin } from "phosphor-react";
 import type { Post } from "../../types/index";
 import { mockPosts } from "../../data/mockData";
 
 interface ExploreGridProps {
   posts?: Post[];
-  showUserInfo?: boolean; // Add this prop
+  showUserInfo?: boolean;
+  showPinnedIcon?: boolean; // <-- Add this prop
 }
 
 const ExploreGrid: React.FC<ExploreGridProps> = ({
   posts = mockPosts,
-  showUserInfo = true, // Default to true for backward compatibility
+  showUserInfo = true,
+  showPinnedIcon = false, // <-- Default to false
 }) => {
   const navigate = useNavigate();
 
@@ -33,6 +36,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
           post={post}
           onPostClick={handlePostClick}
           showUserInfo={showUserInfo}
+          showPinnedIcon={showPinnedIcon} // <-- Pass down
         />
       ))}
     </div>
@@ -43,12 +47,14 @@ interface PostGridItemProps {
   post: Post;
   onPostClick: (postId: string, mediaType: string) => void;
   showUserInfo?: boolean;
+  showPinnedIcon?: boolean; // <-- Add this prop
 }
 
 const PostGridItem: React.FC<PostGridItemProps> = ({
   post,
   onPostClick,
   showUserInfo = true,
+  showPinnedIcon = false, // <-- Default to false
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const startX = useRef<number | null>(null);
@@ -153,6 +159,17 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Pin icon for pinned posts, only if showPinnedIcon is true */}
+      {showPinnedIcon && post.pinned && (
+        <div className="absolute top-2 left-2 z-10">
+          <PushPin
+            size={18}
+            weight="fill"
+            className="text-yellow-500 drop-shadow"
+          />
+        </div>
+      )}
+
       {/* Post thumbnail - handle both image and video */}
       {isVideo ? (
         <video

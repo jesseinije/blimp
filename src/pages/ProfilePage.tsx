@@ -230,7 +230,11 @@ const ProfilePage = ({
           {selectedTab === 0 && (
             <>
               {imagePosts.length > 0 ? (
-                <ExploreGrid posts={imagePosts} showUserInfo={false} />
+                <ExploreGrid
+                  posts={imagePosts}
+                  showUserInfo={false}
+                  showPinnedIcon={true}
+                />
               ) : (
                 <EmptyState
                   icon={<Image size={32} className="text-gray-300" />}
@@ -256,7 +260,11 @@ const ProfilePage = ({
           {selectedTab === 1 && (
             <>
               {videoPosts.length > 0 ? (
-                <ExploreGrid posts={videoPosts} showUserInfo={false} />
+                <ExploreGrid
+                  posts={videoPosts}
+                  showUserInfo={false}
+                  showPinnedIcon={true}
+                />
               ) : (
                 <EmptyState
                   icon={<FileVideo size={32} className="text-gray-300" />}

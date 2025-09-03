@@ -114,6 +114,28 @@ export const mockUsers: User[] = [
     following: 120,
     isVerified: true,
   },
+  {
+    id: "17",
+    username: "davido",
+    displayName: "Davido",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756914001/Davido_ceenoz.jpg",
+    bio: "5IVE ALIVETOUR",
+    followers: 50000000,
+    following: 1,
+    isVerified: true,
+  },
+  {
+    id: "18",
+    username: "gordon_ramsy",
+    displayName: "Gordon Ramsay",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756916489/Gordon-Ramsay_dlp0b4.jpg",
+    bio: "Celebrity Chef | Restaurateur | Author",
+    followers: 500000,
+    following: 20,
+    isVerified: true,
+  },
 ];
 
 export const mockComments: Record<string, Comment[]> = {
@@ -379,10 +401,58 @@ const createUserInfo = (
 
 export const mockPosts: Post[] = [
   {
+    id: "111",
+    userId: "18",
+    caption: "Gordon, Gino and Fred: Road Trip",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756916517/ramsy_eolhtx.avif",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("18"),
+    views: 5200000,
+    pinned: true,
+  },
+  {
+    id: "110",
+    userId: "17",
+    caption:
+      "With support from @victony and @odumodublvck it's about to be massive!🔥",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756914612/dav_ewuq7e.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("17"),
+    views: 5200000,
+    music: {
+      title: "Over Dem",
+      artist: "Davido",
+      url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756915938/davmp3_yycwgy.mp3",
+    },
+    pinned: true,
+  },
+  {
     id: "22",
     userId: "15",
     caption:
-      "UST SARINA WIEGMAN LOSING HER MIND AS BURNA BOY JOINS HER ON STAGE.😀",
+      "JUST SARINA WIEGMAN LOSING HER MIND AS BURNA BOY JOINS HER ON STAGE.😀",
     media: [
       {
         id: "1-1",
@@ -401,7 +471,7 @@ export const mockPosts: Post[] = [
   },
 
   {
-    id: "1",
+    id: "101",
     userId: "1",
     caption: "Me and my queen inside JP🥰",
     media: [
@@ -420,6 +490,7 @@ export const mockPosts: Post[] = [
     liked: true,
     user: createUserInfo("1"),
     views: 15400,
+    pinned: true,
   },
   {
     id: "19",
@@ -443,7 +514,7 @@ export const mockPosts: Post[] = [
     isReelOnly: true,
   },
   {
-    id: "2",
+    id: "102",
     userId: "2",
     caption: "Hiking in the mountains was incredible! #adventure #mountains",
     media: [
@@ -464,7 +535,7 @@ export const mockPosts: Post[] = [
     views: 8700, // <-- Added
   },
   {
-    id: "3",
+    id: "103",
     userId: "3",
     caption:
       "Beast Games Season 2 wrapped filming!!! We gathered the strongest and the smartest people on earth to compete for $5,000,000! I’M SO EXCITED SEASON 2 IS 10X BETTER THAN SEASON 1 :D",
@@ -649,12 +720,7 @@ export const mockPosts: Post[] = [
     liked: false,
     user: createUserInfo("7"),
     views: 8500000,
-    isReelOnly: true, // Already had this line
-    music: {
-      title: "Rich Flex",
-      artist: "Drake",
-      url: "/assets/audio/drake.mp3", // Update from /src/assets to /assets
-    },
+    isReelOnly: true,
   },
   {
     id: "11",
@@ -679,8 +745,9 @@ export const mockPosts: Post[] = [
     music: {
       title: "Laugh now cry later",
       artist: "Drake & Lil' Durk",
-      url: "/assets/audio/drake.mp3", // Update from /src/assets to /assets
+      url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756918251/drake_xyilxh.mp3",
     },
+    pinned: true,
   },
   {
     id: "20",
@@ -727,9 +794,11 @@ export const mockPosts: Post[] = [
       buttonText: "Learn More",
       buttonUrl: "https://www.indomie.com/products",
     },
-    user: createUserInfo("16"), // Add this line to include the user info
-    views: 25000, // Add this line since it's used in other posts
+    user: createUserInfo("16"),
+    views: 25000,
+    pinned: true,
   },
+
   ...userPosts, // Add this line to combine the arrays
 ];
 

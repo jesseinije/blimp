@@ -78,7 +78,6 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
       };
 
       const onPause = () => {
-        console.log("Audio is paused:", musicUrl);
         setIsPlaying(false);
       };
 
@@ -119,15 +118,15 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
     }, [inView, isPlaying]);
 
     // Toggle between location and music display WITHOUT affecting audio playback
+    // Only toggle if location is present
     useEffect(() => {
-      if (!isVisible) return;
+      if (!isVisible || !location) return;
 
       const toggleWithAnimation = () => {
         setIsTransitioning(true);
 
         setTimeout(() => {
           setShowMusicInfo((prev) => !prev);
-          // Don't affect audio playback when toggling display
 
           setTimeout(() => {
             setIsTransitioning(false);
@@ -137,7 +136,7 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
 
       const intervalId = setInterval(toggleWithAnimation, 5000);
       return () => clearInterval(intervalId);
-    }, [isVisible]);
+    }, [isVisible, location]);
 
     // Handle music click to toggle play/pause
     const handleMusicClick = (e?: React.MouseEvent) => {
@@ -176,7 +175,11 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
               }`}
             >
               <span className={shouldMarquee ? "marquee-text" : ""}>
-                <MusicNote size={12} className="mr-1 inline-block" />
+                <MusicNote
+                  size={12}
+                  weight="fill"
+                  className="mr-1 inline-block"
+                />
                 {musicTitle}
               </span>
             </span>

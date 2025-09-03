@@ -42,10 +42,10 @@ const NotificationsPage = () => {
         <nav className="flex border-b border-gray-200" role="tablist">
           <button
             onClick={() => handleTabChange("private")}
-            className={`w-1/2 py-3 text-center focus:outline-none text-sm font-medium transition-colors ${
+            className={`w-1/2 py-3 text-center focus:outline-none text-base font-medium transition-colors ${
               activeTab === "private"
-                ? "text-gray-900  border-b-2 border-black bg-gray-50"
-                : "text-gray-400 "
+                ? "text-gray-900 border-b-2 border-black"
+                : "text-gray-400"
             }`}
             role="tab"
             aria-selected={activeTab === "private"}
@@ -55,16 +55,13 @@ const NotificationsPage = () => {
           >
             <div className="inline-flex items-center">
               <span>Messages</span>
-              <span className="ml-1.5 bg-blue-500 text-white text-xs rounded-full h-5 min-w-[20px] inline-flex items-center justify-center px-1 ring-2 ring-white">
-                2
-              </span>
             </div>
           </button>
           <button
             onClick={() => handleTabChange("general")}
-            className={`w-1/2 py-3 text-center focus:outline-none text-sm font-medium transition-colors ${
+            className={`w-1/2 py-3 text-center focus:outline-none text-base font-medium transition-colors ${
               activeTab === "general"
-                ? "text-gray-900  border-b-2 border-gray-900 bg-gray-50"
+                ? "text-gray-900 border-b-2 border-gray-900"
                 : "text-gray-400"
             }`}
             role="tab"
@@ -75,9 +72,6 @@ const NotificationsPage = () => {
           >
             <div className="inline-flex items-center">
               <span>Notifications</span>
-              <span className="ml-1.5 bg-blue-500 text-white text-xs rounded-full h-5 min-w-[20px] inline-flex items-center justify-center px-1 ring-2 ring-white">
-                3{" "}
-              </span>
             </div>
           </button>
         </nav>

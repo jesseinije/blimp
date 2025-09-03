@@ -116,7 +116,7 @@ const ReelActionBar = ({
         className="p-2 text-gray-900 "
         aria-label="Back to comments"
       >
-        <CaretLeft size={32} weight="bold" />
+        <CaretLeft size={24} />
       </button>
     ) : undefined;
 
@@ -141,7 +141,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <Heart
-              size={32}
+              size={30}
               weight="fill"
               className={`reel-action-icon ${
                 isLiked ? "liked text-red-500" : "text-white/90"
@@ -164,7 +164,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <ChatCircle
-              size={32}
+              size={30}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -185,7 +185,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <PaperPlaneTilt
-              size={32}
+              size={30}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -206,7 +206,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <ArrowsClockwise
-              size={32}
+              size={30}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -227,7 +227,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <DotsThreeVertical
-              size={32}
+              size={30}
               weight="bold"
               className="reel-action-icon text-white/90"
             />
