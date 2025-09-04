@@ -63,6 +63,7 @@ export const userData: User[] = [
     followers: 4200000,
     following: 205,
     isVerified: true,
+    story: true,
   },
 ];
 

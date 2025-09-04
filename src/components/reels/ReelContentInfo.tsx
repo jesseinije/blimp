@@ -2,7 +2,7 @@ import { CheckCircle, MusicNote } from "phosphor-react";
 import Caption from "../ui/Caption";
 import React from "react";
 import { getRelativeTime } from "../../utils/dateUtils";
-import { Link } from "react-router-dom"; // Add this import
+import { Link } from "react-router-dom";
 
 interface ReelContentInfoProps {
   username: string;
@@ -14,6 +14,7 @@ interface ReelContentInfoProps {
   isVerified?: boolean;
   location?: string;
   sponsored?: string;
+  hasStory?: boolean; // Add this line
   onFollow: () => void;
 }
 
@@ -26,8 +27,8 @@ const ReelContentInfo: React.FC<ReelContentInfoProps> = ({
   isVerified,
   location,
   sponsored,
+  hasStory, // Add this line
 }) => {
-  // Always format the timestamp using getRelativeTime
   const formattedTime = getRelativeTime(timestamp);
 
   return (
@@ -35,11 +36,17 @@ const ReelContentInfo: React.FC<ReelContentInfoProps> = ({
       <div className="flex items-center gap-3 mb-3">
         <div className="relative">
           <Link to={`/profile/${username}`} className="block">
-            <img
-              src={avatar}
-              alt={username}
-              className="w-10 h-10 rounded-full"
-            />
+            <div
+              className={`w-10 h-10 rounded-full overflow-hidden ${
+                hasStory ? "ring-2 ring-offset-2 ring-blue-500" : ""
+              }`}
+            >
+              <img
+                src={avatar}
+                alt={username}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </Link>
         </div>
         <div className="flex-1">

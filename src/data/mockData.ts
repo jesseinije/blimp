@@ -43,6 +43,7 @@ export const mockUsers: User[] = [
     followers: 33002000,
     following: 235,
     isVerified: true,
+    story: true,
   },
   {
     id: "4",
@@ -130,6 +131,7 @@ export const mockUsers: User[] = [
     followers: 50000000,
     following: 1,
     isVerified: true,
+    story: true,
   },
   {
     id: "18",

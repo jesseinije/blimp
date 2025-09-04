@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Play } from "phosphor-react";
 import ReelActionBar from "./ReelActionBar";
 import ReelContentInfo from "./ReelContentInfo";
-import { getPostById } from "../../data/mockData";
+import { getPostById, mockUsers } from "../../data/mockData"; // Add mockUsers import
 import { useNavBarHeight } from "../../hooks/useNavBarHeight";
 
 export type ReelData = {
@@ -14,6 +14,7 @@ export type ReelData = {
     avatar: string;
     isFollowing: boolean;
     isVerified?: boolean;
+    story?: boolean; // Add this line
   };
   caption: string;
   likes: number;
@@ -24,7 +25,7 @@ export type ReelData = {
   albumCover: string;
   isLiked: boolean;
   location?: string;
-  sponsored?: { buttonText: string; buttonUrl: string }; // <-- Add this line
+  sponsored?: { buttonText: string; buttonUrl: string };
 };
 
 interface ReelProps {
@@ -259,6 +260,8 @@ const Reel = ({
 
   // Get the full post data including comments
   const postData = getPostById(data.id);
+  // Get the full user data from mockUsers
+  const userData = mockUsers.find((user) => user.id === data.user.id);
 
   return (
     <div
@@ -310,7 +313,8 @@ const Reel = ({
               isFollowing={data.user.isFollowing}
               isVerified={data.user.isVerified}
               location={data.location}
-              sponsored={postData?.sponsored ? "Sponsored" : undefined} // <-- Pass sponsored prop
+              sponsored={postData?.sponsored ? "Sponsored" : undefined}
+              hasStory={userData?.story} // Change this line to use userData
               onFollow={() => onFollow(data.user.id)}
             />
           </div>
