@@ -177,7 +177,7 @@ const NavBar = () => {
             weight={isActive("/notifications") ? "fill" : "regular"}
           />
           {/* Notification Badge */}
-          <span className="absolute top-2 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+          <span className="absolute top-2 right-0.5 w-2 h-2 bg-blue-500 rounded-full"></span>
         </Link>
 
         <Link to="/profile" className="flex items-center">

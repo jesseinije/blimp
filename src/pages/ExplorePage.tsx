@@ -3,20 +3,33 @@ import { MagnifyingGlass } from "phosphor-react";
 import ExploreGrid from "../components/explore/ExploreGrid";
 import { ExploreGridSkeleton } from "../components/ui/skeletons/ExploreGridSkeleton";
 import { SkeletonProvider } from "../components/ui/skeletons/SkeletonProvider";
-import { useState, useEffect } from "react";
-import "react-loading-skeleton/dist/skeleton.css"; // Add skeleton CSS import
+import { useState, useEffect, useRef } from "react";
+import { animateScroll as scroll } from "react-scroll"; // <-- Add this import
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ExplorePage = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Simulate loading
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 500); // Reduced to 500ms to match the working implementation
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Optional: Scroll to top on mount
+  useEffect(() => {
+    if (!isLoading && scrollContainerRef.current) {
+      scroll.scrollToTop({
+        containerId: "explore-scroll-container",
+        duration: 400,
+        smooth: true,
+      });
+    }
+  }, [isLoading]);
 
   // Navigate to search page
   const handleNavigateToSearch = () => {
@@ -40,7 +53,15 @@ const ExplorePage = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white min-h-screen mb-20">
+    <div
+      id="explore-scroll-container"
+      ref={scrollContainerRef}
+      className="max-w-2xl mx-auto bg-white min-h-screen mb-20 overflow-y-auto scrollbar-hide"
+      style={{
+        scrollBehavior: "smooth",
+        maxHeight: "100vh",
+      }}
+    >
       {/* Container with padding for the search button */}
       <div className="px-3 py-2 bg-white">
         {/* Search button (not a form) */}

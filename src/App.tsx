@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useAppStore } from "./store/appStore";
 import Layout from "./components/layout/Layout";
 import "./App.css";
+import { useViewportHeight } from "./hooks/useViewportHeight"; // <-- Add this line
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -20,6 +21,7 @@ const PrivateChatPage = lazy(() => import("./pages/PrivateChatPage")); // Add th
 
 function App() {
   const { isDarkMode } = useAppStore();
+  useViewportHeight(); // <-- Add this line
   return (
     <Router>
       <div className={isDarkMode ? "dark" : ""}>

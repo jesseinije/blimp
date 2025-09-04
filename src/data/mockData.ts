@@ -21,13 +21,14 @@ export const mockUsers: User[] = [
   },
   {
     id: "2",
-    username: "janedoe",
-    displayName: "Jane Doe",
-    avatar: "https://i.pravatar.cc/150?img=5",
-    bio: "Photographer | Adventure seeker",
-    followers: 2430,
-    following: 567,
-    isVerified: false,
+    username: "tiwasavage",
+    displayName: "Tiwa Savage",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756964407/sav_l93gbf.jpg",
+    bio: "Singer & Songwriter | Mother | Entrepreneur",
+    followers: 2430000,
+    following: 7,
+    isVerified: true,
   },
   {
     id: "3",
@@ -41,10 +42,11 @@ export const mockUsers: User[] = [
   },
   {
     id: "4",
-    username: "travelbuddy",
-    displayName: "Travel Buddy",
-    avatar: "https://i.pravatar.cc/150?img=4",
-    bio: "Exploring the world one step at a time",
+    username: "francesco",
+    displayName: "Francesco",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965188/francesco_dhcnj7.jpg",
+    bio: "Environmentalist | Crypto Trader | Travel Enthusiast",
     followers: 10500,
     following: 320,
     isVerified: false,
@@ -516,18 +518,17 @@ export const mockPosts: Post[] = [
   {
     id: "102",
     userId: "2",
-    caption: "Hiking in the mountains was incredible! #adventure #mountains",
+    caption: "",
     media: [
       {
         id: "2-1",
-        url: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756964290/twa_rvp5n1.mp4",
+        type: "video",
       },
     ],
-    likes: 856,
+    likes: 35600,
     comments: mockComments["2"],
     createdAt: "2025-08-16T10:15:30Z",
-    location: "Rocky Mountains",
     tags: ["adventure", "mountains", "hiking"],
     saved: true,
     liked: false,
@@ -563,17 +564,17 @@ export const mockPosts: Post[] = [
     media: [
       {
         id: "4-1",
-        url: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965459/fran_xmcf3w.jpg",
         type: "image",
       },
       {
         id: "4-2",
-        url: "https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965764/fran1_vlkkqy.jpg",
         type: "image",
       },
       {
         id: "4-3",
-        url: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965793/fran2_nmkatr.jpg",
         type: "image",
       },
     ],

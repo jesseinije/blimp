@@ -4,8 +4,11 @@ import VideoPageFeed from "../components/reels/ReelsFeed";
 import { mockPosts } from "../data/mockData";
 import { useAppStore } from "../store/appStore";
 import { CaretLeft, MagnifyingGlass } from "phosphor-react";
+import { useViewportHeight } from "../hooks/useViewportHeight"; // <-- Add this line
 
 const VideoPage = () => {
+  useViewportHeight(); // <-- Add this line
+
   const { videoId } = useParams<{ videoId: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);

@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { CaretLeft, CheckCircle } from "phosphor-react";
+import { CheckCircle } from "phosphor-react";
 import {
   Chat,
   Repost,
   Share,
   Heart,
   Bookmark,
+  CaretLeft,
   DotsVertical,
 } from "../../Icons"; // Add Heart to this import
 
