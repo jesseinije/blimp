@@ -7,6 +7,8 @@ export type User = {
   followers: number;
   following: number;
   isVerified?: boolean;
+  follow?: boolean; // <-- Add this line
+  story?: boolean; // <-- Add this line
 };
 
 export type Comment = {

@@ -254,81 +254,14 @@ const PostCaptionPage = ({
         <div className="  pb-4">
           {/* Media Grid */}
           <div className="grid grid-cols-3 gap-2 mb-4">
-            {/* If no files are selected yet, show the initial video/thumbnail */}
-            {selectedFiles.length === 0 && (
-              <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
-                {mode === "video" ? (
-                  <video
-                    src={videoSrc}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={thumbnailSrc}
-                    alt="Media preview"
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-            )}
-
-            {selectedFiles.map((file, index) => (
-              <div
-                key={index}
-                className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 "
-              >
-                {file.type.startsWith("video/") ? (
-                  <div className="h-full">
-                    <video
-                      src={URL.createObjectURL(file)}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Video indicator */}
-                    <div className="absolute top-2 right-2 bg-gray-900/50 rounded-full p-1">
-                      <svg
-                        className="w-4 h-4 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-                {/* Remove button */}
-                <button
-                  onClick={() => {
-                    setSelectedFiles((files) =>
-                      files.filter((_, i) => i !== index)
-                    );
-                  }}
-                  className="absolute top-2 left-2 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
-                >
-                  <X size={16} className="text-white" />
-                </button>
-              </div>
-            ))}
-
-            {/* Upload button */}
-            {selectedFiles.length < MAX_FILES && (
+            {mode === "post" ? (
+              // Only show Add media button in post mode
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="aspect-square rounded-lg border-2 border-dashed border-gray-300  flex flex-col items-center justify-center hover:border-gray-400  transition-colors"
+                className="aspect-square rounded-lg border-2 border-dashed border-gray-300 flex flex-col items-center justify-center hover:border-gray-400 transition-colors"
               >
                 <svg
-                  className="w-8 h-8 text-gray-400  mb-2"
+                  className="w-8 h-8 text-gray-400 mb-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -340,10 +273,100 @@ const PostCaptionPage = ({
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                <span className="text-xs text-gray-400">
-                  {selectedFiles.length === 0 ? "Add media" : "Add more"}
-                </span>
+                <span className="text-xs text-gray-400">Add media</span>
               </button>
+            ) : (
+              // ...existing media grid code for video mode...
+              <>
+                {selectedFiles.length === 0 && (
+                  <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
+                    {mode === "video" ? (
+                      <video
+                        src={videoSrc}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={thumbnailSrc}
+                        alt="Media preview"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                )}
+                {selectedFiles.map((file, index) => (
+                  <div
+                    key={index}
+                    className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 "
+                  >
+                    {file.type.startsWith("video/") ? (
+                      <div className="h-full">
+                        <video
+                          src={URL.createObjectURL(file)}
+                          className="w-full h-full object-cover"
+                        />
+                        {/* Video indicator */}
+                        <div className="absolute top-2 right-2 bg-gray-900/50 rounded-full p-1">
+                          <svg
+                            className="w-4 h-4 text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    ) : (
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    {/* Remove button */}
+                    <button
+                      onClick={() => {
+                        setSelectedFiles((files) =>
+                          files.filter((_, i) => i !== index)
+                        );
+                      }}
+                      className="absolute top-2 left-2 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
+                    >
+                      <X size={16} className="text-white" />
+                    </button>
+                  </div>
+                ))}
+                {selectedFiles.length < MAX_FILES && (
+                  // ...existing Add more button code...
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="aspect-square rounded-lg border-2 border-dashed border-gray-300  flex flex-col items-center justify-center hover:border-gray-400  transition-colors"
+                  >
+                    <svg
+                      className="w-8 h-8 text-gray-400  mb-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
+                    <span className="text-xs text-gray-400">
+                      {selectedFiles.length === 0 ? "Add media" : "Add more"}
+                    </span>
+                  </button>
+                )}
+              </>
             )}
           </div>
 

@@ -67,7 +67,7 @@ const RightCameraControls = ({
 
   return (
     <>
-      <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-10">
+      <div className="fixed right-3 top-1/2 transform -translate-y-1/2 z-10">
         <div className="flex flex-col items-end space-y-2">
           {controls.map((control, index) => (
             <div key={index} className="flex items-center">
@@ -82,7 +82,7 @@ const RightCameraControls = ({
               <div className="relative">
                 <button
                   onClick={control.onClick}
-                  className={`w-14 h-10 flex items-center justify-center ${
+                  className={`mb-2 flex items-center justify-center ${
                     control.disabled ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={control.disabled}
@@ -123,7 +123,7 @@ const RightCameraControls = ({
             )}
             <button
               onClick={toggleLabels}
-              className="w-14 h-14 flex items-center justify-center"
+              className=" flex items-center justify-center"
               aria-label={showLabels ? "Hide labels" : "Show labels"}
             >
               <div className="text-white">

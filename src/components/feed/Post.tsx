@@ -170,11 +170,17 @@ const Post = ({ post }: PostProps) => {
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center space-x-2">
           <Link to={`/profile/${user.username}`} className="flex-shrink-0">
-            <img
-              src={user.avatar}
-              alt={user.username}
-              className="w-10 h-10 rounded-full object-cover"
-            />
+            <div
+              className={`w-10 h-10 rounded-full overflow-hidden ${
+                user.story ? "ring-2 ring-offset-2 ring-blue-500" : ""
+              }`}
+            >
+              <img
+                src={user.avatar}
+                alt={user.username}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </Link>
           <div>
             <div className="flex items-center justify-between">
@@ -221,11 +227,11 @@ const Post = ({ post }: PostProps) => {
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          {/* Add the Follow button - only show for some posts */}
-          {user.id !== "1" && !isFollowing && (
+          {/* Show Follow button only for users with follow: true */}
+          {user.follow && !isFollowing && (
             <button
               onClick={handleFollow}
-              className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-1.5 rounded-md"
+              className="bg-gray-100 hover:bg-blue-600 text-gray-900 text-sm font-medium px-4 py-1.5 rounded-md"
             >
               Follow
             </button>

@@ -18,6 +18,8 @@ export const mockUsers: User[] = [
     followers: 2252000,
     following: 5,
     isVerified: true,
+    follow: true,
+    story: true, // <-- Added
   },
   {
     id: "2",
@@ -29,6 +31,8 @@ export const mockUsers: User[] = [
     followers: 2430000,
     following: 7,
     isVerified: true,
+    follow: true,
+    story: true, // <-- Added
   },
   {
     id: "3",

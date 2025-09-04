@@ -25,7 +25,7 @@ const NotificationsPage = () => {
   };
 
   return (
-    <div className="min-h-screen pb-16 bg-white">
+    <div className="min-h-screen mb-20 bg-white">
       {/* Fixed PageHeader */}
       <div className="fixed top-0 left-0 right-0 z-10 bg-white">
         <PageHeader
@@ -42,7 +42,7 @@ const NotificationsPage = () => {
         <nav className="flex border-b border-gray-200" role="tablist">
           <button
             onClick={() => handleTabChange("private")}
-            className={`w-1/2 py-3 text-center focus:outline-none text-base font-medium transition-colors ${
+            className={`w-1/2 py-3 text-center focus:outline-none text-base font-semibold transition-colors ${
               activeTab === "private"
                 ? "text-gray-900 border-b-2 border-black"
                 : "text-gray-400"
@@ -59,7 +59,7 @@ const NotificationsPage = () => {
           </button>
           <button
             onClick={() => handleTabChange("general")}
-            className={`w-1/2 py-3 text-center focus:outline-none text-base font-medium transition-colors ${
+            className={`w-1/2 py-3 text-center focus:outline-none text-base font-semibold transition-colors ${
               activeTab === "general"
                 ? "text-gray-900 border-b-2 border-gray-900"
                 : "text-gray-400"

@@ -103,11 +103,11 @@ const PostPage = () => {
 
   return (
     <div
-      className="max-w-2xl mx-auto bg-white min-h-screen"
+      className="max-w-2xl mx-auto bg-white min-h-screen mb-10"
       style={{ scrollBehavior: "smooth" }}
     >
       <PageHeader
-        title="Post"
+        title="Explore"
         showBackButton={true}
         onBackClick={handleGoBack}
         rightIcon="more"

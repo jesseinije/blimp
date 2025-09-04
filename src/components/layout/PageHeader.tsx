@@ -138,14 +138,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         }`}
       >
         {showBackButton ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-6">
             <button onClick={handleBackClick} aria-label="Go back">
               <CaretLeft size={24} className="text-gray-900" />
             </button>
-            <h2 className="font-bold text-gray-900 text-base">{title}</h2>
+            <h2 className="font-semibold text-gray-900 text-xl">{title}</h2>
           </div>
         ) : (
-          <h2 className="font-semibold text-gray-900 text-base">{title}</h2>
+          <h2 className="font-semibold text-gray-900 text-xl">{title}</h2>
         )}
 
         {rightIcon !== "none" ? (

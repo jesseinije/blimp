@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  CaretLeft, // Replace ArrowLeft with CaretLeft
   PaperPlaneRight,
   Microphone,
   Image,
   Smiley,
   CheckCircle,
-  Gear,
 } from "phosphor-react";
-import { mockUsers } from "../data/mockData"; // Import mockUsers
+import { CaretLeft, Settings } from "../Icons";
+import { mockUsers } from "../data/mockData";
 import styles from "./ChatPage.module.css";
+import { useViewportHeight } from "../hooks/useViewportHeight"; // <-- Add this line
 
 // Define the chat message interface
 interface ChatMessage {
@@ -39,6 +39,8 @@ interface ChatContact {
 }
 
 const PrivateChatPage = () => {
+  useViewportHeight(); // <-- Add this line
+
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -184,53 +186,44 @@ const PrivateChatPage = () => {
   return (
     <div className={`flex flex-col bg-white relative ${styles.chatContainer}`}>
       {/* Header */}
-      <header
-        className="flex items-center px-3 py-2 bg-white sticky top-0 z-10"
-        style={{
-          boxShadow: "0 0.3px 0 0 rgba(229, 231, 235, 1)",
-        }}
-      >
-        <button onClick={handleBack} aria-label="Back">
+      <header className="flex items-center px-3 py-2 bg-white sticky top-0 z-10">
+        <button onClick={handleBack} aria-label="Back" className="mr-6">
           <CaretLeft size={24} className="text-gray-900" />
         </button>
-
-        {/* Center container for avatar and username */}
-        <div className="flex-1 flex justify-center items-center">
-          <div className="flex items-center">
-            <div className="relative">
-              <img
-                src={contact.avatar}
-                alt={contact.username}
-                className="w-8 h-8 rounded-full object-cover border border-gray-200"
-              />
-              {contact.isOnline && (
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
-              )}
+        {/* Avatar and username aligned left */}
+        <div className="flex items-center">
+          <div className="relative">
+            <img
+              src={contact.avatar}
+              alt={contact.username}
+              className="w-8 h-8 rounded-full object-cover border border-gray-200"
+            />
+            {contact.isOnline && (
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
+            )}
+          </div>
+          <div className="ml-2 max-w-[120px]">
+            <div className="flex items-center">
+              <h2 className="font-semibold text-sm text-gray-900 truncate flex items-center whitespace-nowrap">
+                {contact.username}
+                {contact.isVerified && (
+                  <CheckCircle
+                    size={16}
+                    weight="fill"
+                    className="text-blue-500 ml-1 flex-shrink-0"
+                  />
+                )}
+              </h2>
             </div>
-
-            <div className="ml-2 max-w-[120px]">
-              <div className="flex items-center">
-                <h2 className="font-semibold text-sm text-gray-900  truncate flex items-center whitespace-nowrap">
-                  {contact.username}
-                  {contact.isVerified && (
-                    <CheckCircle
-                      size={16}
-                      weight="fill"
-                      className="text-blue-500 ml-1 flex-shrink-0"
-                    />
-                  )}
-                </h2>
-              </div>
-              <div className="text-xs text-gray-400 truncate">
-                {contact.isOnline ? "Active now" : contact.lastSeen}
-              </div>
+            <div className="text-xs text-gray-400 truncate">
+              {contact.isOnline ? "Active now" : contact.lastSeen}
             </div>
           </div>
         </div>
-
+        <div className="flex-1" /> {/* Spacer to push settings to the right */}
         <div className="flex items-center space-x-2">
           <button aria-label="More options">
-            <Gear size={24} className="text-gray-900" />
+            <Settings size={24} className="text-gray-900" />
           </button>
         </div>
       </header>
