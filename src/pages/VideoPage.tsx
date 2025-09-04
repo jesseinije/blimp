@@ -96,7 +96,7 @@ const VideoPage = () => {
       <div
         className="flex justify-center items-center bg-black"
         style={{
-          height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+          height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
         }}
       >
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
@@ -109,7 +109,7 @@ const VideoPage = () => {
       <div
         className="flex flex-col items-center justify-center bg-black text-white"
         style={{
-          height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+          height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
         }}
       >
         <div className="text-lg font-medium mb-4">{error}</div>
@@ -127,9 +127,9 @@ const VideoPage = () => {
     <div
       className="max-w-2xl mx-auto bg-black relative"
       style={{
-        minHeight: "100dvh",
-        height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
-        maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+        minHeight: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
+        height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
+        maxHeight: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
       }}
     >
       {/* Navigation bar with back and search buttons */}
@@ -164,8 +164,8 @@ const VideoPage = () => {
       {/* Video feed content - full height */}
       <div
         style={{
-          height: `calc(100dvh - env(safe-area-inset-top, 0px))`,
-          maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+          height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
+          maxHeight: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
         }}
       >
         <VideoPageFeed />

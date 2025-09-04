@@ -190,8 +190,8 @@ const ReelsFeed = () => {
         overscrollBehavior: "contain",
         margin: 0,
         padding: 0,
-        height: "100dvh", // Use dynamic viewport height
-        maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px))`,
+        height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
+        maxHeight: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
       }}
     >
       {filteredReels.length > 0 ? (
@@ -201,7 +201,7 @@ const ReelsFeed = () => {
             data-index={index}
             className="reel-item w-full snap-start snap-always relative"
             style={{
-              height: `calc(100dvh - env(safe-area-inset-top, 0px))`, // Dynamic height for each reel
+              height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
             }}
           >
             {/* Always render the label but control its visibility with the visible prop */}
