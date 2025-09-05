@@ -11,7 +11,7 @@ const StoryItem = ({ user, isCurrentUser }: StoryItemProps) => {
     <div className="flex flex-col items-center space-y-2">
       <div className="relative">
         <div
-          className={`w-24 h-24 rounded-full overflow-hidden ${
+          className={`w-20 h-20 rounded-full overflow-hidden ${
             user.hasStory && !isCurrentUser
               ? "ring-2 ring-offset-2 ring-blue-500"
               : ""

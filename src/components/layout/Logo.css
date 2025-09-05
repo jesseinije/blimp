@@ -1,0 +1,45 @@
+/* Logo container */
+.b-logo {
+  --size: 32px;
+  --thickness: 4px;
+  --color1: #111827;
+  --color2: #111827;
+  position: relative;
+  height: var(--size);
+  width: var(--size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111827;
+  border-radius: 50%;
+}
+
+/* Vertical stem */
+.b-logo__stem {
+  position: absolute;
+  top: 18%;
+  bottom: 18%;
+  left: 27%;
+  width: var(--thickness);
+  background: #fff;
+  border-radius: calc(var(--thickness) / 2);
+}
+
+/* Lobes */
+.b-logo__lobe {
+  position: absolute;
+  left: 36%;
+  width: 42%;
+  height: 30%;
+  background: #fff;
+  border-radius: 50%;
+  clip-path: inset(0 0 0 50%);
+}
+
+.b-logo__lobe--top {
+  top: 18%;
+}
+
+.b-logo__lobe--bottom {
+  bottom: 18%;
+}

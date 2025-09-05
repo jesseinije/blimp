@@ -1,65 +1,22 @@
 import { useRef, useState, useEffect } from "react";
-import { CheckCircle } from "phosphor-react";
-import { useNavigate } from "react-router-dom"; // Add this import
-import { useAppStore } from "../../store/appStore";
-import type { FeedFilterType } from "../../store/appStore";
-import BottomSheet from "../ui/BottomSheet";
 import { motion, useMotionValue, animate } from "framer-motion";
 import { Menu, Search } from "../../Icons";
+import { Check } from "phosphor-react";
+import { useNavigate } from "react-router-dom";
+import Logo from "./Logo";
 import "./TopNavTabs.css";
+import Drawer from "../ui/Drawer";
 
 type TabType = "posts" | "videos";
+type FeedType = "for-you" | "following" | "live";
 
 interface TopNavTabsProps {
   activeTab: TabType;
   onTabChange: (tab: TabType) => void;
 }
 
-// Replace the single filterOptions with two separate arrays:
-const postFilterOptions: {
-  value: FeedFilterType;
-  label: string;
-  description: string;
-}[] = [
-  {
-    value: "for-you",
-    label: "For You",
-    description: "Posts we think you'll like based on your interests",
-  },
-  {
-    value: "following",
-    label: "Following",
-    description: "Posts from people you follow",
-  },
-];
-
-const videoFilterOptions: {
-  value: FeedFilterType;
-  label: string;
-  description: string;
-}[] = [
-  {
-    value: "for-you",
-    label: "For You",
-    description: "Videos we think you'll like based on your interests",
-  },
-  {
-    value: "following",
-    label: "Following",
-    description: "Videos from people you follow",
-  },
-  {
-    value: "live",
-    label: "Live",
-    description: "Real-time videos and active streams",
-  },
-];
-
 const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
-  const navigate = useNavigate(); // Add this hook
-  const { postsFilter, setPostsFilter } = useAppStore();
-  const [menuSheetOpen, setMenuSheetOpen] = useState(false);
-
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const postsButtonRef = useRef<HTMLButtonElement>(null);
   const videosButtonRef = useRef<HTMLButtonElement>(null);
@@ -69,6 +26,8 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
   const containerHeight = useRef(0);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const [showBorder, setShowBorder] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedFeed, setSelectedFeed] = useState<FeedType>("for-you");
 
   useEffect(() => {
     if (containerRef.current) {
@@ -151,36 +110,24 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
     activeTab === "videos" ? "top-nav-tabs--videos" : "top-nav-tabs--posts"
   } ${showBorder && activeTab === "posts" ? "top-nav-tabs--with-border" : ""}`;
 
-  // Handle menu option select
-  const handleMenuSelect = (filter: FeedFilterType) => {
-    setPostsFilter(filter);
-    setMenuSheetOpen(false);
-  };
-
-  // Add handler for search navigation
   const handleNavigateToSearch = () => {
+    setDrawerOpen(false);
     navigate("/search");
   };
 
   return (
     <motion.div ref={containerRef} className={containerClasses} style={{ y }}>
       <div className="flex items-center justify-between w-full max-w-screen-lg mx-auto px-3 h-12">
-        {/* Menu Button - Updated to use custom Menu icon */}
-        <button
-          className="flex items-center justify-center"
-          aria-label="Open menu"
-          onClick={() => setMenuSheetOpen(true)}
+        {/* Logo Component - Hide when Videos tab is active */}
+        <div
+          className={`${
+            activeTab === "videos"
+              ? "opacity-0" // This will hide the logo but maintain its space
+              : "text-gray-900"
+          }`}
         >
-          <div
-            className={`${
-              activeTab === "videos"
-                ? "text-white icon-shadow-realistic"
-                : "text-gray-900"
-            }`}
-          >
-            <Menu size={24} />
-          </div>
-        </button>
+          <Logo />
+        </div>
 
         {/* Center Tabs */}
         <nav className="flex space-x-6">
@@ -196,7 +143,7 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
             }`}
             onClick={() => onTabChange("posts")}
           >
-            <span className="text-xl tab-name">Posts</span>
+            <span className="text-base tab-name">Posts</span>
           </button>
           <button
             ref={videosButtonRef}
@@ -208,17 +155,17 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
             }`}
             onClick={() => onTabChange("videos")}
           >
-            <span className="text-xl tab-name">Videos</span>
+            <span className="text-base tab-name">Videos</span>
           </button>
         </nav>
 
-        {/* Search Button - Updated to use custom Search icon */}
+        {/* Menu Button (formerly Search Button) */}
         <button
           className="flex items-center justify-center"
-          aria-label="Search"
-          onClick={handleNavigateToSearch}
+          aria-label="Menu" // Updated aria-label
+          onClick={() => setDrawerOpen(true)} // You might want to change this handler name and function
         >
-          <Search
+          <Menu
             size={24}
             weight="regular"
             className={`${
@@ -230,47 +177,87 @@ const TopNavTabs = ({ activeTab, onTabChange }: TopNavTabsProps) => {
         </button>
       </div>
 
-      {/* Menu BottomSheet */}
-      <BottomSheet
-        isOpen={menuSheetOpen}
-        onClose={() => setMenuSheetOpen(false)}
-        title="Select Feed"
-      >
-        <div className="space-y-2 py-2 border border-gray-200  rounded-lg mb-3">
-          {(activeTab === "posts" ? postFilterOptions : videoFilterOptions).map(
-            (option) => (
-              <button
-                key={option.value}
-                className={`flex items-center justify-between w-full px-4 py-3 rounded-lg text-left bg-transparent ${
-                  postsFilter === option.value
-                    ? "text-gray-900 "
-                    : "text-gray-700 "
-                } focus:outline-none transition-colors duration-150`}
-                onClick={() => handleMenuSelect(option.value)}
-                tabIndex={0}
-                type="button"
-              >
-                <div className="flex-1 pr-4">
-                  <span className="text-base block text-gray-900 ">
-                    {option.label}
-                  </span>
-                  <span className="text-xs text-gray-400 mt-0.5 block">
-                    {option.description}
-                  </span>
-                </div>
-                <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                  {postsFilter === option.value && (
-                    <CheckCircle
-                      className="text-blue-600 w-6 h-6"
-                      weight="fill"
-                    />
-                  )}
-                </div>
-              </button>
-            )
-          )}
+      {/* Drawer */}
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        {/* Search Section */}
+        <div className="px-3 py-2 bg-white">
+          <div
+            onClick={handleNavigateToSearch}
+            className="bg-gray-100 border-0 w-full pl-10 pr-10 py-2 rounded-lg flex items-center cursor-pointer relative"
+          >
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search size={20} className="text-gray-400" />
+            </div>
+            <span className="text-gray-400 text-sm">
+              Search for creators...
+            </span>
+          </div>
         </div>
-      </BottomSheet>
+
+        {/* Feed Selection Section */}
+        <div className="px-3 pt-6">
+          <h2 className="text-xl font-semibold mb-4">Feeds</h2>
+
+          {/* Options Container with border */}
+          <div className="border border-gray-200 rounded-lg overflow-hidden">
+            {/* For You Option */}
+            <div
+              className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+              onClick={() => setSelectedFeed("for-you")}
+            >
+              <div>
+                <h3 className="text-sm font-medium">For You</h3>
+                <p className="text-xs text-gray-500">
+                  Posts we think you'll like based on your interests
+                </p>
+              </div>
+              {selectedFeed === "for-you" && (
+                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
+                  <Check size={14} weight="bold" className="text-white" />
+                </div>
+              )}
+            </div>
+
+            {/* Following Option */}
+            <div
+              className="flex items-center justify-between p-4 cursor-pointer border-t border-gray-200 hover:bg-gray-50"
+              onClick={() => setSelectedFeed("following")}
+            >
+              <div>
+                <h3 className="text-sm font-medium">Following</h3>
+                <p className="text-xs text-gray-500">
+                  Posts from people you follow
+                </p>
+              </div>
+              {selectedFeed === "following" && (
+                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
+                  <Check size={14} weight="bold" className="text-white" />
+                </div>
+              )}
+            </div>
+
+            {/* Live Option - Only show in Videos tab */}
+            {activeTab === "videos" && (
+              <div
+                className="flex items-center justify-between p-4 cursor-pointer border-t border-gray-200 hover:bg-gray-50"
+                onClick={() => setSelectedFeed("live")}
+              >
+                <div>
+                  <h3 className="text-sm font-medium">Live</h3>
+                  <p className="text-xs text-gray-500">
+                    Live content from around the world
+                  </p>
+                </div>
+                {selectedFeed === "live" && (
+                  <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
+                    <Check size={14} weight="bold" className="text-white" />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </Drawer>
     </motion.div>
   );
 };

@@ -398,7 +398,7 @@ export const Menu: React.FC<IconProps> = ({
     <line
       x1="40"
       y1="168" // Changed from 160 to 168 (moved down)
-      x2="162"
+      x2="216"
       y2="168" // Changed from 160 to 168 (moved down)
       fill="none"
       stroke={color}
