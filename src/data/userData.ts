@@ -3,23 +3,25 @@ import type { User, Post, Comment } from "../types";
 export const userData: User[] = [
   {
     id: "8",
-    username: "taylor_swift",
-    displayName: "Taylor Swift",
-    avatar: "https://i.pravatar.cc/150?img=10",
-    bio: "Singer-songwriter | Artist of the Decade",
+    username: "jamie&blake",
+    displayName: "Jamie & Blake",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757231016/blake_xx39yj.jpg",
+    bio: "Influencer | Model | Content Creator | Travel Enthusiast",
     followers: 4800000,
     following: 89,
     isVerified: true,
   },
   {
     id: "9",
-    username: "elon_musk",
-    displayName: "Elon Musk",
-    avatar: "https://i.pravatar.cc/150?img=11",
-    bio: "CEO of X, Tesla, and SpaceX",
-    followers: 5600000,
+    username: "_ariaouu",
+    displayName: "Ariana🥺💖",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757228909/ario_xp7jh2.jpg",
+    bio: "🔥 Digital content creator Tiktoker ♥️ Simple girl etc sexy and smiling machine 😂 welcome to my life Give me a follow ♥️",
+    followers: 2600000,
     following: 103,
-    isVerified: true,
+    isVerified: false,
   },
   {
     id: "10",
@@ -162,17 +164,16 @@ export const userPosts: Post[] = [
   {
     id: "12",
     userId: "8",
-    caption:
-      "Just announced! New dates added to the Eras Tour! Can't wait to see you all around the world. This tour has been an absolute dream, and I'm so grateful for all the memories we've made together. Get ready for more magical nights! 💫🎸 #ErasTour2025 #TaylorSwift #Swifties",
+    caption: "Joys begins here!",
     media: [
       {
         id: "12-1",
-        url: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757231528/blake2_zzc1e4.jpg",
         type: "image",
       },
       {
         id: "12-2",
-        url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757231455/blake1_b4wskw.jpg",
         type: "image",
       },
     ],
@@ -190,18 +191,17 @@ export const userPosts: Post[] = [
     id: "13",
     userId: "9",
     caption:
-      "Exciting news! Tesla's new AI-powered charging stations are now live across the US. These stations can charge your Tesla in just 10 minutes. The future of sustainable transport is here. 🚗⚡ #Tesla #Innovation #CleanEnergy",
+      "Haiti all the way 🇭🇹💖 #fyp #foryou #foryoupage #viral #trending #dance #funny #duet #xyzbca",
     media: [
       {
         id: "13-1",
-        url: "https://images.unsplash.com/photo-1560958089-b8a1929cea89",
-        type: "image",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757228229/ariana_agqhbr.mp4",
+        type: "video",
       },
     ],
     likes: 1800000,
     comments: userComments["13"],
     createdAt: "2025-08-29T13:45:00Z",
-    location: "Tesla HQ, Austin",
     tags: ["Tesla", "Innovation", "CleanEnergy"],
     saved: false,
     liked: false,

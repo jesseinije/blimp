@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 import { CheckCircle } from "phosphor-react";
 import {
   Chat,
@@ -9,9 +9,8 @@ import {
   Bookmark,
   CaretLeft,
   DotsVertical,
-} from "../../Icons"; // Add Heart to this import
+} from "../../Icons";
 
-// Remove FontAwesome imports as they're no longer needed
 import { useAppStore } from "../../store/appStore";
 import { getUserById } from "../../data/mockData";
 import type { Post as PostType, Comment as CommentType } from "../../types";
@@ -37,7 +36,6 @@ function formatCount(count: number): string {
   return count.toString();
 }
 
-// First, add this helper function near the top of the file (after the imports)
 const getRelativeTime = (timestamp: string): string => {
   const now = new Date();
   const date = new Date(timestamp);
@@ -58,10 +56,9 @@ const getRelativeTime = (timestamp: string): string => {
   return `${yearsDiff}y`;
 };
 
-// First, simplify the state management at the top of the component
 const Post = ({ post }: PostProps) => {
+  const navigate = useNavigate(); // Add navigate hook
   const { likePost, savePost } = useAppStore();
-  // Simplify to just two essential states
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [currentView, setCurrentView] = useState<"comments" | "replies">(
     "comments"
@@ -71,7 +68,7 @@ const Post = ({ post }: PostProps) => {
   );
   const [isInView, setIsInView] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(false); // Add this with your other state declarations
+  const [isFollowing, setIsFollowing] = useState(false);
   const postRef = useRef<HTMLDivElement>(null);
   const musicOverlayRef = useRef<{
     handleMusicClick: (e?: React.MouseEvent | undefined) => void;
@@ -82,7 +79,6 @@ const Post = ({ post }: PostProps) => {
 
   if (!user) return null;
 
-  // Setup Intersection Observer to detect when post is in view
   useEffect(() => {
     if (!postRef.current) return;
 
@@ -91,13 +87,12 @@ const Post = ({ post }: PostProps) => {
         const [entry] = entries;
         setIsInView(entry.isIntersecting);
 
-        // Autoplay music when post comes into view
         if (entry.isIntersecting && post.music && musicOverlayRef.current) {
           musicOverlayRef.current.handleMusicClick();
         }
       },
       {
-        threshold: 0.5, // Consider in view when 50% visible
+        threshold: 0.5,
       }
     );
 
@@ -108,15 +103,14 @@ const Post = ({ post }: PostProps) => {
         observer.unobserve(postRef.current);
       }
     };
-  }, [post.music]); // Add post.music as dependency
+  }, [post.music]);
 
-  // Sync with the musicOverlayRef's playing state
   useEffect(() => {
     const interval = setInterval(() => {
       if (musicOverlayRef.current) {
         setIsMusicPlaying(musicOverlayRef.current.isPlaying);
       }
-    }, 100); // Check frequently enough to keep UI in sync
+    }, 100);
 
     return () => clearInterval(interval);
   }, []);
@@ -133,7 +127,6 @@ const Post = ({ post }: PostProps) => {
     setIsFollowing(!isFollowing);
   };
 
-  // Simplify the opening and closing handlers
   const handleCommentsOpen = () => setIsCommentsOpen(true);
   const handleCommentsClose = () => {
     setIsCommentsOpen(false);
@@ -151,7 +144,12 @@ const Post = ({ post }: PostProps) => {
     setSelectedComment(null);
   };
 
-  // Simplify custom close button logic
+  const handleMediaClick = (mediaType: string) => {
+    if (mediaType === "video") {
+      navigate(`/video/${post.id}`);
+    }
+  };
+
   const customCloseButton =
     currentView === "replies" ? (
       <button
@@ -244,7 +242,11 @@ const Post = ({ post }: PostProps) => {
       </div>
 
       {/* Post media */}
-      <div>
+      <div
+        onClick={() =>
+          post.media[0].type === "video" && handleMediaClick("video")
+        }
+      >
         <MediaCarousel
           media={post.media}
           musicControl={
@@ -260,7 +262,7 @@ const Post = ({ post }: PostProps) => {
                 }
               : undefined
           }
-          sponsored={post.sponsored} // Add this line
+          sponsored={post.sponsored}
         />
       </div>
 

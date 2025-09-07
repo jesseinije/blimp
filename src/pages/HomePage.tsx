@@ -11,11 +11,22 @@ const HomePage = () => {
   const [totalOffset, setTotalOffset] = useState(0);
   const [prevTab, setPrevTab] = useState<"posts" | "videos">(activeTab);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Calculate combined height of navbar and tabs
   useEffect(() => {
     setTotalOffset(navbarHeight + (activeTab === "videos" ? 0 : tabsHeight));
   }, [navbarHeight, tabsHeight, activeTab]);
+
+  // Handle measurements after initial render
+  useEffect(() => {
+    // Give time for the DOM to be fully rendered and measured
+    const initTimer = setTimeout(() => {
+      setIsInitialized(true);
+    }, 100);
+
+    return () => clearTimeout(initTimer);
+  }, []);
 
   // Handle tab transitions
   useEffect(() => {
@@ -64,7 +75,9 @@ const HomePage = () => {
               : "tab-transition-exit"
           } ${isTransitioning ? "absolute inset-0" : ""}`}
           style={{
-            height: `calc(100vh - ${totalOffset}px)`,
+            height: isInitialized
+              ? `calc(100vh - ${totalOffset}px)`
+              : `calc(100vh - ${navbarHeight}px)`,
             marginTop: activeTab === "videos" ? `-${tabsHeight}px` : "0",
             zIndex: activeTab === "videos" ? 2 : 1,
             opacity: activeTab === "videos" ? 1 : 0,

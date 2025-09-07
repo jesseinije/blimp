@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/layout/PageHeader";
 import { useElementHeight } from "../hooks/useElementHeight";
 import PrivateMessagesTab from "../components/notifications/PrivateMessagesTab";
@@ -8,16 +9,23 @@ import {
   mockNotifications,
 } from "../data/notificationsData";
 import BottomSheet from "../components/ui/BottomSheet";
+import { Chat, Bell, Users } from "../Icons";
 
-type NotificationTabType = "private" | "general";
+type NotificationTabType = "private" | "general" | "accounts";
 
 const NotificationsPage = () => {
   const [activeTab, setActiveTab] = useState<NotificationTabType>("private");
   const [showFilters, setShowFilters] = useState(false);
   const headerHeight = useElementHeight(".page-header");
+  const navigate = useNavigate();
 
   const handleTabChange = (tab: NotificationTabType) => {
-    setActiveTab(tab);
+    if (tab === "accounts") {
+      // Navigate to the SuggestedAccountPage
+      navigate("/suggested-accounts");
+    } else {
+      setActiveTab(tab);
+    }
   };
 
   const handleFilterButtonClick = () => {
@@ -31,21 +39,19 @@ const NotificationsPage = () => {
         <PageHeader
           title="Activities"
           showBackButton={false}
-          rightIcon="more"
           showBorder={false}
+          rightIcon="none"
         />
       </div>
 
       {/* Content area with padding-top to account for fixed header */}
       <div style={{ paddingTop: headerHeight }}>
         {/* Tabs below the PageHeader */}
-        <nav className="flex border-b border-gray-200" role="tablist">
+        <nav className="flex justify-around py-2" role="tablist">
           <button
             onClick={() => handleTabChange("private")}
-            className={`w-1/2 py-3 text-center focus:outline-none text-base font-semibold transition-colors ${
-              activeTab === "private"
-                ? "text-gray-900 border-b-2 border-black"
-                : "text-gray-400"
+            className={`flex flex-col items-center focus:outline-none text-base transition-colors ${
+              activeTab === "private" ? "text-gray-900" : "text-gray-400"
             }`}
             role="tab"
             aria-selected={activeTab === "private"}
@@ -53,16 +59,16 @@ const NotificationsPage = () => {
             id="private-tab"
             aria-label="Private messages"
           >
-            <div className="inline-flex items-center">
-              <span>Messages</span>
-            </div>
+            <Chat
+              size={24}
+              weight={activeTab === "private" ? "fill" : "regular"}
+            />
+            <span className="text-xs mt-1">Messages</span>
           </button>
           <button
             onClick={() => handleTabChange("general")}
-            className={`w-1/2 py-3 text-center focus:outline-none text-base font-semibold transition-colors ${
-              activeTab === "general"
-                ? "text-gray-900 border-b-2 border-gray-900"
-                : "text-gray-400"
+            className={`flex flex-col items-center focus:outline-none text-base transition-colors ${
+              activeTab === "general" ? "text-gray-900" : "text-gray-400"
             }`}
             role="tab"
             aria-selected={activeTab === "general"}
@@ -70,9 +76,28 @@ const NotificationsPage = () => {
             id="general-tab"
             aria-label="General notifications"
           >
-            <div className="inline-flex items-center">
-              <span>Notifications</span>
-            </div>
+            <Bell
+              size={24}
+              weight={activeTab === "general" ? "fill" : "regular"}
+            />
+            <span className="text-xs mt-1">Notifications</span>
+          </button>
+          <button
+            onClick={() => handleTabChange("accounts")}
+            className={`flex flex-col items-center focus:outline-none text-base transition-colors ${
+              activeTab === "accounts" ? "text-gray-900" : "text-gray-400"
+            }`}
+            role="tab"
+            aria-selected={activeTab === "accounts"}
+            aria-controls="accounts-panel"
+            id="accounts-tab"
+            aria-label="Accounts"
+          >
+            <Users
+              size={24}
+              weight={activeTab === "accounts" ? "fill" : "regular"}
+            />
+            <span className="text-xs mt-1">Accounts</span>
           </button>
         </nav>
 

@@ -48,23 +48,24 @@ export const mockUsers: User[] = [
   },
   {
     id: "4",
-    username: "francesco",
-    displayName: "Francesco",
+    username: "mpsilakis",
+    displayName: "Michael Silakis",
     avatar:
-      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965188/francesco_dhcnj7.jpg",
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757264464/mic_fsbzd7.jpg",
     bio: "Environmentalist | Crypto Trader | Travel Enthusiast",
-    followers: 10500,
+    followers: 3500,
     following: 320,
-    isVerified: false,
+    isVerified: true,
   },
   {
     id: "5",
-    username: "foodielover",
-    displayName: "Foodie Lover",
-    avatar: "https://i.pravatar.cc/150?img=6",
-    bio: "Food blogger | Cooking enthusiast",
-    followers: 7890,
-    following: 450,
+    username: "donjazzy",
+    displayName: "Don Jazzy",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757232320/Don-Jazzy_jrkgzo.jpg",
+    bio: "Producer | Musician | Entrepreneur",
+    followers: 5000000,
+    following: 20,
     isVerified: true,
   },
   {
@@ -144,6 +145,30 @@ export const mockUsers: User[] = [
     bio: "Celebrity Chef | Restaurateur | Author",
     followers: 500000,
     following: 20,
+    follow: true,
+    isVerified: true,
+  },
+  {
+    id: "27",
+    username: "hardy",
+    displayName: "Hardy",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757265596/hardy_ptddku.jpg",
+    bio: "Singer | Songwriter | Musician",
+    followers: 500000,
+    following: 15,
+    follow: true,
+    isVerified: true,
+  },
+  {
+    id: "30",
+    username: "faizan_haroon",
+    displayName: "Faizan Haroon",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757274516/last_love._gfqbwb.jpg",
+    bio: "Crypto Trader",
+    followers: 200000,
+    following: 15,
     follow: true,
     isVerified: true,
   },
@@ -433,6 +458,50 @@ export const mockPosts: Post[] = [
     pinned: true,
   },
   {
+    id: "115",
+    userId: "27",
+    caption:
+      "I've written a lot of bro country songs, got another one to add to the list. #BroCountry #CountryMusic",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757265549/ssstik.io_1757264293782_online-video-cutter.com_hahq1x.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("27"),
+    views: 5200000,
+    pinned: true,
+  },
+  {
+    id: "116",
+    userId: "30",
+    caption:
+      "Just closed a major crypto deal! Feeling on top of the world. #CryptoTrader #Blockchain #Success",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757274333/Life_in_Canada_as_Crypto_trader_faizanharoon_bitcoin_crypto_earning_cryptocurrency_inves_emieqr.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("30"),
+    views: 5200000,
+    pinned: true,
+  },
+  {
     id: "110",
     userId: "17",
     caption:
@@ -568,29 +637,22 @@ export const mockPosts: Post[] = [
   {
     id: "4",
     userId: "4",
-    caption:
-      "Exploring the hidden gems of Paris! Skipped the typical tourist spots today and ventured into the lesser-known neighborhoods. Found this charming café where all the locals eat, with the most amazing croissants I've ever tasted.  #travel #paris #hiddengems #localexperience #parisianlife #offthebeatenpath #travelphotography #wanderlust #europetrip #parisfrance",
+    caption: "Showy day recipe: beef and leek stew. @mpTaverna_NY",
     media: [
       {
-        id: "4-1",
-        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965459/fran_xmcf3w.jpg",
-        type: "image",
-      },
-      {
         id: "4-2",
-        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965764/fran1_vlkkqy.jpg",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757264485/mic2_eaxlkh.jpg",
         type: "image",
       },
       {
         id: "4-3",
-        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756965793/fran2_nmkatr.jpg",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757264446/mic3_sbrp4j.jpg",
         type: "image",
       },
     ],
     likes: 1568,
     comments: [],
     createdAt: "2025-08-14T12:30:45Z",
-    location: "Paris, France",
     tags: ["travel", "paris", "vacation"],
     saved: true,
     liked: true,
@@ -600,18 +662,13 @@ export const mockPosts: Post[] = [
   {
     id: "5",
     userId: "5",
-    caption:
-      "Made this delicious pasta completely from scratch today! The secret is using fresh, high-quality ingredients and taking your time with each step of the process. I used organic semolina flour, farm-fresh eggs, and a touch of olive oil to create the perfect pasta dough. #food #homemade #pasta #italianfood #fromscratch #foodie #cooking #homechef #foodphotography #sundaycooking",
+    caption: `Oya go and watch the official video of the hottest jam out now!
+    #HotBody - @ayrastarr.`,
     media: [
       {
         id: "5-1",
-        url: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
-      },
-      {
-        id: "5-2",
-        url: "https://images.unsplash.com/photo-1498579485796-98be3abc076e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-        type: "image",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757232156/savethr.com_1757232135158_ht5lud.mp4",
+        type: "video",
       },
     ],
     likes: 987,

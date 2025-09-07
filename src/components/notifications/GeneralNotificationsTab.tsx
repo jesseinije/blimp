@@ -13,6 +13,7 @@ import {
   Info,
   CheckCircle,
 } from "phosphor-react";
+import { Search } from "../../Icons"; // Add this import at the top with other imports
 
 // Define filter options
 type TimeFilter = "all" | "today" | "thisWeek" | "thisMonth";
@@ -52,29 +53,59 @@ const GeneralNotificationsTab = ({
     const randomUser =
       mockUsers[Math.floor(Math.random() * mockUsers.length)].username;
 
-    // Replace @username with the actual username
-    const processedText = text.replace(/@username/g, `@${randomUser} `);
+    // Replace @username with the mention + non-breaking space to ensure separation
+    const parts = [];
+    const mentionRegex = /@username/g;
+    let lastIndex = 0;
+    let match;
 
-    // Split the text by spaces to find mentions
-    const words = processedText.split(" ");
+    while ((match = mentionRegex.exec(text)) !== null) {
+      // Add text before the match
+      if (match.index > lastIndex) {
+        parts.push({
+          type: "text",
+          content: text.substring(lastIndex, match.index),
+        });
+      }
+
+      // Add the mention
+      parts.push({
+        type: "mention",
+        content: `@${randomUser}`,
+      });
+
+      // Update lastIndex to end of match
+      lastIndex = match.index + "@username".length;
+
+      // Check if we need to add a space
+      if (lastIndex < text.length && text[lastIndex] !== " ") {
+        parts.push({
+          type: "text",
+          content: "\u00A0", // Non-breaking space
+        });
+      }
+    }
+
+    // Add any remaining text after the last match
+    if (lastIndex < text.length) {
+      parts.push({
+        type: "text",
+        content: text.substring(lastIndex),
+      });
+    }
 
     return (
       <>
-        {words.map((word, index) => {
-          if (word.startsWith("@")) {
+        {parts.map((part, index) => {
+          if (part.type === "mention") {
             return (
-              <React.Fragment key={index}>
-                <span className="text-blue-500">{word}</span>
-                {index < words.length - 1 ? " " : ""}
-              </React.Fragment>
+              <span key={index} className="text-blue-500">
+                {part.content}
+              </span>
             );
+          } else {
+            return <React.Fragment key={index}>{part.content}</React.Fragment>;
           }
-          return (
-            <React.Fragment key={index}>
-              {word}
-              {index < words.length - 1 ? " " : ""}
-            </React.Fragment>
-          );
         })}
       </>
     );
@@ -84,16 +115,16 @@ const GeneralNotificationsTab = ({
   const getNotificationIcon = (type: NotificationType) => {
     switch (type) {
       case "follow":
-        return <UserPlus size={14} className="text-blue-500" />;
+        return <UserPlus size={16} weight="bold" className="text-blue-500" />;
       case "like":
-        return <Heart size={14} className="text-red-500" />;
+        return <Heart size={16} weight="bold" className="text-red-500" />;
       case "comment":
-        return <ChatDots size={14} className="text-green-500 " />;
+        return <ChatDots size={16} weight="bold" className="text-green-500" />;
       case "mention":
-        return <At size={14} className="text-purple-500 " />;
+        return <At size={16} weight="bold" className="text-purple-500" />;
       case "system":
       default:
-        return <Info size={14} className="text-blue-500 " />;
+        return <Info size={16} weight="bold" className="text-blue-500" />;
     }
   };
 
@@ -115,15 +146,17 @@ const GeneralNotificationsTab = ({
     return (
       <div className="flex items-start">
         {/* Avatar section - always use mock user data */}
-        <div className="relative h-12 w-12 rounded-full overflow-hidden flex-shrink-0 mr-3">
-          <img
-            src={user.avatar}
-            alt={user.name}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-          {/* Small icon overlay for notification type - FIXED SIZE */}
-          <div className="absolute bottom-0 right-0 h-5 w-5 rounded-full bg-white  flex items-center justify-center shadow-sm">
+        <div className="relative h-12 w-12 flex-shrink-0 mr-3">
+          <div className="h-full w-full rounded-full overflow-hidden">
+            <img
+              src={user.avatar}
+              alt={user.name}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          {/* Small icon overlay for notification type - Increased size */}
+          <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
             {getNotificationIcon(notification.type)}
           </div>
         </div>
@@ -240,8 +273,8 @@ const GeneralNotificationsTab = ({
 
   return (
     <div id="general-panel" role="tabpanel" aria-labelledby="general-tab">
-      {/* Filter Button */}
-      <div className="bg-white px-3 py-4">
+      {/* Filter and Search Buttons */}
+      <div className="bg-white px-3 py-4 flex gap-2">
         <button
           onClick={onFilterButtonClick}
           className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm ${
@@ -266,6 +299,13 @@ const GeneralNotificationsTab = ({
           <span className="font-medium">
             {externalFiltersActive ? "Filters Active" : "Filter"}
           </span>
+        </button>
+
+        <button
+          className="flex items-center justify-center p-2 rounded-lg bg-gray-50 text-gray-700 hover:bg-gray-100"
+          aria-label="Search notifications"
+        >
+          <Search size={20} />
         </button>
       </div>
 

@@ -15,6 +15,7 @@ const PostPage = () => {
   const [suggestedPosts, setSuggestedPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLayoutReady, setIsLayoutReady] = useState(false);
 
   useEffect(() => {
     if (!postId) {
@@ -50,6 +51,18 @@ const PostPage = () => {
 
     return () => clearTimeout(timer);
   }, [postId]);
+
+  // Add an effect to ensure layout measurements are accurate
+  useEffect(() => {
+    if (!loading && post) {
+      // Wait a moment for the DOM to fully render before finalizing layout
+      const layoutTimer = setTimeout(() => {
+        setIsLayoutReady(true);
+      }, 100);
+
+      return () => clearTimeout(layoutTimer);
+    }
+  }, [loading, post]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -103,7 +116,9 @@ const PostPage = () => {
 
   return (
     <div
-      className="max-w-2xl mx-auto bg-white min-h-screen mb-10"
+      className={`max-w-2xl mx-auto bg-white min-h-screen mb-10 ${
+        isLayoutReady ? "transition-all duration-150" : ""
+      }`}
       style={{ scrollBehavior: "smooth" }}
     >
       <PageHeader
@@ -115,11 +130,11 @@ const PostPage = () => {
         enableScroll={true}
       />
 
-      {/* Add a spacer div to prevent content jumping */}
+      {/* Add a spacer div with consistent height to prevent content jumping */}
       <div className="h-14" />
 
       {/* Main Post content */}
-      <div>
+      <div className={isLayoutReady ? "opacity-100" : "opacity-99"}>
         <Post post={post} isFirst={true} />
       </div>
 

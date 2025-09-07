@@ -73,7 +73,6 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
 
       // Add event listeners for state tracking
       const onPlay = () => {
-        console.log("Audio is playing:", musicUrl);
         setIsPlaying(true);
       };
 
@@ -82,7 +81,7 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
       };
 
       const onError = () => {
-        console.error("Audio error:", audioRef.current?.error);
+        // Removed console.error
       };
 
       audioRef.current.addEventListener("play", onPlay);
@@ -111,8 +110,8 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
 
       // If in view and previously playing, continue playing
       if (inView && isPlaying) {
-        audioRef.current.play().catch((error) => {
-          console.error("Audio playback was prevented:", error);
+        audioRef.current.play().catch(() => {
+          // Removed console.error
         });
       }
     }, [inView, isPlaying]);
@@ -146,9 +145,8 @@ const MusicOverlay = forwardRef<MusicOverlayRef, MusicOverlayProps>(
       if (!audioRef.current) return;
 
       if (audioRef.current.paused) {
-        console.log("Attempting to play audio:", musicUrl);
-        audioRef.current.play().catch((error) => {
-          console.error("Audio playback was prevented:", error);
+        audioRef.current.play().catch(() => {
+          // Removed console.error
           alert(
             "Please enable autoplay in your browser settings to hear music"
           );

@@ -18,6 +18,7 @@ const PostPage = lazy(() => import("./pages/PostPage"));
 const VideoPage = lazy(() => import("./pages/VideoPage"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const PrivateChatPage = lazy(() => import("./pages/PrivateChatPage")); // Add this line
+const SuggestedAccountPage = lazy(() => import("./pages/SuggestedAccountPage")); // Add this line for SuggestedAccountPage
 
 function App() {
   const { isDarkMode } = useAppStore();
@@ -34,6 +35,10 @@ function App() {
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/notifications" element={<NotificationsPage />} />
+              <Route
+                path="/suggested-accounts"
+                element={<SuggestedAccountPage />}
+              />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/profile/:username" element={<UserProfile />} />
               <Route path="/create" element={<PostCreationPage />} />

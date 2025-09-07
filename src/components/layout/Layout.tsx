@@ -23,12 +23,13 @@ const Layout = ({ children }: LayoutProps) => {
   const isChatPage = location.pathname.startsWith("/chat/");
 
   // Determine if TopNavTabs should be shown based on the current route
-  // Hide tabs on explore page, search page, profile pages, create page, caption page, text-post page, detail pages, and chat pages
+  // Hide tabs on explore page, search page, profile pages, create page, caption page, text-post page, detail pages, chat pages, and suggested-accounts page
   const shouldShowTabs =
     location.pathname !== "/explore" &&
     location.pathname !== "/search" &&
     location.pathname !== "/profile" &&
     location.pathname !== "/notifications" && // Added to hide TopNavTabs on notifications page
+    location.pathname !== "/suggested-accounts" && // Added to hide TopNavTabs on suggested accounts page
     !isUserProfilePage &&
     location.pathname !== "/create" &&
     location.pathname !== "/caption" &&

@@ -1,64 +1,48 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { CheckCircle, X } from "phosphor-react";
-import { useNavigate } from "react-router-dom";
 import type { SuggestedAccount } from "../../types/notificationTypes";
 import { mockUsers } from "../../data/mockData";
 
-interface SuggestedAccountsProps {
-  accounts: SuggestedAccount[];
+interface SuggestedAccountsWithoutSeeAllProps {
+  accounts?: SuggestedAccount[];
   showDismiss?: boolean;
-  showHeader?: boolean; // Add this prop
 }
 
-const SuggestedAccounts = ({
+const SuggestedAccountsWithoutSeeAll = ({
+  accounts: initialAccounts,
   showDismiss = true,
-  showHeader = true, // Default to true to maintain existing behavior
-}: SuggestedAccountsProps) => {
+}: SuggestedAccountsWithoutSeeAllProps) => {
   const [accounts, setAccounts] = useState<SuggestedAccount[]>([]);
-  const navigate = useNavigate();
 
   // Use mockData to populate the suggested accounts
   useEffect(() => {
-    // Map the mockUsers to SuggestedAccount format
-    const mockSuggestedAccounts = mockUsers.slice(0, 5).map((user) => ({
+    // Map the mockUsers to SuggestedAccount format - now using up to 20 accounts
+    // or as many as available in mockUsers
+    const mockSuggestedAccounts = mockUsers.slice(0, 20).map((user) => ({
       id: user.id,
       username: user.username,
       avatar: user.avatar,
-      followers: user.followers, // Add followers count
+      followers: user.followers,
       isVerified: user.isVerified,
     }));
 
-    setAccounts(mockSuggestedAccounts);
-  }, []);
+    setAccounts(initialAccounts || mockSuggestedAccounts);
+  }, [initialAccounts]);
 
   const handleDismiss = (id: string) => {
     setAccounts(accounts.filter((account) => account.id !== id));
-  };
-
-  const handleSeeAllClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate("/suggested-accounts");
   };
 
   if (accounts.length === 0) return null;
 
   return (
     <div className="mb-4">
-      {showHeader && (
-        <div className="flex items-center justify-between px-3 py-3">
-          <h2 className="text-sm font-semibold text-gray-900 ">
-            Accounts to follow
-          </h2>
-          <a
-            href="#"
-            className="text-blue-600 text-sm font-medium"
-            onClick={handleSeeAllClick}
-          >
-            See all
-          </a>
-        </div>
-      )}
+      <div className="flex items-center px-3 py-3">
+        <h2 className="text-sm font-semibold text-gray-900">
+          Accounts to follow
+        </h2>
+      </div>
 
       <div className="px-3">
         {accounts.map((account) => (
@@ -79,7 +63,7 @@ const SuggestedAccounts = ({
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-gray-900  text-sm truncate flex items-center">
+              <p className="font-medium text-gray-900 text-sm truncate flex items-center">
                 {account.username}
                 {account.isVerified && (
                   <span className="ml-1">
@@ -130,4 +114,4 @@ function formatCount(count: number): string {
   return count.toString();
 }
 
-export default SuggestedAccounts;
+export default SuggestedAccountsWithoutSeeAll;
