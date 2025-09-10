@@ -4,9 +4,15 @@ interface DrawerProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  position?: "left" | "right"; // Add position prop with default value of "right"
 }
 
-const Drawer: React.FC<DrawerProps> = ({ open, onClose, children }) => {
+const Drawer: React.FC<DrawerProps> = ({
+  open,
+  onClose,
+  children,
+  position = "right", // Default to right if not specified
+}) => {
   // Handle body scroll locking
   useEffect(() => {
     if (open) {
@@ -28,6 +34,13 @@ const Drawer: React.FC<DrawerProps> = ({ open, onClose, children }) => {
     }
   }, [open]);
 
+  // Set positioning and transform based on position prop
+  const positionClass = position === "left" ? "left-0" : "right-0";
+  const transformValue =
+    position === "left"
+      ? { transform: open ? "translateX(0)" : "translateX(-100%)" }
+      : { transform: open ? "translateX(0)" : "translateX(100%)" };
+
   return (
     <>
       {/* Overlay */}
@@ -42,9 +55,9 @@ const Drawer: React.FC<DrawerProps> = ({ open, onClose, children }) => {
       />
       {/* Drawer */}
       <div
-        className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 overflow-y-auto"
+        className={`fixed top-0 ${positionClass} h-full w-80 bg-white shadow-lg z-50 overflow-y-auto`}
         style={{
-          transform: open ? "translateX(0)" : "translateX(100%)",
+          ...transformValue,
           transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1)",
         }}
       >

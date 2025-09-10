@@ -1,83 +1,75 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ReelsFeed from "../components/reels/ReelsFeed";
-import { mockPosts } from "../data/mockData";
+import { mockPosts, mockUsers } from "../data/mockData";
 import { useAppStore } from "../store/appStore";
 import { CaretLeft, MagnifyingGlass } from "phosphor-react";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 
-const VideoPage = () => {
+const UserReelsPage = () => {
   useViewportHeight();
 
-  const { videoId } = useParams<{ videoId: string }>();
+  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { setReels, setVideosFilter } = useAppStore();
-  // New state to store the username for search placeholder
+  // Store the username for search placeholder
   const [searchUsername, setSearchUsername] = useState<string>("");
 
   useEffect(() => {
-    if (!videoId) {
-      setError("Video ID is required");
+    if (!userId) {
+      setError("User ID is required");
       setLoading(false);
       return;
     }
 
     try {
-      // Find the video post that matches the ID
-      const foundPost = mockPosts.find(
-        (post) => post.id === videoId && post.media[0].type === "video"
+      // Find the user
+      const user = mockUsers.find((u) => u.id === userId);
+
+      if (!user) {
+        setError("User not found");
+        setLoading(false);
+        return;
+      }
+
+      // Set the username for display and search placeholder
+      setSearchUsername(user.username || user.displayName || "");
+
+      // Find all video posts from this user
+      const userVideoPosts = mockPosts.filter(
+        (post) => post.user.id === userId && post.media[0].type === "video"
       );
 
-      if (foundPost) {
-        // Get the username from the found post for the search placeholder
-        if (foundPost.user && foundPost.user.username) {
-          setSearchUsername(foundPost.user.username);
-        }
-
-        // Get all other video posts excluding the current one
-        const otherVideoPosts = mockPosts.filter(
-          (post) => post.id !== videoId && post.media[0].type === "video"
+      if (userVideoPosts.length === 0) {
+        setError(
+          `${
+            user.username || user.displayName || "User"
+          } doesn't have any videos`
         );
-
-        // Shuffle the other video posts for random suggestions
-        const shuffledVideoPosts = [...otherVideoPosts].sort(
-          () => 0.5 - Math.random()
-        );
-
-        // Take the first 4 as suggested videos
-        const suggestedVideos = shuffledVideoPosts.slice(0, 4);
-
-        // Add a custom property to identify which reels are suggestions
-        // The main video doesn't get the isSuggested flag
-        const mainVideo = { ...foundPost, isSuggested: false };
-
-        // The suggested videos get the isSuggested flag set to true
-        const markedSuggestedVideos = suggestedVideos.map((video) => ({
-          ...video,
-          isSuggested: true,
-        }));
-
-        // Combine the selected video with marked suggested videos
-        const reelsToShow = [mainVideo, ...markedSuggestedVideos];
-
-        // Set the reels in the app store for ReelsFeed to display
-        setReels(reelsToShow);
-
-        // Reset any filters that might be applied in ReelsFeed
-        setVideosFilter("for-you");
-
-        // Set VideoPage flag
-        useAppStore.getState().setIsVideoPage(true);
-
         setLoading(false);
-      } else {
-        setError("Video not found");
-        setLoading(false);
+        return;
       }
+
+      // Add a custom property to identify which reels are from this user
+      const markedUserVideos = userVideoPosts.map((video) => ({
+        ...video,
+        isUserVideo: true,
+      }));
+
+      // Set the reels in the app store for ReelsFeed to display
+      setReels(markedUserVideos);
+
+      // Reset any filters that might be applied in ReelsFeed
+      setVideosFilter("for-you");
+
+      // Set VideoPage flag
+      useAppStore.getState().setIsVideoPage(true);
+
+      setLoading(false);
     } catch (err) {
-      setError("Failed to load video");
+      setError("Failed to load videos");
       console.error(err);
       setLoading(false);
     }
@@ -88,7 +80,7 @@ const VideoPage = () => {
       useAppStore.getState().restoreReels();
       useAppStore.getState().setIsVideoPage(false);
     };
-  }, [videoId, setReels, setVideosFilter]);
+  }, [userId, setReels, setVideosFilter]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -149,4 +141,4 @@ const VideoPage = () => {
   );
 };
 
-export default VideoPage;
+export default UserReelsPage;

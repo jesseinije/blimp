@@ -7,18 +7,21 @@ interface StoryItemProps {
 }
 
 const StoryItem = ({ user, isCurrentUser }: StoryItemProps) => {
+  const currentUserAvatar =
+    "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757510419/default_dalfcc.jpg";
+
   return (
     <div className="flex flex-col items-center space-y-2">
       <div className="relative">
         <div
-          className={`w-20 h-20 rounded-full overflow-hidden ${
+          className={`w-[5.5rem] h-[5.5rem] rounded-full overflow-hidden ${
             user.hasStory && !isCurrentUser
               ? "ring-2 ring-offset-2 ring-blue-500"
               : ""
           }`}
         >
           <img
-            src={user.avatar}
+            src={isCurrentUser ? currentUserAvatar : user.avatar}
             alt={`${user.username}'s story`}
             className="w-full h-full object-cover"
           />

@@ -3,18 +3,13 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        blue: {
+          500: "#1d9bf0", // Added custom blue-500 color
+        },
+      },
       fontFamily: {
-        sans: [
-          "Poppins",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
+        sans: ["Inter", "sans-serif"],
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1rem" }],

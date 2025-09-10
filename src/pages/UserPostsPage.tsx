@@ -1,46 +1,43 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Post from "../components/feed/Post";
-import { getPostById, mockPosts } from "../data/mockData";
+import { getPostsByUserId, mockUsers } from "../data/mockData";
 import type { Post as PostType } from "../types";
 import PageHeader from "../components/layout/PageHeader";
 import { PostSkeleton } from "../components/ui/skeletons/PostSkeleton";
 import { SkeletonProvider } from "../components/ui/skeletons/SkeletonProvider";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const PostPage = () => {
-  const { postId } = useParams<{ postId: string }>();
+const UserPostsPage = () => {
+  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
-  const [post, setPost] = useState<PostType | null>(null);
-  const [suggestedPosts, setSuggestedPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
+  const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
-    if (!postId) {
-      setError("Post ID is required");
+    if (!userId) {
+      setError("User ID is required");
       setLoading(false);
       return;
     }
 
     try {
-      const foundPost = getPostById(postId);
-      if (foundPost) {
-        setPost(foundPost);
+      // Get user's posts
+      const userPosts = getPostsByUserId(userId);
+      setPosts(userPosts);
 
-        // Get random suggested posts (excluding current post)
-        const otherPosts = mockPosts.filter((p) => p.id !== postId);
-        const randomPosts = [...otherPosts]
-          .sort(() => 0.5 - Math.random()) // Simple shuffle
-          .slice(0, 3); // Take 3 random posts
-
-        setSuggestedPosts(randomPosts);
+      // Get user's display name
+      const user = mockUsers.find((u) => u.id === userId);
+      if (user) {
+        setUsername(user.displayName || user.username || "");
       } else {
-        setError("Post not found");
+        setError("User not found");
       }
     } catch (err) {
-      setError("Failed to load post");
+      setError("Failed to load user posts");
       console.error(err);
     }
 
@@ -50,11 +47,11 @@ const PostPage = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [postId]);
+  }, [userId]);
 
   // Add an effect to ensure layout measurements are accurate
   useEffect(() => {
-    if (!loading && post) {
+    if (!loading && posts.length > 0) {
       // Wait a moment for the DOM to fully render before finalizing layout
       const layoutTimer = setTimeout(() => {
         setIsLayoutReady(true);
@@ -62,7 +59,7 @@ const PostPage = () => {
 
       return () => clearTimeout(layoutTimer);
     }
-  }, [loading, post]);
+  }, [loading, posts]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -87,11 +84,8 @@ const PostPage = () => {
               </div>
             </div>
 
-            {/* Main Post Skeleton */}
-            <PostSkeleton />
-
-            {/* Suggested Posts Skeletons */}
-            {[...Array(2)].map((_, index) => (
+            {/* Posts Skeletons */}
+            {[...Array(3)].map((_, index) => (
               <PostSkeleton key={index} />
             ))}
           </div>
@@ -100,7 +94,7 @@ const PostPage = () => {
     );
   }
 
-  if (error || !post) {
+  if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-white">
         <div className="text-lg font-medium text-gray-700 mb-4">{error}</div>
@@ -114,15 +108,35 @@ const PostPage = () => {
     );
   }
 
+  if (posts.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto bg-white min-h-screen">
+        <PageHeader
+          title={username ? `${username}'s Posts` : "User Posts"}
+          showBackButton={true}
+          onBackClick={handleGoBack}
+          rightIcon="none"
+          showBorder={false}
+          enableScroll={true}
+        />
+        <div className="flex flex-col items-center justify-center h-64">
+          <div className="text-lg font-medium text-gray-700 mb-4">
+            No posts found
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`max-w-2xl mx-auto bg-white min-h-screen mb-10 ${
+      className={`max-w-2xl mx-auto bg-white min-h-screen mb-20 ${
         isLayoutReady ? "transition-all duration-150" : ""
       }`}
       style={{ scrollBehavior: "smooth" }}
     >
       <PageHeader
-        title="Explore"
+        title="Posts"
         showBackButton={true}
         onBackClick={handleGoBack}
         rightIcon="none"
@@ -133,25 +147,14 @@ const PostPage = () => {
       {/* Add a spacer div with consistent height to prevent content jumping */}
       <div className="h-14" />
 
-      {/* Main Post content */}
+      {/* User Posts content */}
       <div className={isLayoutReady ? "opacity-100" : "opacity-99"}>
-        <Post post={post} isFirst={true} />
+        {posts.map((post, index) => (
+          <Post key={post.id} post={post} isFirst={index === 0} />
+        ))}
       </div>
-
-      {/* Suggested Posts Section */}
-      {suggestedPosts.length > 0 && (
-        <div className="">
-          {suggestedPosts.map((suggestedPost, index) => (
-            <Post
-              key={suggestedPost.id}
-              post={suggestedPost}
-              isFirst={index === 0}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };
 
-export default PostPage;
+export default UserPostsPage;

@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import { CaretLeft, Settings, DotsVertical } from "../../Icons";
+import { CaretLeft, Settings, DotsVertical, Search, Pencil } from "../../Icons";
 import { motion, useMotionValue, animate } from "framer-motion";
 import "./PageHeader.css";
 
-export type IconType = "more" | "settings" | "none";
+export type IconType = "more" | "settings" | "none" | "search" | "pencil"; // Add "pencil" to the IconType
 
 interface PageHeaderProps {
   title: string;
@@ -109,13 +109,17 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   const renderRightIcon = () => {
     switch (rightIcon) {
       case "more":
-        return <DotsVertical size={24} />;
+        return <DotsVertical size={26} />;
       case "settings":
-        return <Settings size={24} />;
+        return <Settings size={26} />;
+      case "search":
+        return <Search size={26} />;
+      case "pencil":
+        return <Pencil size={26} />; // Add the Pencil icon
       case "none":
         return null;
       default:
-        return <DotsVertical size={24} />;
+        return <DotsVertical size={26} />;
     }
   };
 
@@ -140,7 +144,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         {showBackButton ? (
           <div className="flex items-center gap-6">
             <button onClick={handleBackClick} aria-label="Go back">
-              <CaretLeft size={24} className="text-gray-900" />
+              <CaretLeft size={26} className="text-gray-900" />
             </button>
             <h2 className="font-semibold text-gray-900 text-xl">{title}</h2>
           </div>
@@ -151,7 +155,15 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         {rightIcon !== "none" ? (
           <button
             onClick={onRightIconClick}
-            aria-label={rightIcon === "settings" ? "Settings" : "More options"}
+            aria-label={
+              rightIcon === "settings"
+                ? "Settings"
+                : rightIcon === "search"
+                ? "Search"
+                : rightIcon === "pencil"
+                ? "Edit"
+                : "More options"
+            }
           >
             <div className="text-gray-900">{renderRightIcon()}</div>
           </button>

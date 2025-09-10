@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Heart, ArrowBendUpLeft, CheckCircle } from "phosphor-react";
+import { CheckCircle } from "phosphor-react";
+import { Heart, ArrowLeft } from "../../Icons";
 import { getUserById } from "../../data/mockData";
 import type { Comment as CommentType } from "../../types";
 import Caption from "../ui/Caption";
@@ -52,6 +53,16 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
     }
   );
 
+  const formatCount = (count: number): string => {
+    if (count >= 1000000) {
+      return `${(count / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
+    }
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+    }
+    return count.toString();
+  };
+
   return (
     <div className="flex mb-4">
       <Link to={`/profile/${user.username}`} className="shrink-0">
@@ -83,7 +94,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                 ) : (
                   <span className="mr-2"></span>
                 )}
-                <span className="text-xs text-gray-400">{formattedDate}</span>
+                <span className="text-sm text-gray-400">{formattedDate}</span>
               </div>
             </div>
 
@@ -97,7 +108,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                   onClick={handleViewReplies}
                   className="text-gray-900 hover:text-gray-700 mr-1.5"
                 >
-                  <ArrowBendUpLeft size={18} />
+                  <ArrowLeft size={18} />
                 </button>
                 <span className="text-xs text-gray-900 font-medium">
                   {replyCount > 0 ? replyCount : ""}
@@ -113,7 +124,7 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                   />
                 </button>
                 <span className="text-xs text-gray-900 font-medium">
-                  {likes > 0 ? likes : ""}
+                  {likes > 0 ? formatCount(likes) : ""}
                 </span>
               </div>
             </div>

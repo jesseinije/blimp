@@ -163,7 +163,7 @@ const BottomSheet = ({
                     className={`
                       w-full transform bg-white  
                       text-left align-middle shadow-xl
-                      flex flex-col rounded-t-3xl overflow-hidden
+                      flex flex-col rounded-t-[30px] overflow-hidden
                       pb-safe focus:outline-none
                     `}
                     initial={{ y: "100%" }}
@@ -191,7 +191,7 @@ const BottomSheet = ({
                     <div
                       ref={initialFocusRef}
                       tabIndex={-1}
-                      className="sticky top-0 z-10 bg-white rounded-t-3xl outline-none"
+                      className="sticky top-0 z-10 bg-white rounded-t-[30px] outline-none"
                     >
                       {showHandle && (
                         <div className="pt-2 pb-4">

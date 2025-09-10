@@ -1,19 +1,18 @@
+import PageHeader from "../components/layout/PageHeader";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import type {
   PrivateMessage,
   SuggestedAccount,
-} from "../../types/notificationTypes";
-import SuggestedAccounts from "./SuggestedAccounts";
-import { mockUsers } from "../../data/mockData";
-import YourStory from "./YourStory"; // Change this import
+} from "../types/notificationTypes";
+import SuggestedAccounts from "../components/notifications/SuggestedAccounts";
+import { mockUsers } from "../data/mockData";
+import YourStory from "../components/notifications/YourStory";
+import { mockPrivateMessages } from "../data/notificationsData"; // Import mock messages
 
-interface PrivateMessagesTabProps {
-  messages: PrivateMessage[];
-}
-
-const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
+const DirectMessages = () => {
   const navigate = useNavigate();
+  const messages = mockPrivateMessages; // Use mock messages
 
   // Example suggested accounts data - in a real app, this would come from props or API
   const suggestedAccounts: SuggestedAccount[] = [
@@ -64,41 +63,32 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
     return mockUsers[userIndex];
   };
 
-  return (
-    <div id="private-panel" role="tabpanel" aria-labelledby="private-tab">
-      {/* Replace Stories with YourStory */}
-      <YourStory />
+  // Handler for when the pencil icon is clicked
+  const handleEditClick = () => {
+    // Handle edit action - you can navigate to a compose message page or open a modal
+    console.log("Edit button clicked");
+    // Example: navigate("/compose-message");
+  };
 
-      {messages.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-20 p-4">
-          {/* Empty state content */}
-          <div className="h-24 w-24 rounded-full bg-gray-100  flex items-center justify-center mb-4">
-            <svg
-              className="h-12 w-12 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 ">
-            No messages yet
-          </h3>
-          <p className="text-sm text-gray-400 text-center mt-2 max-w-xs">
-            When you receive messages from other users, they'll show up here.
-          </p>
-        </div>
-      ) : (
+  return (
+    <div className="min-h-screen mb-20 bg-white">
+      {/* Fixed PageHeader */}
+      <div className="fixed top-0 left-0 right-0 z-10 bg-white">
+        <PageHeader
+          title="Messages"
+          showBackButton={false}
+          showBorder={false}
+          rightIcon="pencil"
+          onRightIconClick={handleEditClick}
+        />
+      </div>
+
+      {/* Content area with padding-top to account for fixed header */}
+      <div className="mt-[5rem]">
+        {/* Replace Stories with YourStory */}
+        <YourStory />
+
         <div className="mt-2">
-          {" "}
-          {/* Changed from mt-4 to mt-2 to reduce space after Stories */}
           {messages.map((message) => {
             // Get a user from mockUsers based on the message sender ID
             const mockUser = getMockUser(message.sender.id);
@@ -108,7 +98,7 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
                 key={message.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`px-3 py-4 ${message.isUnread ? "bg-gray-50 " : ""}`}
+                className={`px-3 py-4 ${message.isUnread ? "" : ""}`}
                 tabIndex={0}
                 role="button"
                 aria-label={`Message from ${message.sender.name}, ${
@@ -118,7 +108,7 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
               >
                 <div className="flex items-center">
                   <div className="relative">
-                    <div className="h-14 w-14 rounded-full overflow-hidden flex-shrink-0 mr-3 border border-gray-100 ">
+                    <div className="h-14 w-14 rounded-full overflow-hidden flex-shrink-0 mr-3 border border-gray-100">
                       <img
                         src={mockUser.avatar}
                         alt=""
@@ -129,7 +119,7 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
                     </div>
                     {message.isOnline && (
                       <div
-                        className="absolute bottom-0 right-3 h-4 w-4 bg-green-500 rounded-full border-2 border-white "
+                        className="absolute bottom-0 right-3 h-4 w-4 bg-green-500 rounded-full border-2 border-white"
                         aria-label="Online"
                       ></div>
                     )}
@@ -137,18 +127,18 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start">
                       <p
-                        className={`font-semibold text-sm text-gray-900  truncate pr-2`}
+                        className={`font-semibold text-sm text-gray-900 truncate pr-2`}
                       >
                         {mockUser.username}
                       </p>
-                      <span className="text-xs text-gray-400 flex-shrink-0">
+                      <span className="text-sm text-gray-400 flex-shrink-0">
                         {message.timestamp}
                       </span>
                     </div>
                     <p
                       className={`text-sm truncate pr-4 mt-1 ${
                         message.isUnread
-                          ? "font-medium text-gray-900 "
+                          ? "font-medium text-gray-900"
                           : "text-gray-400"
                       }`}
                     >
@@ -166,14 +156,14 @@ const PrivateMessagesTab = ({ messages }: PrivateMessagesTabProps) => {
             );
           })}
         </div>
-      )}
 
-      {/* SuggestedAccounts component */}
-      <div className="mt-4 pt-2">
-        <SuggestedAccounts accounts={suggestedAccounts} />
+        {/* SuggestedAccounts component */}
+        <div className="mt-4 pt-2">
+          <SuggestedAccounts accounts={suggestedAccounts} />
+        </div>
       </div>
     </div>
   );
 };
 
-export default PrivateMessagesTab;
+export default DirectMessages;

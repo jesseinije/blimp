@@ -76,7 +76,9 @@ const ExplorePage = () => {
               className="text-gray-400"
             />
           </div>
-          <span className="text-gray-400 text-sm">Search</span>
+          <span className="text-gray-400 text-sm">
+            Search for trending topics...
+          </span>
         </div>
       </div>
 

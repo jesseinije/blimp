@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Heart,
-  ArrowsClockwise,
   BookmarkSimple,
   DotsThreeVertical,
   ChatCircle,
@@ -15,6 +14,7 @@ import {
 import BottomSheet from "../ui/BottomSheet";
 import CommentsList from "../feed/CommentsList";
 import ReplyList from "../feed/ReplyList";
+import { Repost } from "../../Icons";
 import type { Comment as CommentType } from "../../types";
 import "./ReelActionBar.css"; // Add this import at the top
 
@@ -124,6 +124,14 @@ const ReelActionBar = ({
   const handleActionClick = (e: React.MouseEvent, action: () => void) => {
     e.preventDefault();
     e.stopPropagation();
+    if (
+      e.nativeEvent &&
+      typeof e.nativeEvent.stopImmediatePropagation === "function"
+    ) {
+      e.nativeEvent.stopImmediatePropagation();
+    }
+    // Add this line to mark the event as handled for Reel component
+    Object.defineProperty(e.nativeEvent, "_reelActionHandled", { value: true });
     action();
   };
 
@@ -205,7 +213,7 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
-            <ArrowsClockwise
+            <Repost
               size={30}
               weight="fill"
               className="reel-action-icon text-white/90"

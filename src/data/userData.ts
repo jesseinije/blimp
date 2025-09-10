@@ -13,6 +13,17 @@ export const userData: User[] = [
     isVerified: true,
   },
   {
+    id: "81",
+    username: "visa",
+    displayName: "Visa",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757533466/visa_h2xhhi.jpg",
+    bio: "Visa Infinite®: Experience the extraordinary with exclusive benefits and unparalleled service.",
+    followers: 4800000,
+    following: 8,
+    isVerified: true,
+  },
+  {
     id: "9",
     username: "_ariaouu",
     displayName: "Ariana🥺💖",
@@ -66,6 +77,19 @@ export const userData: User[] = [
     following: 205,
     isVerified: true,
     story: true,
+  },
+  {
+    id: "115",
+    username: "your_username",
+    displayName: "Your Name",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757510419/default_dalfcc.jpg",
+    bio: "Creative content enthusiast using Blimp to connect with friends and followers.",
+    followers: 4200000,
+    following: 205,
+    isVerified: true,
+    story: false,
+    link: "https://bimp.me",
   },
 ];
 
@@ -140,6 +164,31 @@ const createUserInfo = (
 };
 
 export const userPosts: Post[] = [
+  {
+    id: "211",
+    userId: "81",
+    location: "USA",
+    caption: "Luxury redefined with Visa Infinite.",
+    media: [
+      {
+        id: "12-2",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757532543/videoplayback_wapyy3.mp4",
+        type: "video",
+      },
+    ],
+    likes: 2900000,
+    comments: userComments["12"],
+    createdAt: "2025-08-29T15:00:00Z",
+    tags: ["ErasTour", "TaylorSwift", "Swifties"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("81"),
+    views: 5000000,
+    sponsored: {
+      buttonText: "Learn More",
+      buttonUrl: "https://visa.com/",
+    },
+  },
   {
     id: "21",
     userId: "13",
@@ -297,5 +346,26 @@ export const userPosts: Post[] = [
     user: createUserInfo("13"),
     views: 4200000,
     isReelOnly: true,
+  },
+  {
+    id: "151",
+    userId: "115",
+    caption: "No caption, just vibes! 😎 #ChillMode",
+    media: [
+      {
+        id: "13-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757512126/ssstik.io__ddlovato_1757512081220_hjmlqo.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1800000,
+    comments: userComments["13"],
+    createdAt: "2025-08-29T13:45:00Z",
+    location: "",
+    tags: ["Tesla", "Innovation", "CleanEnergy"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("115"),
+    views: 4200000,
   },
 ];

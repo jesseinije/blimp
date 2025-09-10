@@ -19,7 +19,7 @@ export const Chat: React.FC<IconProps> = ({
   className,
   color = "currentColor",
   strokeWidth = 20,
-  weight = "regular", // Add weight prop
+  weight = "regular",
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -29,14 +29,45 @@ export const Chat: React.FC<IconProps> = ({
     className={className}
   >
     <rect width="256" height="256" fill="none" />
-    <path
-      d="M79.93,211.11a96,96,0,1,0-35-35h0L32.42,213.46a8,8,0,0,0,10.12,10.12l37.39-12.47Z"
-      fill={weight === "fill" ? color : "none"}
-      stroke={color}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={weight === "fill" ? 0 : strokeWidth}
-    />
+    {weight === "fill" ? (
+      <path
+        d="M216,40H40A16,16,0,0,0,24,56V184a16,16,0,0,0,16,16h60.43l13.68,23.94a16,16,0,0,0,27.78,0L155.57,200H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM160,144H96a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Zm0-32H96a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Z"
+        fill={color}
+      />
+    ) : (
+      <>
+        <line
+          x1="96"
+          y1="104"
+          x2="160"
+          y2="104"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="96"
+          y1="136"
+          x2="160"
+          y2="136"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M105.07,192l16,28a8,8,0,0,0,13.9,0l16-28H216a8,8,0,0,0,8-8V56a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8V184a8,8,0,0,0,8,8Z"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+      </>
+    )}
   </svg>
 );
 
@@ -524,6 +555,430 @@ export const Users: React.FC<IconProps> = ({
     <path
       d="M152.69,59.7A52,52,0,1,1,172,160"
       fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// Message icon with text lines
+export const ChatBubble: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <line
+      x1="96"
+      y1="104"
+      x2="160"
+      y2="104"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="96"
+      y1="136"
+      x2="160"
+      y2="136"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M105.07,192l16,28a8,8,0,0,0,13.9,0l16-28H216a8,8,0,0,0,8-8V56a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8V184a8,8,0,0,0,8,8Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// Pencil/Edit icon
+export const Pencil: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20, // Using the stroke width from the provided SVG
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <path
+      d="M96,216H48a8,8,0,0,1-8-8V163.31a8,8,0,0,1,2.34-5.65L165.66,34.34a8,8,0,0,1,11.31,0L221.66,79a8,8,0,0,1,0,11.31Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={weight === "fill" ? 0 : strokeWidth}
+    />
+    <line
+      x1="216"
+      y1="216"
+      x2="96"
+      y2="216"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="136"
+      y1="64"
+      x2="192"
+      y2="120"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// Grid icon (using Phosphor icon svg fill version)
+export const Grid: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    {weight === "fill" ? (
+      <path
+        d="M84,52V92H28a4,4,0,0,1-4-4V64A16,16,0,0,1,40,48H80A4,4,0,0,1,84,52Zm16,152a4,4,0,0,0,4,4h48a4,4,0,0,0,4-4V164H100ZM24,168v24a16,16,0,0,0,16,16H80a4,4,0,0,0,4-4V164H28A4,4,0,0,0,24,168Zm0-56v32a4,4,0,0,0,4,4H84V108H28A4,4,0,0,0,24,112ZM152,48H104a4,4,0,0,0-4,4V92h56V52A4,4,0,0,0,152,48Zm76,60H172v40h56a4,4,0,0,0,4-4V112A4,4,0,0,0,228,108ZM100,148h56V108H100ZM216,48H176a4,4,0,0,0-4,4V92h56a4,4,0,0,0,4-4V64A16,16,0,0,0,216,48Zm12,116H172v40a4,4,0,0,0,4,4h40a16,16,0,0,0,16-16V168A4,4,0,0,0,228,164Z"
+        fill={color}
+      />
+    ) : (
+      <>
+        <rect
+          x="32"
+          y="56"
+          width="192"
+          height="144"
+          rx="8"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="96"
+          y1="56"
+          x2="96"
+          y2="200"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="160"
+          y1="56"
+          x2="160"
+          y2="200"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="32"
+          y1="104"
+          x2="224"
+          y2="104"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="32"
+          y1="152"
+          x2="224"
+          y2="152"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+      </>
+    )}
+  </svg>
+);
+
+// At symbol icon (second SVG from your request)
+export const AtSymbol: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => {
+  // Use different stroke width based on weight
+  const finalStrokeWidth = weight === "regular" ? strokeWidth : 24;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      width={width || size}
+      height={height || size}
+      className={className}
+    >
+      <rect width="256" height="256" fill="none" />
+      <circle
+        cx="128"
+        cy="128"
+        r="40"
+        fill={weight === "fill" ? color : "none"}
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={finalStrokeWidth}
+      />
+      <path
+        d="M184,208c-15.21,10.11-36.37,16-56,16a96,96,0,1,1,96-96c0,22.09-8,40-28,40s-28-17.91-28-40V88"
+        fill={weight === "fill" ? color : "none"}
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={finalStrokeWidth}
+      />
+    </svg>
+  );
+};
+
+// Laptop keyboard icon (third SVG from your request)
+export const Keyboard: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20, // Using the stroke width from the provided SVG
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <path
+      d="M40,112H216a0,0,0,0,1,0,0v88a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V112A0,0,0,0,1,40,112Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M40.43,112,208,67.77l-8.16-30a7.9,7.9,0,0,0-9.66-5.49L37.85,72.47A7.76,7.76,0,0,0,32.27,82Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="67.71"
+      y1="64.59"
+      x2="115.5"
+      y2="92.19"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="126.61"
+      y1="49.05"
+      x2="174.4"
+      y2="76.64"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// Film icon
+export const Film: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    {weight === "fill" ? (
+      <path
+        d="M216,104H102.09L210,75.51a8,8,0,0,0,5.68-9.84l-8.16-30a15.93,15.93,0,0,0-19.42-11.13L35.81,64.74a15.75,15.75,0,0,0-9.7,7.4,15.51,15.51,0,0,0-1.55,12L32,111.56c0,.14,0,.29,0,.44v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V112A8,8,0,0,0,216,104ZM192.16,40l6,22.07L164.57,71,136.44,54.72ZM77.55,70.27l28.12,16.24-59.6,15.73-6-22.08Z"
+        fill={color}
+      />
+    ) : (
+      <>
+        <path
+          d="M40,112H216a0,0,0,0,1,0,0v88a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V112A0,0,0,0,1,40,112Z"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M40.43,112,208,67.77l-8.16-30a7.9,7.9,0,0,0-9.66-5.49L37.85,72.47A7.76,7.76,0,0,0,32.27,82Z"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="67.71"
+          y1="64.59"
+          x2="115.5"
+          y2="92.19"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+        <line
+          x1="126.61"
+          y1="49.05"
+          x2="174.4"
+          y2="76.64"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+        />
+      </>
+    )}
+  </svg>
+);
+
+// ChatCircle icon - new component using the provided SVG
+export const ChatCircle: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <path
+      d="M79.93,211.11a96,96,0,1,0-35-35h0L32.42,213.46a8,8,0,0,0,10.12,10.12l37.39-12.47Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// ArrowLeft icon
+export const ArrowLeft: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <polyline
+      points="80 152 32 104 80 56"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M224,200a96,96,0,0,0-96-96H32"
+      fill="none"
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"

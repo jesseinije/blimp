@@ -3,58 +3,29 @@ import Reel from "./Reel";
 import type { ReelData } from "./Reel";
 import { useAppStore } from "../../store/appStore";
 import { useLocation } from "react-router-dom";
+import { useNavBarHeight } from "../../hooks/useNavBarHeight";
+import { useViewportHeight } from "../../hooks/useViewportHeight";
 
-// Function to convert posts with video media to Reel format
-const convertPostsToReels = (posts: any[]): ReelData[] => {
-  return posts
-    .filter((post) => post.media.some((item: any) => item.type === "video"))
-    .map((post) => {
-      // Find the first video in the post's media array
-      const videoMedia = post.media.find((item: any) => item.type === "video");
+// Add props interface with optional navBarHeightOverride
+interface ReelsFeedProps {
+  navBarHeightOverride?: number;
+}
 
-      return {
-        id: post.id,
-        videoUrl: videoMedia?.url || "",
-        user: {
-          id: post.user.id,
-          username: post.user.username,
-          avatar: post.user.avatar,
-          isFollowing: post.user.isFollowing,
-          isVerified: post.user.isVerified,
-        },
-        caption: post.caption,
-        likes: post.likes,
-        comments: post.comments?.length || 0,
-        shares: 0,
-        timestamp: post.createdAt, // <-- Pass raw date string here!
-        music: `Track by ${post.user.username}`,
-        albumCover: post.user.avatar,
-        isLiked: post.liked || false,
-        location: post.location,
-        sponsored: post.sponsored,
-      };
-    });
-};
-
-// Enhanced suggested label component with animation
-const SuggestedLabel = ({ visible }: { visible: boolean }) => (
-  <div
-    className={`absolute bottom-[9rem] left-4 z-20 bg-black/30 px-3 py-1 rounded-md transition-all duration-500 ease-in-out ${
-      visible ? "opacity-100" : "opacity-0 pointer-events-none"
-    }`}
-  >
-    <span className="text-xs font-medium text-white">Suggested for you</span>
-  </div>
-);
-
-const ReelsFeed = () => {
-  const { reels, videosFilter } = useAppStore(); // Use reels from store instead of mockPosts
+// Update component to accept props
+const ReelsFeed = ({ navBarHeightOverride }: ReelsFeedProps) => {
+  const { reels, videosFilter } = useAppStore();
   const [currentReelIndex, setCurrentReelIndex] = useState(0);
-  const [visibleLabels, setVisibleLabels] = useState<{
-    [key: string]: boolean;
-  }>({});
   const feedRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+
+  // Use the override if provided, otherwise use the hook
+  const calculatedNavBarHeight = useNavBarHeight(100);
+  const navBarHeight =
+    navBarHeightOverride !== undefined
+      ? navBarHeightOverride
+      : calculatedNavBarHeight;
+
+  const viewportHeight = useViewportHeight(); // Get the actual viewport height
 
   // Check if we're on the VideoPage based on the URL path
   const isVideoPage = location.pathname.startsWith("/video/");
@@ -111,19 +82,6 @@ const ReelsFeed = () => {
             entry.target.getAttribute("data-index") || "0"
           );
           setCurrentReelIndex(index);
-
-          // When a new reel comes into view, show its label
-          const reelId = filteredReels[index]?.id;
-          if (reelId && isVideoPage && index > 0) {
-            setVisibleLabels((prev) => ({ ...prev, [reelId]: true }));
-
-            // Hide the label after 3 seconds
-            const timerId = setTimeout(() => {
-              setVisibleLabels((prev) => ({ ...prev, [reelId]: false }));
-            }, 3000);
-
-            return () => clearTimeout(timerId);
-          }
         }
       });
     }, options);
@@ -139,18 +97,6 @@ const ReelsFeed = () => {
         observer.unobserve(element);
       });
     };
-  }, [filteredReels, isVideoPage]);
-
-  // Reset visible labels when reels change
-  useEffect(() => {
-    // Initialize labels for all reels
-    const initialLabels: { [key: string]: boolean } = {};
-    filteredReels.forEach((reel, index) => {
-      if (isVideoPage && index > 0) {
-        initialLabels[reel.id] = true;
-      }
-    });
-    setVisibleLabels(initialLabels);
   }, [filteredReels, isVideoPage]);
 
   // Action handlers
@@ -182,16 +128,32 @@ const ReelsFeed = () => {
     );
   };
 
+  // Add a useEffect to handle resize and update container height
+  useEffect(() => {
+    const handleResize = () => {
+      // Force a re-render to update dimensions
+      setCurrentReelIndex((prev) => prev);
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+
+    // Trigger once on mount
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+    };
+  }, []);
+
   return (
     <div
       ref={feedRef}
-      className="h-full w-full overflow-y-scroll snap-y snap-mandatory bg-black scrollbar-hide"
+      className="w-full overflow-y-scroll snap-y snap-mandatory bg-black scrollbar-hide"
       style={{
-        overscrollBehavior: "contain",
-        margin: 0,
-        padding: 0,
-        height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
-        maxHeight: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
+        // Use the navBarHeight which may be from props or from the hook
+        height: `${viewportHeight - navBarHeight}px`,
       }}
     >
       {filteredReels.length > 0 ? (
@@ -199,16 +161,8 @@ const ReelsFeed = () => {
           <div
             key={reel.id}
             data-index={index}
-            className="reel-item w-full snap-start snap-always relative"
-            style={{
-              height: `calc(calc(var(--vh, 1vh) * 100) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
-            }}
+            className="reel-item w-full snap-start snap-always relative h-full"
           >
-            {/* Always render the label but control its visibility with the visible prop */}
-            {isVideoPage && index > 0 && (
-              <SuggestedLabel visible={!!visibleLabels[reel.id]} />
-            )}
-
             <Reel
               data={reel}
               isVisible={index === currentReelIndex}
@@ -236,6 +190,38 @@ const ReelsFeed = () => {
       )}
     </div>
   );
+};
+
+// Function to convert posts with video media to Reel format
+const convertPostsToReels = (posts: any[]): ReelData[] => {
+  return posts
+    .filter((post) => post.media.some((item: any) => item.type === "video"))
+    .map((post) => {
+      // Find the first video in the post's media array
+      const videoMedia = post.media.find((item: any) => item.type === "video");
+
+      return {
+        id: post.id,
+        videoUrl: videoMedia?.url || "",
+        user: {
+          id: post.user.id,
+          username: post.user.username,
+          avatar: post.user.avatar,
+          isFollowing: post.user.isFollowing,
+          isVerified: post.user.isVerified,
+        },
+        caption: post.caption,
+        likes: post.likes,
+        comments: post.comments?.length || 0,
+        shares: 0,
+        timestamp: post.createdAt, // <-- Pass raw date string here!
+        music: `Track by ${post.user.username}`,
+        albumCover: post.user.avatar,
+        isLiked: post.liked || false,
+        location: post.location,
+        sponsored: post.sponsored,
+      };
+    });
 };
 
 export default ReelsFeed;

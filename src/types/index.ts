@@ -9,6 +9,7 @@ export type User = {
   isVerified?: boolean;
   follow?: boolean; // <-- Add this line
   story?: boolean; // <-- Add this line
+  link?: string; // <-- Add this line
 };
 
 export type Comment = {

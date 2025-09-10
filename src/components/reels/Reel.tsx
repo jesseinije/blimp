@@ -3,7 +3,6 @@ import { Play } from "phosphor-react";
 import ReelActionBar from "./ReelActionBar";
 import ReelContentInfo from "./ReelContentInfo";
 import { getPostById, mockUsers } from "../../data/mockData"; // Add mockUsers import
-import { useNavBarHeight } from "../../hooks/useNavBarHeight";
 
 export type ReelData = {
   id: string;
@@ -47,7 +46,6 @@ const Reel = ({
   onSave,
   onFollow,
 }: ReelProps) => {
-  const navBarHeight = useNavBarHeight();
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -200,6 +198,9 @@ const Reel = ({
     if (!container) return;
 
     const handleClick = (e: MouseEvent) => {
+      // @ts-ignore
+      if (e._reelActionHandled) return; // <-- Add this line
+
       // Add check for progress bar
       if (
         actionBarRef.current?.contains(e.target as Node) ||
@@ -266,11 +267,7 @@ const Reel = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-black cursor-pointer overflow-hidden"
-      style={{
-        height: `calc(calc(var(--vh, 1vh) * 100) - ${navBarHeight}px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
-        maxHeight: `calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))`,
-      }}
+      className="relative w-full h-full bg-black cursor-pointer overflow-hidden"
     >
       {/* Main video container */}
       <div className="absolute inset-0">
@@ -299,45 +296,41 @@ const Reel = ({
 
       {/* Content wrapper - adjusted bottom padding to account for NavBar */}
       <div className="absolute inset-0 flex flex-col justify-between">
-        <div className="flex-1" /> {/* Spacer */}
-        {/* Bottom content area */}
-        <div className="space-y-4 p-4 pb-6">
-          {/* ReelContentInfo */}
-          <div ref={contentInfoRef} onClick={(e) => e.stopPropagation()}>
-            <ReelContentInfo
-              username={data.user.username}
-              caption={data.caption}
-              timestamp={data.timestamp}
-              music={data.music}
-              avatar={data.user.avatar}
-              isFollowing={data.user.isFollowing}
-              isVerified={data.user.isVerified}
-              location={data.location}
-              sponsored={postData?.sponsored ? "Sponsored" : undefined}
-              hasStory={userData?.story} // Change this line to use userData
-              onFollow={() => onFollow(data.user.id)}
-            />
-          </div>
+        {/* ReelContentInfo */}
+        <div ref={contentInfoRef} onClick={(e) => e.stopPropagation()}>
+          <ReelContentInfo
+            username={data.user.username}
+            caption={data.caption}
+            timestamp={data.timestamp}
+            music={data.music}
+            avatar={data.user.avatar}
+            isFollowing={data.user.isFollowing}
+            isVerified={data.user.isVerified}
+            location={data.location}
+            sponsored={postData?.sponsored ? "Sponsored" : undefined}
+            hasStory={userData?.story} // Change this line to use userData
+            onFollow={() => onFollow(data.user.id)}
+          />
+        </div>
 
-          {/* Action bar */}
-          <div ref={actionBarRef} onClick={(e) => e.stopPropagation()}>
-            <ReelActionBar
-              reelId={data.id}
-              comments={postData?.comments || []}
-              likeCount={likeCount}
-              commentCount={data.comments}
-              shareCount={data.shares}
-              saveCount={0}
-              albumCover={data.albumCover}
-              onLike={handleLike}
-              onComment={handleCommentClick}
-              onShare={handleShareClick}
-              onSave={handleSaveClick}
-              isLiked={isLiked}
-              username={data.user.username}
-              videoElement={videoRef.current}
-            />
-          </div>
+        {/* Action bar */}
+        <div ref={actionBarRef} onClick={(e) => e.stopPropagation()}>
+          <ReelActionBar
+            reelId={data.id}
+            comments={postData?.comments || []}
+            likeCount={likeCount}
+            commentCount={data.comments}
+            shareCount={data.shares}
+            saveCount={0}
+            albumCover={data.albumCover}
+            onLike={handleLike}
+            onComment={handleCommentClick}
+            onShare={handleShareClick}
+            onSave={handleSaveClick}
+            isLiked={isLiked}
+            username={data.user.username}
+            videoElement={videoRef.current}
+          />
         </div>
       </div>
 

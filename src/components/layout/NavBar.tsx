@@ -2,13 +2,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store/appStore";
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
-import { House, Search, Plus, Bell } from "../../Icons"; // Update imports to use custom icons
+import { House, Search, Plus, Chat } from "../../Icons";
 import "./NavBar.css";
+import { userData } from "../../data/userData"; // Add this import
 
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { activeTab, currentUser } = useAppStore();
+  const { activeTab } = useAppStore();
   const navRef = useRef<HTMLElement>(null);
 
   const isActive = (path: string) => location.pathname === path;
@@ -22,8 +23,13 @@ const NavBar = () => {
     navigate("/create");
   };
 
-  // Check if we're on homepage and videos tab is active
-  const isVideoMode = location.pathname === "/" && activeTab === "videos";
+  // Updated condition to include /reels path as well
+  const isVideoMode =
+    (location.pathname === "/" && activeTab === "videos") ||
+    location.pathname === "/reels";
+
+  // Get user id 115 for the avatar
+  const user115 = userData.find((u) => u.id === "115");
 
   useEffect(() => {
     if (navRef.current) {
@@ -98,7 +104,7 @@ const NavBar = () => {
     <motion.nav
       ref={navRef}
       className={`nav-bar z-10 fixed bottom-0 left-0 right-0 pb-safe ${
-        isVideoMode ? "video-mode" : ""
+        isVideoMode ? "video-mode" : "border-t border-gray-200"
       }`}
       style={{
         y,
@@ -130,7 +136,7 @@ const NavBar = () => {
               : "text-gray-400"
           }`}
         >
-          <House size={26} weight={isActive("/") ? "fill" : "regular"} />
+          <House size={28} weight={isActive("/") ? "fill" : "regular"} />
         </Link>
 
         <Link
@@ -146,7 +152,7 @@ const NavBar = () => {
           }`}
         >
           <Search
-            size={26}
+            size={28}
             weight={isActive("/explore") ? "bold" : "regular"}
           />
         </Link>
@@ -161,9 +167,9 @@ const NavBar = () => {
         </button>
 
         <Link
-          to="/notifications"
+          to="/messages"
           className={`flex items-center relative ${
-            isActive("/notifications")
+            isActive("/messages")
               ? isVideoMode
                 ? "text-white"
                 : "text-gray-900"
@@ -172,19 +178,16 @@ const NavBar = () => {
               : "text-gray-400"
           }`}
         >
-          <Bell
-            size={26}
-            weight={isActive("/notifications") ? "fill" : "regular"}
-          />
+          <Chat size={28} weight={isActive("/messages") ? "fill" : "regular"} />
           {/* Notification Badge */}
-          <span className="absolute top-2 right-0.5 w-2 h-2 bg-blue-500 rounded-full"></span>
+          <span className="absolute top-1 right-2 w-2 h-2 bg-blue-500 rounded-full"></span>
         </Link>
 
         <Link to="/profile" className="flex items-center">
           <img
-            src={currentUser?.avatar || "https://i.pravatar.cc/150?img=1"}
+            src={user115?.avatar}
             alt="Profile"
-            className="w-[26px] h-[26px] rounded-full object-cover"
+            className="w-[28px] h-[28px] rounded-full object-cover"
           />
         </Link>
       </div>

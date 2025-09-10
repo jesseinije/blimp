@@ -8,18 +8,23 @@ const SuggestedAccountPage = () => {
   const headerHeight = useElementHeight(".page-header");
 
   const handleBackClick = () => {
-    navigate("/notifications");
+    navigate("/messages");
+  };
+
+  const handleSearchClick = () => {
+    navigate("/search");
   };
 
   return (
     <div className="min-h-screen mb-20 bg-white">
       <div className="fixed top-0 left-0 right-0 z-10 bg-white">
         <PageHeader
-          title="Suggested Accounts"
+          title="Accounts"
           showBackButton={true}
           onBackClick={handleBackClick}
           showBorder={false}
-          rightIcon="none"
+          rightIcon="search"
+          onRightIconClick={handleSearchClick}
         />
       </div>
 

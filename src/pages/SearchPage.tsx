@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MagnifyingGlass, X, Camera } from "phosphor-react";
+import { MagnifyingGlass, X } from "phosphor-react";
 import { CaretLeft } from "../Icons";
 import SearchHistory from "../components/search/SearchHistory";
 import SuggestedSearch from "../components/search/SuggestedSearch";
@@ -208,7 +208,6 @@ const SearchPage = () => {
           <EmptyState
             title="No Live Streams Available"
             description="There are no live streams happening right now. Start your own live stream to connect with your followers in real-time!"
-            icon={<Camera size={48} className="text-gray-400" />}
             action={
               <button
                 onClick={handleStartLive}
@@ -313,22 +312,26 @@ const SearchPage = () => {
       ) : (
         <div className="flex flex-col">
           {/* Filter Tabs - with padding */}
-          <div className="px-3 border-b border-gray-200">
+          <div className="px-3 border-b border-gray-200 pb-0.5">
             <div className="w-full ">
               <div className="flex overflow-x-auto space-x-4 mb-0">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.toLowerCase()}
-                    onClick={() => setActiveTab(tab.toLowerCase())}
-                    className={`px-2 py-1.5 text-sm font-medium whitespace-nowrap ${
-                      activeTab === tab.toLowerCase()
-                        ? "text-gray-900 d border-b-2 border-gray-900"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.toLowerCase();
+                  return (
+                    <button
+                      key={tab.toLowerCase()}
+                      onClick={() => setActiveTab(tab.toLowerCase())}
+                      className={`relative px-2 py-1.5 text-sm font-medium whitespace-nowrap flex flex-col items-center ${
+                        isActive ? "text-gray-900" : "text-gray-400"
+                      }`}
+                    >
+                      <span>{tab}</span>
+                      {isActive && (
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-blue-500 rounded-full"></span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>

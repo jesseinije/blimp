@@ -52,7 +52,7 @@ const SuggestedAccounts = ({
           </h2>
           <a
             href="#"
-            className="text-blue-600 text-sm font-medium"
+            className="text-blue-500 text-sm font-medium"
             onClick={handleSeeAllClick}
           >
             See all
@@ -98,7 +98,7 @@ const SuggestedAccounts = ({
 
             <div className="flex items-center flex-shrink-0 gap-2">
               <button
-                className="px-5 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+                className="px-5 py-1.5 bg-blue-500 text-white rounded-md text-sm font-medium"
                 aria-label={`Follow ${account.username}`}
               >
                 Follow

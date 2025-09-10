@@ -66,51 +66,21 @@ const PrivateChatPage = () => {
       isVerified: mockUser.isVerified,
     });
 
+    // Reduced to just two chat messages
     setMessages([
       {
         id: "1",
-        content: "STRUGGLING TO RAISE CAPITAL FOR YOUR BUSINESS?",
-        timestamp: "8 May, 2:10 pm",
+        content: "Hi there! How can I help you today?",
+        timestamp: "Today, 2:10 pm",
         isFromMe: false,
         status: "read",
       },
       {
         id: "2",
-        content:
-          "Banks say no. Investors aren't picking calls. Collateral? You don't have it.",
-        timestamp: "8 May, 2:10 pm",
-        isFromMe: false,
-        status: "read",
-      },
-      {
-        id: "3",
-        content: `Hi ${mockUser.username}, thanks for reaching out. Can you tell me more about your funding options?`,
-        timestamp: "8 May, 2:15 pm",
+        content: "I'm interested in learning more about your services.",
+        timestamp: "Today, 2:15 pm",
         isFromMe: true,
         status: "read",
-      },
-      {
-        id: "4",
-        content:
-          "Absolutely! We offer flexible financing options tailored for small businesses.",
-        timestamp: "8 May, 2:18 pm",
-        isFromMe: false,
-        status: "read",
-      },
-      {
-        id: "5",
-        content:
-          "Would you be available for a quick call tomorrow to discuss your specific needs?",
-        timestamp: "8 May, 2:20 pm",
-        isFromMe: false,
-        status: "read",
-      },
-      {
-        id: "6",
-        content: "That sounds great. How about 11am?",
-        timestamp: "8 May, 2:25 pm",
-        isFromMe: true,
-        status: "delivered",
       },
     ]);
   }, [userId]);
@@ -186,7 +156,7 @@ const PrivateChatPage = () => {
   return (
     <div className={`flex flex-col bg-white relative ${styles.chatContainer}`}>
       {/* Header */}
-      <header className="flex items-center px-3 py-2 bg-white sticky top-0 z-10">
+      <header className="flex items-center px-3 py-2 bg-white sticky top-0 z-10 ">
         <button onClick={handleBack} aria-label="Back" className="mr-6">
           <CaretLeft size={24} className="text-gray-900" />
         </button>
@@ -229,7 +199,7 @@ const PrivateChatPage = () => {
       </header>
 
       {/* Chat Area including User Profile Section */}
-      <div className="flex-1 overflow-y-auto p-3 bg-white no-scrollbar">
+      <div className="mt-20 px-3 flex-1  pb-20">
         {/* User Profile Section integrated within Chat Area */}
         <div className="flex flex-col items-center mb-6 pt-2">
           {/* Large Avatar */}
@@ -354,7 +324,7 @@ const PrivateChatPage = () => {
       </div>
 
       {/* Message Input Area */}
-      <div className=" py-3 border-t border-gray-200 bg-white">
+      <div className="fixed bottom-0 left-0 right-0 py-3 border-t border-gray-200 bg-white">
         <div className="flex items-center">
           <button className="p-2 text-gray-400 rounded-full hover:bg-gray-100 transition-colors">
             <Smiley size={24} />

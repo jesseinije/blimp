@@ -7,8 +7,14 @@ const UserProfile = () => {
 
   useEffect(() => {}, [username]);
 
-  // Pass showBackButton={true} to ProfilePage when viewing someone else's profile
-  return <ProfilePage showBackButton={true} username={username} />;
+  // Pass showBackButton={true} and hideSettings={true} to ProfilePage when viewing someone else's profile
+  return (
+    <ProfilePage
+      showBackButton={true}
+      username={username}
+      hideSettings={true}
+    />
+  );
 };
 
 export default UserProfile;

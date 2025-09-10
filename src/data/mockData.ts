@@ -18,8 +18,63 @@ export const mockUsers: User[] = [
     followers: 2252000,
     following: 5,
     isVerified: true,
+  },
+  {
+    id: "223",
+    username: "michaelbjordan",
+    displayName: "Michael B. Jordan",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757545978/Embrace_the_pursuit._Chevron_by_DavidYurman_features_bold_angles_andprecision-carved_lines_as_a_lpdtxm.jpg",
+    bio: "",
+    followers: 2252000,
+    following: 5,
+    isVerified: true,
+    link: "https://www.sinnermovie.com", // <-- Added
+  },
+  {
+    id: "222",
+    username: "kimkardashian",
+    displayName: "Kim Kardashian",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757544228/k6kcmmobmzjtyfyntb5y.jpg",
+    bio: "Reality TV Star | Entrepreneur | Influencer",
+    followers: 4252000,
+    following: 0,
+    isVerified: true,
     follow: true,
-    story: true, // <-- Added
+  },
+  {
+    id: "200",
+    username: "maddiecarter",
+    displayName: "Maddie Carter",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757514765/happy_bday_lukebryan_mvidzr.jpg",
+    bio: "Just a lonely girl trying to find her way",
+    followers: 12520,
+    following: 200,
+  },
+  {
+    id: "201",
+    username: "burnaboy",
+    displayName: "Burna Boy",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757523932/Burna-Boy-Photo_luzbcr.jpg",
+    bio: "African Giant | Musician | Performer | Global Citizen",
+    followers: 62520,
+    following: 200,
+    isVerified: true,
+  },
+  {
+    id: "203",
+    username: "luno_nigeria",
+    displayName: "Luno Nigeria",
+    link: "https://www.luno.com", // <-- Added
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757531234/lunoglobal_logo_cpxdnq.jpg",
+    bio: "We make crypto simple, safe, and social. Join Luno today! 🚀",
+    followers: 12520,
+    following: 200,
+    isVerified: true,
   },
   {
     id: "2",
@@ -70,14 +125,15 @@ export const mockUsers: User[] = [
   },
   {
     id: "6",
-    username: "DonaldTrump",
-    displayName: "President Donald Trump",
+    username: "lexiHeartVIP",
+    displayName: "Lexi Heart",
     avatar:
-      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756808515/trump_hoe9f0.jpg", // Updated path
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757528574/lexi_ijqgky.jpg", // Updated path
     bio: "45th President of the United States | Businessman | Author",
-    followers: 3500000, // <-- Increased followers
-    following: 50,
+    followers: 100000, // <-- Increased followers
+    following: 200,
     isVerified: true,
+    follow: true,
   },
   {
     id: "7",
@@ -107,11 +163,12 @@ export const mockUsers: User[] = [
     displayName: "Sky Sports Football",
     avatar:
       "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756817095/sky_cudz51.jpg", // Updated path
-    bio: "Singer & Dancer",
+    bio: "Your home of football news, live scores, highlights and analysis",
     followers: 5200000,
     following: 120,
     follow: true,
     isVerified: false,
+    link: "https://www.skysports.com", // <-- Added
   },
   {
     id: "16",
@@ -123,6 +180,7 @@ export const mockUsers: User[] = [
     followers: 5200000,
     following: 120,
     isVerified: true,
+    link: "https://indomie.ng", // <-- Added
   },
   {
     id: "17",
@@ -437,9 +495,179 @@ const createUserInfo = (
 
 export const mockPosts: Post[] = [
   {
+    id: "209",
+    userId: "223",
+    caption: "",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757545986/Amulets_and_Spiritual_Beads_by_DavidYurman._Symbols_of_self._1_fovees.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("223"),
+    views: 5200000,
+  },
+  {
+    id: "209",
+    userId: "222",
+    caption: "When in Venice  @dilarafindikoglu @lorraineschwartz",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757544619/When_in_Venice_dilarafindikoglu_lorraineschwartz_1_j6yyd4.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757544628/When_in_Venice_dilarafindikoglu_lorraineschwartz_2_w7hmrg.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757544610/When_in_Venice_dilarafindikoglu_lorraineschwartz_w3xnpj.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("222"),
+    views: 5200000,
+  },
+  {
+    id: "203",
+    userId: "6",
+    caption: "#JasonMomoa #ChiefofWar",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757528971/ssstik.io__angbishop10_1757528915133_pohido.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("6"),
+    views: 5200000,
+    isReelOnly: true,
+  },
+  {
+    id: "200",
+    userId: "200",
+    caption: "#StudioVibes with @audreytmclaughlin 🎶✨",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757513654/wishing_saturdays_with_audreytmclaughlin_could_last_forever_rda9hg.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757513640/wishing_saturdays_with_audreytmclaughlin_could_last_forever_2_zpc0fr.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757513646/wishing_saturdays_with_audreytmclaughlin_could_last_forever_1_ydcgvw.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("200"),
+    views: 5200000,
+  },
+  {
+    id: "201",
+    userId: "201",
+    caption:
+      "Two pieces of good news in one week! We're cheesed up! New toy arrived & Visa stamped for Australia! 🇦🇺✈️🎶 #Blessed #StudioVibes",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515489/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_1_mxbhhr.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515506/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_golcgq.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515473/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_2_f1pgi5.jpg",
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515454/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_3_fi0vb3.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("201"),
+    views: 5200000,
+    music: {
+      title: "Last Last",
+      artist: "Burna Boy",
+      url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757524773/Burna-Boy-Last-Last--_TrendyBeatz_mp3cut.net_zm6ety.mp3",
+    },
+  },
+  {
+    id: "118",
+    userId: "203", // Indomie account
+    caption:
+      "Looking for the best platform to buy and sell Bitcoin in Nigeria? Look no further than Luno! With our user-friendly app and secure platform, you can easily trade Bitcoin and other cryptocurrencies anytime, anywhere. Join the millions of users worldwide who trust Luno for their crypto needs. Sign up today and start your crypto journey with Luno! 🚀",
+    media: [
+      {
+        id: "16-1",
+        type: "video",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757530198/snaptik_7478024178952719622_v2_qfuvhp.mp4",
+      },
+    ],
+    likes: 15420,
+    comments: [],
+    repostsCount: 234,
+    sharesCount: 456,
+    location: "Nigeria",
+    createdAt: "2025-09-01T10:00:00Z",
+    liked: false,
+    saved: false,
+    sponsored: {
+      buttonText: "Learn More",
+      buttonUrl: "https://www.luno.com/",
+    },
+    user: createUserInfo("203"),
+    views: 25000,
+    pinned: true,
+  },
+  {
     id: "111",
     userId: "18",
-    caption: "Gordon, Gino and Fred: Road Trip",
+    caption: "Cooking up something special! 🍳👨‍🍳 #ChefLife",
     media: [
       {
         id: "11-1",
@@ -635,6 +863,32 @@ export const mockPosts: Post[] = [
     views: 5400, // <-- Added
   },
   {
+    id: "202",
+    userId: "7",
+    caption:
+      "The 1 MOST streamed artist of all time on Spotify: 115 BILLION streams",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525962/The_1_MOST_streamed_artist_of_all_time_on_Spotify_115_BILLION_streams_drake_dspqmq.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("7"),
+    views: 5200000,
+    music: {
+      title: "Family Matters",
+      artist: "Drake",
+      url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757526469/Drake_-_Family_Matters_Offblogmedia_mp3cut.net_f1djna.mp3",
+    },
+  },
+  {
     id: "4",
     userId: "4",
     caption: "Showy day recipe: beef and leek stew. @mpTaverna_NY",
@@ -792,11 +1046,21 @@ export const mockPosts: Post[] = [
   {
     id: "11",
     userId: "7",
-    caption: "Studio time 📸 #OVO #Studio",
+    caption: "The Graham Boyz back in the studio with Drizzy 🦉",
     media: [
       {
         id: "11-1",
-        url: "/assets/images/drakepost.jpg", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525407/The_Graham_Boyz_drake_vopmko.jpg", // Update from /src/assets to /assets
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525328/The_Graham_Boyz_drake_2_zifqfg.jpg", // Update from /src/assets to /assets
+        type: "image",
+      },
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525328/The_Graham_Boyz_drake_2_zifqfg.jpg", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -863,6 +1127,28 @@ export const mockPosts: Post[] = [
     },
     user: createUserInfo("16"),
     views: 25000,
+    pinned: true,
+  },
+  {
+    id: "120",
+    userId: "17",
+    caption:
+      "I've been working on something special for my fans. Stay tuned! #NewMusicAlert",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757543244/I_ve_learnt_that_people_will_forget_what_you_said_people_will_forget_what_you_did_but_people_w_qdtiwn.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("17"),
+    views: 5200000,
     pinned: true,
   },
 

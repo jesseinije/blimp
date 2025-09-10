@@ -13,6 +13,36 @@ interface EmptyStateProps {
   className?: string;
 }
 
+// SVG icon for smiley face
+const SmileyIcon = (
+  <svg
+    width="56"
+    height="56"
+    viewBox="0 0 56 56"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <circle
+      cx="28"
+      cy="28"
+      r="24"
+      fill="#F3F4F6"
+      stroke="#A1A1AA"
+      strokeWidth="2"
+    />
+    <ellipse cx="20" cy="24" rx="3" ry="4" fill="#A1A1AA" />
+    <ellipse cx="36" cy="24" rx="3" ry="4" fill="#A1A1AA" />
+    <path
+      d="M20 36c2.5 2 8.5 2 11 0"
+      stroke="#A1A1AA"
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+  </svg>
+);
+
 /**
  * EmptyState component for displaying when there's no content
  * Can be used for empty lists, search results, or content that hasn't been created yet
@@ -20,7 +50,7 @@ interface EmptyStateProps {
 const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
-  icon,
+  icon = SmileyIcon,
   action,
   className = "",
 }) => {

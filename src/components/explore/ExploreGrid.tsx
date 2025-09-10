@@ -10,6 +10,25 @@ import { PushPin } from "phosphor-react";
 import type { Post } from "../../types";
 import { mockPosts } from "../../data/mockData";
 
+// Create a simple debounce function since lodash.debounce isn't installed
+const debounce = <F extends (...args: any[]) => any>(
+  func: F,
+  waitFor: number
+) => {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  return (...args: Parameters<F>): void => {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => func(...args), waitFor);
+  };
+};
+
+// Constants
+const COLS = 3;
+const VIDEO_ROTATION_INTERVAL = 5000; // Time in ms to switch between videos
+
 interface ExploreGridProps {
   posts?: Post[];
   showUserInfo?: boolean;
@@ -17,9 +36,8 @@ interface ExploreGridProps {
   batchSize?: number;
   initialBatchSize?: number;
   overscanRows?: number;
+  onPostClick?: (postId: string, mediaType: string) => void; // <-- Add this line
 }
-
-const COLS = 3;
 
 const ExploreGrid: React.FC<ExploreGridProps> = ({
   posts = mockPosts,
@@ -28,6 +46,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
   batchSize = 30,
   initialBatchSize = 30,
   overscanRows = 2,
+  onPostClick, // <-- Add this line
 }) => {
   const navigate = useNavigate();
 
@@ -145,8 +164,139 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
 
   // Click navigation
   const handlePostClick = (postId: string, mediaType: string) => {
-    navigate(mediaType === "video" ? `/video/${postId}` : `/post/${postId}`);
+    if (onPostClick) {
+      onPostClick(postId, mediaType); // Use the passed-in handler if provided
+    } else {
+      navigate(mediaType === "video" ? `/video/${postId}` : `/post/${postId}`);
+    }
   };
+
+  // Video auto-play logic
+  const videoRefs = useRef<
+    Array<{ ref: React.RefObject<HTMLVideoElement>; id: string }>
+  >([]);
+  const [visibleVideoIds, setVisibleVideoIds] = useState<string[]>([]);
+  const [currentPlayingIdx, setCurrentPlayingIdx] = useState(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const registerVideoRef = useCallback(
+    (ref: React.RefObject<HTMLVideoElement>, id: string) => {
+      // Avoid duplicates
+      if (!videoRefs.current.some((v) => v.id === id)) {
+        videoRefs.current.push({ ref, id });
+      }
+    },
+    []
+  );
+
+  // Track visible videos
+  useEffect(() => {
+    const handleVisibility = debounce(() => {
+      const visibleIds: string[] = [];
+      videoRefs.current.forEach(({ ref, id }) => {
+        const el = ref.current;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          // Check if at least half of the video is visible
+          const isVisible =
+            rect.top < window.innerHeight &&
+            rect.bottom > 0 &&
+            rect.height > 0 &&
+            rect.top + rect.height / 2 < window.innerHeight &&
+            rect.bottom - rect.height / 2 > 0;
+          if (isVisible) visibleIds.push(id);
+        }
+      });
+
+      // Only update if the visible videos have changed
+      if (JSON.stringify(visibleIds) !== JSON.stringify(visibleVideoIds)) {
+        setVisibleVideoIds(visibleIds);
+        // Reset current playing index when visible videos change
+        setCurrentPlayingIdx(0);
+      }
+    }, 100);
+
+    window.addEventListener("scroll", handleVisibility, { passive: true });
+    window.addEventListener("resize", handleVisibility);
+    handleVisibility();
+
+    return () => {
+      window.removeEventListener("scroll", handleVisibility);
+      window.removeEventListener("resize", handleVisibility);
+    };
+  }, [visibleVideoIds]);
+
+  // Handle video visibility changes with browser tab visibility
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Pause all videos when tab is hidden
+        videoRefs.current.forEach(({ ref }) => {
+          if (ref.current) ref.current.pause();
+        });
+
+        // Clear the rotation timeout
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      } else {
+        // Resume video rotation when tab becomes visible again
+        setCurrentPlayingIdx((prev) => prev); // Trigger effect to restart playing
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  // Play current video and rotate
+  useEffect(() => {
+    if (visibleVideoIds.length === 0) return;
+
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    let idx = currentPlayingIdx % visibleVideoIds.length;
+
+    // Pause all videos first
+    videoRefs.current.forEach(({ ref }) => {
+      if (ref.current) ref.current.pause();
+    });
+
+    // Play the current video
+    const currentId = visibleVideoIds[idx];
+    const currentRef = videoRefs.current.find((v) => v.id === currentId)?.ref;
+    if (currentRef?.current) {
+      currentRef.current.currentTime = 0;
+      currentRef.current.play().catch(() => {});
+    }
+
+    // After interval, move to the next
+    timeoutRef.current = setTimeout(() => {
+      setCurrentPlayingIdx((prev) => (prev + 1) % visibleVideoIds.length);
+    }, VIDEO_ROTATION_INTERVAL);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [visibleVideoIds, currentPlayingIdx]);
+
+  // After updating visible posts, clean up refs for videos no longer in view
+  useEffect(() => {
+    // Only keep refs for currently rendered videos
+    const currentIds = new Set(
+      virtualizedPosts.map((post) => post.id + "-" + post.media[0]?.url)
+    );
+    videoRefs.current = videoRefs.current.filter((v) => currentIds.has(v.id));
+  }, [virtualizedPosts]);
 
   return (
     <div className="relative">
@@ -159,9 +309,16 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
           <PostGridItem
             key={post.id + "-" + post.media[0]?.url}
             post={post}
-            onPostClick={handlePostClick}
+            onPostClick={handlePostClick} // <-- Always use handlePostClick
             showUserInfo={showUserInfo}
             showPinnedIcon={showPinnedIcon}
+            registerVideoRef={registerVideoRef}
+            videoId={post.id + "-" + post.media[0]?.url}
+            isPlaying={
+              visibleVideoIds.includes(post.id + "-" + post.media[0]?.url) &&
+              visibleVideoIds[currentPlayingIdx % visibleVideoIds.length] ===
+                post.id + "-" + post.media[0]?.url
+            }
           />
         ))}
       </div>
@@ -199,43 +356,39 @@ interface PostGridItemProps {
   onPostClick: (postId: string, mediaType: string) => void;
   showUserInfo?: boolean;
   showPinnedIcon?: boolean;
+  registerVideoRef?: (
+    ref: React.RefObject<HTMLVideoElement>,
+    id: string
+  ) => void;
+  videoId?: string;
+  isPlaying?: boolean; // New prop to indicate if this video should be playing
 }
-
-const PREVIEW_SECONDS = 5; // adjust as desired
 
 const PostGridItem: React.FC<PostGridItemProps> = ({
   post,
   onPostClick,
   showUserInfo = true,
   showPinnedIcon = false,
+  registerVideoRef,
+  videoId,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const startX = useRef<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
-  const previewEndRef = useRef<number | null>(null);
 
-  const [isInView, setIsInView] = useState(false);
-  const [hasEverBeenInView, setHasEverBeenInView] = useState(false);
-
-  const [videoSrc, setVideoSrc] = useState<string | null>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [isPreviewing] = useState(true); // could toggle later if you add a “hold to preview full” feature
+  const [, setIsInView] = useState(false);
 
   const currentMedia = post.media[currentIndex];
   const isVideo = currentMedia?.type === "video";
 
+  // Track element visibility
   useEffect(() => {
     if (!itemRef.current) return;
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          if (!hasEverBeenInView) setHasEverBeenInView(true);
-        } else {
-          setIsInView(false);
-        }
+        setIsInView(entry.isIntersecting);
       },
       {
         threshold: 0.5,
@@ -245,82 +398,20 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
     );
     observer.observe(itemRef.current);
     return () => observer.disconnect();
-  }, [hasEverBeenInView]);
+  }, []);
 
+  // Register video reference for auto-play management
   useEffect(() => {
-    if (isVideo && hasEverBeenInView) {
-      setVideoLoaded(false);
-      setVideoSrc(currentMedia.url);
-    } else if (!isVideo) {
-      setVideoSrc(null);
-      setVideoLoaded(false);
+    if (isVideo && registerVideoRef && videoId) {
+      registerVideoRef(videoRef as React.RefObject<HTMLVideoElement>, videoId);
     }
-  }, [isVideo, currentMedia?.url, hasEverBeenInView, currentIndex]);
-
-  useEffect(() => {
-    if (!isVideo || !videoRef.current) return;
-    if (isInView && videoSrc) {
-      videoRef.current.play().catch(() => {});
-    } else {
-      videoRef.current.pause();
-    }
-  }, [isInView, isVideo, videoSrc]);
-
-  // after videoSrc set / metadata loaded
-  useEffect(() => {
-    if (!isVideo || !videoRef.current) {
-      previewEndRef.current = null;
-      return;
-    }
-    const vid = videoRef.current;
-
-    const handleLoadedMetadata = () => {
-      if (!isPreviewing) {
-        previewEndRef.current = null;
-        return;
-      }
-      const dur = vid.duration;
-      if (isFinite(dur) && dur > 0) {
-        if (dur <= PREVIEW_SECONDS + 0.15) {
-          // Very short video: just let native loop do full cycle
-          previewEndRef.current = null;
-          vid.loop = true;
-        } else {
-          vid.loop = false;
-          // Leave a tiny headroom to avoid hitting exact duration boundary
-          previewEndRef.current = Math.min(PREVIEW_SECONDS, dur - 0.08);
-        }
-      }
-    };
-
-    const handleTimeUpdate = () => {
-      if (
-        previewEndRef.current != null &&
-        vid.currentTime >= previewEndRef.current
-      ) {
-        // Seamless restart
-        vid.currentTime = 0.03; // small offset avoids a potential first-frame flash
-        // Ensure playback continues
-        if (!vid.paused) {
-          // (On some browsers currentTime seek can pause if near end)
-          vid.play().catch(() => {});
-        }
-      }
-    };
-
-    vid.addEventListener("loadedmetadata", handleLoadedMetadata);
-    vid.addEventListener("timeupdate", handleTimeUpdate);
-
-    return () => {
-      vid.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      vid.removeEventListener("timeupdate", handleTimeUpdate);
-    };
-  }, [isVideo, videoSrc, isPreviewing]);
+  }, [isVideo, registerVideoRef, videoId]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     e.stopPropagation();
     startX.current = e.touches[0].clientX;
   };
+
   const handleTouchMove = (e: React.TouchEvent) => {
     e.stopPropagation();
     if (!startX.current || post.media.length <= 1) return;
@@ -334,6 +425,7 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
       startX.current = null;
     }
   };
+
   const handleTouchEnd = () => {
     startX.current = null;
   };
@@ -343,6 +435,7 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
       onPostClick(post.id, currentMedia.type);
     }
   };
+
   const handleDotClick = (e: React.MouseEvent, index: number) => {
     e.stopPropagation();
     setCurrentIndex(index);
@@ -368,27 +461,15 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
       )}
 
       {isVideo ? (
-        <>
-          {!videoSrc && (
-            <div
-              className="absolute inset-0 bg-gray-200 animate-pulse"
-              aria-label="Video placeholder"
-            />
-          )}
-          {videoSrc && (
-            <video
-              ref={videoRef}
-              src={videoSrc}
-              className={`object-cover w-full h-full transition-opacity duration-300 ${
-                videoLoaded ? "opacity-100" : "opacity-0"
-              }`}
-              muted
-              playsInline
-              preload="none"
-              onLoadedData={() => setVideoLoaded(true)}
-            />
-          )}
-        </>
+        <video
+          ref={videoRef}
+          src={currentMedia.url}
+          className="object-cover w-full h-full"
+          muted
+          playsInline
+          preload="metadata"
+          loop={false}
+        />
       ) : (
         <img
           src={currentMedia.url}

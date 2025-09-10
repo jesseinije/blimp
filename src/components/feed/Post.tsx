@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 import { CheckCircle } from "phosphor-react";
 import {
-  Chat,
+  ChatCircle,
   Repost,
   Share,
   Heart,
@@ -229,7 +229,7 @@ const Post = ({ post }: PostProps) => {
           {user.follow && !isFollowing && (
             <button
               onClick={handleFollow}
-              className="bg-gray-100 text-gray-900 text-sm font-medium px-4 py-1.5 rounded-md"
+              className="bg-blue-500 text-white text-sm font-medium px-4 py-1.5 rounded-md"
             >
               Follow
             </button>
@@ -288,7 +288,7 @@ const Post = ({ post }: PostProps) => {
                 onClick={handleCommentsOpen}
                 className="mr-1 text-gray-900"
               >
-                <Chat size={24} />
+                <ChatCircle size={24} />
               </button>
               <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.comments?.length || 0)}

@@ -14,35 +14,24 @@
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
       />
     </noscript>
     <title>Vite + React + TS</title>
   </head>
-  <body>
+  <body class="font-sans">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Set --vh to the correct value on load and resize
-      function setVh() {
-        document.documentElement.style.setProperty(
-          "--vh",
-          `${window.innerHeight * 0.01}px`
-        );
-      }
-      setVh();
-      window.addEventListener("resize", setVh);
-    </script>
   </body>
 </html>
