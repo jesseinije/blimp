@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // <-- Add this import
 
-import { CheckCircle, UserPlus, Link } from "phosphor-react";
+import { CheckCircle, Link } from "phosphor-react";
 
 import { mockUsers, mockPosts, getPostsByUserId } from "../data/mockData";
 import PageHeader from "../components/layout/PageHeader";
@@ -9,7 +9,7 @@ import EmptyState from "../components/ui/EmptyState";
 import ExploreGrid from "../components/explore/ExploreGrid";
 import { ProfileSkeleton } from "../components/ui/skeletons/ProfileSkeleton";
 import { SkeletonProvider } from "../components/ui/skeletons/SkeletonProvider";
-import { Grid, AtSymbol, Film } from "../Icons";
+import { Grid, AtSymbol, Film, UserAdd } from "../Icons";
 import ImageViewer from "../components/ui/ImageViewer"; // Import the ImageViewer component
 
 // Add showBackButton to the component props
@@ -216,23 +216,27 @@ const ProfilePage = ({
           </div>
         </div>
 
-        {/* Bio section - Adjusted spacing */}
-        <div className="text-center max-w-md space-y-2">
-          <p className="text-sm leading-relaxed text-gray-900 mx-auto max-w-xs">
-            {user.bio}
-          </p>
-          {user.link && (
-            <a
-              href={user.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-blue-500 text-sm hover:underline"
-            >
-              <Link size={22} className="text-blue-500" />
-              {user.link.replace(/^https?:\/\//, "")}
-            </a>
-          )}
-        </div>
+        {/* Bio section - Only render if bio or link exists */}
+        {(user.bio?.trim() || user.link) && (
+          <div className="text-center max-w-md space-y-2">
+            {user.bio?.trim() && (
+              <p className="text-sm leading-relaxed text-gray-900 mx-auto max-w-xs">
+                {user.bio}
+              </p>
+            )}
+            {user.link && (
+              <a
+                href={user.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-blue-500 text-sm hover:underline"
+              >
+                <Link size={22} className="text-blue-500" />
+                {user.link.replace(/^https?:\/\//, "")}
+              </a>
+            )}
+          </div>
+        )}
 
         {/* Action Buttons with improved styling */}
         <div className="flex gap-2 w-full max-w-md mb-8 text-base">
@@ -243,7 +247,7 @@ const ProfilePage = ({
             Message
           </button>
           <button className="w-14 bg-gray-100 transition-colors py-2.5 rounded-lg flex items-center justify-center">
-            <UserPlus size={26} />
+            <UserAdd size={26} />
           </button>
         </div>
       </div>
@@ -302,6 +306,7 @@ const ProfilePage = ({
                   showUserInfo={false}
                   showPinnedIcon={true}
                   onPostClick={handlePostClick}
+                  showViewCountOverlay={true} // <-- Add this line
                 />
               ) : (
                 <EmptyState
@@ -332,6 +337,7 @@ const ProfilePage = ({
                   showUserInfo={false}
                   showPinnedIcon={true}
                   onPostClick={handleVideoClick}
+                  showViewCountOverlay={true} // <-- Add this line
                 />
               ) : (
                 <EmptyState

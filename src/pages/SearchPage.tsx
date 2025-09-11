@@ -312,7 +312,7 @@ const SearchPage = () => {
       ) : (
         <div className="flex flex-col">
           {/* Filter Tabs - with padding */}
-          <div className="px-3 border-b border-gray-200 pb-0.5">
+          <div className="px-3 border-b border-gray-200 mb-0.5">
             <div className="w-full ">
               <div className="flex overflow-x-auto space-x-4 mb-0">
                 {tabs.map((tab) => {
@@ -321,8 +321,10 @@ const SearchPage = () => {
                     <button
                       key={tab.toLowerCase()}
                       onClick={() => setActiveTab(tab.toLowerCase())}
-                      className={`relative px-2 py-1.5 text-sm font-medium whitespace-nowrap flex flex-col items-center ${
-                        isActive ? "text-gray-900" : "text-gray-400"
+                      className={`relative px-2 py-1.5 text-sm whitespace-nowrap flex flex-col items-center ${
+                        isActive
+                          ? "text-gray-900 font-semibold"
+                          : "text-gray-400 font-medium"
                       }`}
                     >
                       <span>{tab}</span>

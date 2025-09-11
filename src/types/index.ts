@@ -10,6 +10,7 @@ export type User = {
   follow?: boolean; // <-- Add this line
   story?: boolean; // <-- Add this line
   link?: string; // <-- Add this line
+  isRead?: boolean; // <-- Add this line
 };
 
 export type Comment = {

@@ -56,7 +56,7 @@ const ExplorePage = () => {
     <div
       id="explore-scroll-container"
       ref={scrollContainerRef}
-      className="max-w-2xl mx-auto bg-white min-h-screen mb-20 overflow-y-auto scrollbar-hide"
+      className="max-w-2xl mx-auto bg-white min-h-screen overflow-y-auto scrollbar-hide"
       style={{
         scrollBehavior: "smooth",
         maxHeight: "100vh",

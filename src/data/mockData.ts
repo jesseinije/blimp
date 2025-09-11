@@ -32,6 +32,18 @@ export const mockUsers: User[] = [
     link: "https://www.sinnermovie.com", // <-- Added
   },
   {
+    id: "226",
+    username: "kevinhart",
+    displayName: "Kevin Hart",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757590514/hart_sk52nr.jpg",
+    bio: "Comedian, Actor & Producer",
+    followers: 3250000,
+    following: 5,
+    isVerified: true,
+    link: "https://www.kevinhartnation.com", // <-- Added
+  },
+  {
     id: "222",
     username: "kimkardashian",
     displayName: "Kim Kardashian",
@@ -87,7 +99,8 @@ export const mockUsers: User[] = [
     following: 7,
     isVerified: true,
     follow: true,
-    story: true, // <-- Added
+    story: true,
+    isRead: true, // <-- add this
   },
   {
     id: "3",
@@ -122,6 +135,7 @@ export const mockUsers: User[] = [
     followers: 5000000,
     following: 20,
     isVerified: true,
+    isRead: true, // <-- add this
   },
   {
     id: "6",
@@ -144,6 +158,7 @@ export const mockUsers: User[] = [
     followers: 5200000,
     following: 1250,
     isVerified: true,
+    isRead: true, // <-- add this
   },
   ...userData,
   {
@@ -515,7 +530,28 @@ export const mockPosts: Post[] = [
     views: 5200000,
   },
   {
-    id: "209",
+    id: "226",
+    userId: "226",
+    caption:
+      "#OldSpicePartner had me so hype I almost ran out the tub and straight to the field.🤣",
+    media: [
+      {
+        id: "11-7",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757590444/AQMIDO3rJmKvz-Ap6nDago_uo9u31YTo6GB5vFqVy5UlNPR48uh1VfDjdG1c-x6kCTxys86YnXX8vbqX_fmFHlyNeLGXj3AiZP-FaQs_n52enq.mp4",
+        type: "video",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("226"),
+    views: 4200000,
+  },
+  {
+    id: "229",
     userId: "222",
     caption: "When in Venice  @dilarafindikoglu @lorraineschwartz",
     media: [
@@ -525,12 +561,12 @@ export const mockPosts: Post[] = [
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-2",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757544628/When_in_Venice_dilarafindikoglu_lorraineschwartz_2_w7hmrg.jpg",
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-3",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757544610/When_in_Venice_dilarafindikoglu_lorraineschwartz_w3xnpj.jpg",
         type: "image",
       },
@@ -550,7 +586,7 @@ export const mockPosts: Post[] = [
     caption: "#JasonMomoa #ChiefofWar",
     media: [
       {
-        id: "11-1",
+        id: "11-8",
         url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757528971/ssstik.io__angbishop10_1757528915133_pohido.mp4",
         type: "video",
       },
@@ -576,12 +612,12 @@ export const mockPosts: Post[] = [
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-2",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757513640/wishing_saturdays_with_audreytmclaughlin_could_last_forever_2_zpc0fr.jpg",
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-3",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757513646/wishing_saturdays_with_audreytmclaughlin_could_last_forever_1_ydcgvw.jpg",
         type: "image",
       },
@@ -607,17 +643,17 @@ export const mockPosts: Post[] = [
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-2",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515506/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_golcgq.jpg",
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-3",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515473/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_2_f1pgi5.jpg",
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-4",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757515454/Two_pieces_of_good_news_in_one_week_we_re_cheesed_up_New_toy_arrived_Visa_stamped_for_Austr_3_fi0vb3.jpg",
         type: "image",
       },
@@ -980,18 +1016,19 @@ export const mockPosts: Post[] = [
   {
     id: "8",
     userId: "6",
-    caption: "Make America Great Again! #MAGA",
+    caption:
+      "Ginness World Record for the most advanced video ever made! #creativity #design #videoart #project",
     media: [
       {
         id: "8-1",
-        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1756770400/test3_r2tbzl.mp4", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757549820/guinnessworldrecords_7547763439867809046_bpo1hn.mp4", // Update from /src/assets to /assets
         type: "video",
       },
     ],
     likes: 1893,
     comments: mockComments["7"],
     createdAt: "2025-08-18T09:22:30Z",
-    location: "Mar-a-Lago, Florida",
+    location: "",
     tags: ["creativity", "design", "videoart", "project"],
     saved: false,
     liked: false,
@@ -1002,12 +1039,11 @@ export const mockPosts: Post[] = [
   {
     id: "9",
     userId: "6",
-    caption:
-      "Making America great again! Just had a fantastic meeting with supporters. The energy was incredible. #MAGA #America #leadership",
+    caption: "What's your fav meme? #funny #memes #humor #lol #funnymemes",
     media: [
       {
         id: "9-1",
-        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756808822/trump1_g6eimn.jpg", // Update from /src/assets to /assets
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757586940/31_Funny_Quotes_And_Sayings_About_Funny_Memes_q0nw6n.jpg", // Update from /src/assets to /assets
         type: "image",
       },
     ],
@@ -1054,12 +1090,12 @@ export const mockPosts: Post[] = [
         type: "image",
       },
       {
-        id: "11-1",
-        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525328/The_Graham_Boyz_drake_2_zifqfg.jpg", // Update from /src/assets to /assets
+        id: "11-2",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525385/The_Graham_Boyz_drake_1_i8gmq4.jpg", // Update from /src/assets to /assets
         type: "image",
       },
       {
-        id: "11-1",
+        id: "11-3",
         url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757525328/The_Graham_Boyz_drake_2_zifqfg.jpg", // Update from /src/assets to /assets
         type: "image",
       },

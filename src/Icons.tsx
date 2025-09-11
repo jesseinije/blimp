@@ -986,3 +986,64 @@ export const ArrowLeft: React.FC<IconProps> = ({
     />
   </svg>
 );
+
+// UserAdd icon
+export const UserAdd: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <line
+      x1="200"
+      y1="136"
+      x2="248"
+      y2="136"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="224"
+      y1="112"
+      x2="224"
+      y2="160"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <circle
+      cx="108"
+      cy="100"
+      r="60"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M24,200c20.55-24.45,49.56-40,84-40s63.45,15.55,84,40"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);

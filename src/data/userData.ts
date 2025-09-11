@@ -7,8 +7,30 @@ export const userData: User[] = [
     displayName: "Jamie & Blake",
     avatar:
       "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757231016/blake_xx39yj.jpg",
-    bio: "Influencer | Model | Content Creator | Travel Enthusiast",
+    bio: "",
     followers: 4800000,
+    following: 89,
+    isVerified: true,
+  },
+  {
+    id: "89",
+    username: "wizkid",
+    displayName: "Wizkid",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757592053/wiz_zggwkc.jpg",
+    bio: "Multiple Grammy Award-winning artist and global sensation, Wizkid is known for his infectious Afrobeat rhythms and captivating performances.",
+    followers: 6800000,
+    following: 0,
+    isVerified: true,
+  },
+  {
+    id: "225",
+    username: "grandma_droniak",
+    displayName: "Grandma Droniak",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757588330/igrandma_droniak_ekz9rr.jpg",
+    bio: "",
+    followers: 200000,
     following: 89,
     isVerified: true,
   },
@@ -84,7 +106,7 @@ export const userData: User[] = [
     displayName: "Your Name",
     avatar:
       "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757510419/default_dalfcc.jpg",
-    bio: "Creative content enthusiast using Blimp to connect with friends and followers.",
+    bio: "This is your bio. Share something interesting about yourself!",
     followers: 4200000,
     following: 205,
     isVerified: true,
@@ -165,6 +187,32 @@ const createUserInfo = (
 
 export const userPosts: Post[] = [
   {
+    id: "271",
+    userId: "89",
+    location: "",
+    caption: "",
+    media: [
+      {
+        id: "12-2",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757591697/467337254_18038468387203420_8816270998369301084_n_ycg7e5.jpg",
+        type: "image",
+      },
+    ],
+    likes: 2900000,
+    comments: userComments["12"],
+    createdAt: "2025-08-29T15:00:00Z",
+    tags: ["ErasTour", "TaylorSwift", "Swifties"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("89"),
+    views: 5000000,
+    music: {
+      title: "Essence",
+      artist: "Wizkid",
+      url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757592603/Tems-Ft-Wizkid-Essence-_TrendyBeatz_mp3cut.net_qw8amj.mp3",
+    },
+  },
+  {
     id: "211",
     userId: "81",
     location: "USA",
@@ -188,6 +236,28 @@ export const userPosts: Post[] = [
       buttonText: "Learn More",
       buttonUrl: "https://visa.com/",
     },
+  },
+  {
+    id: "216",
+    userId: "225",
+    location: "USA",
+    caption: "Grandma Droniak showing off",
+    media: [
+      {
+        id: "12-2",
+        url: "https://res.cloudinary.com/dopnzcfxj/video/upload/v1757588824/ssstik.io__grandma_droniak_1757588073157_ca4b6p.mp4",
+        type: "video",
+      },
+    ],
+    likes: 2900000,
+    comments: userComments["12"],
+    createdAt: "2025-08-29T15:00:00Z",
+    tags: ["ErasTour", "TaylorSwift", "Swifties"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("225"),
+    views: 1000000,
+    isReelOnly: true,
   },
   {
     id: "21",

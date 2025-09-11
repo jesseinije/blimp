@@ -175,7 +175,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
         </div>
 
         {/* Tabs section */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-300">
           <div className="nav-container">
             <nav className="tabs-container">
               <button

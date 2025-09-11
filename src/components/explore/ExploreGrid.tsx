@@ -36,7 +36,8 @@ interface ExploreGridProps {
   batchSize?: number;
   initialBatchSize?: number;
   overscanRows?: number;
-  onPostClick?: (postId: string, mediaType: string) => void; // <-- Add this line
+  onPostClick?: (postId: string, mediaType: string) => void;
+  showViewCountOverlay?: boolean; // <-- Add this line
 }
 
 const ExploreGrid: React.FC<ExploreGridProps> = ({
@@ -46,7 +47,8 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
   batchSize = 30,
   initialBatchSize = 30,
   overscanRows = 2,
-  onPostClick, // <-- Add this line
+  onPostClick,
+  showViewCountOverlay = false, // <-- Add default
 }) => {
   const navigate = useNavigate();
 
@@ -299,7 +301,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
   }, [virtualizedPosts]);
 
   return (
-    <div className="relative">
+    <div className="relative mb-20">
       {/* Spacer above */}
       <div style={{ height: topSpacer }} aria-hidden />
 
@@ -309,7 +311,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
           <PostGridItem
             key={post.id + "-" + post.media[0]?.url}
             post={post}
-            onPostClick={handlePostClick} // <-- Always use handlePostClick
+            onPostClick={handlePostClick}
             showUserInfo={showUserInfo}
             showPinnedIcon={showPinnedIcon}
             registerVideoRef={registerVideoRef}
@@ -319,6 +321,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
               visibleVideoIds[currentPlayingIdx % visibleVideoIds.length] ===
                 post.id + "-" + post.media[0]?.url
             }
+            showViewCountOverlay={showViewCountOverlay} // <-- Pass down
           />
         ))}
       </div>
@@ -361,7 +364,8 @@ interface PostGridItemProps {
     id: string
   ) => void;
   videoId?: string;
-  isPlaying?: boolean; // New prop to indicate if this video should be playing
+  isPlaying?: boolean;
+  showViewCountOverlay?: boolean; // <-- Add this line
 }
 
 const PostGridItem: React.FC<PostGridItemProps> = ({
@@ -371,6 +375,7 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
   showPinnedIcon = false,
   registerVideoRef,
   videoId,
+  showViewCountOverlay = false, // <-- Add default
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const startX = useRef<number | null>(null);
@@ -441,6 +446,14 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
     setCurrentIndex(index);
   };
 
+  // Add this helper function at the top-level (outside the component)
+  const formatNumber = (num: number): string => {
+    if (num >= 1000000)
+      return `${(num / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+    return num.toString();
+  };
+
   return (
     <div
       ref={itemRef}
@@ -507,6 +520,22 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
               {post.user.username}
             </span>
           </div>
+        </div>
+      )}
+
+      {/* View count overlay */}
+      {showViewCountOverlay && (
+        <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded flex items-center gap-1 pointer-events-none">
+          <svg
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="inline-block"
+            viewBox="0 0 16 16"
+          >
+            <path d="M8 3C4 3 1.73 6.11 1.08 7.11a1 1 0 0 0 0 .78C1.73 9.89 4 13 8 13s6.27-3.11 6.92-4.11a1 1 0 0 0 0-.78C14.27 6.11 12 3 8 3zm0 8c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
+          </svg>
+          {formatNumber(post.views ?? 0)}
         </div>
       )}
     </div>
