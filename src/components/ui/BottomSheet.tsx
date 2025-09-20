@@ -206,7 +206,7 @@ const BottomSheet = ({
                           </div>
                           <Dialog.Title
                             as="h3"
-                            className="text-sm font-medium leading-6 text-gray-900  absolute left-1/2 transform -translate-x-1/2 text-center"
+                            className="text-sm font-semibold leading-6 text-gray-900 absolute left-1/2 transform -translate-x-1/2 text-center"
                           >
                             {title}
                           </Dialog.Title>

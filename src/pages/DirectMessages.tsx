@@ -1,4 +1,3 @@
-import PageHeader from "../components/layout/PageHeader";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import type {
@@ -7,8 +6,8 @@ import type {
 } from "../types/notificationTypes";
 import SuggestedAccounts from "../components/notifications/SuggestedAccounts";
 import { mockUsers } from "../data/mockData";
-import YourStory from "../components/notifications/YourStory";
 import { mockPrivateMessages } from "../data/notificationsData"; // Import mock messages
+import { Search, Settings } from "../Icons"; // Update import
 
 const DirectMessages = () => {
   const navigate = useNavigate();
@@ -54,7 +53,8 @@ const DirectMessages = () => {
   ];
 
   const handleOpenChat = (message: PrivateMessage) => {
-    navigate(`/chat/${message.sender.id}`);
+    const mockUser = getMockUser(message.sender.id);
+    navigate(`/chat/${message.sender.id}`, { state: { user: mockUser } });
   };
 
   // Function to get a specific user from mockData
@@ -63,31 +63,25 @@ const DirectMessages = () => {
     return mockUsers[userIndex];
   };
 
-  // Handler for when the pencil icon is clicked
-  const handleEditClick = () => {
-    // Handle edit action - you can navigate to a compose message page or open a modal
-    console.log("Edit button clicked");
-    // Example: navigate("/compose-message");
-  };
-
   return (
     <div className="min-h-screen mb-20 bg-white">
-      {/* Fixed PageHeader */}
-      <div className="fixed top-0 left-0 right-0 z-10 bg-white">
-        <PageHeader
-          title="Messages"
-          showBackButton={false}
-          showBorder={false}
-          rightIcon="pencil"
-          onRightIconClick={handleEditClick}
-        />
+      {/* Header with title and settings icon */}
+      <div className="fixed top-0 left-0 right-0 bg-white z-10 px-3 py-3 flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-gray-900">Messages</h1>
+        <div className="flex items-center gap-[1.5rem]">
+          <button aria-label="Search">
+            <Search size={24} className="text-gray-900" />
+          </button>
+          <button aria-label="Settings">
+            <Settings size={26} className="text-gray-900" />
+          </button>
+        </div>
       </div>
 
-      {/* Content area with padding-top to account for fixed header */}
-      <div className="mt-[5rem]">
-        {/* Replace Stories with YourStory */}
-        <YourStory />
+      {/* Search bar button (copied from ExplorePage) */}
 
+      {/* Content area with padding-top to account for fixed header */}
+      <div className="pt-14">
         <div className="mt-2">
           {messages.map((message) => {
             // Get a user from mockUsers based on the message sender ID
@@ -98,7 +92,7 @@ const DirectMessages = () => {
                 key={message.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`px-3 py-4 ${message.isUnread ? "" : ""}`}
+                className={`px-3 py-3 ${message.isUnread ? "" : ""}`}
                 tabIndex={0}
                 role="button"
                 aria-label={`Message from ${message.sender.name}, ${

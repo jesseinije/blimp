@@ -1,22 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Heart,
   BookmarkSimple,
   DotsThreeVertical,
   ChatCircle,
-  PaperPlaneTilt,
   Info,
   Flag,
   Prohibit,
   SpeakerSimpleSlash,
-  CaretLeft,
 } from "phosphor-react";
 import BottomSheet from "../ui/BottomSheet";
-import CommentsList from "../feed/CommentsList";
-import ReplyList from "../feed/ReplyList";
-import { Repost } from "../../Icons";
+import { Repost, ShareFat } from "../../Icons";
+import Comment from "../feed/Comment"; // Import the Comment component
 import type { Comment as CommentType } from "../../types";
 import "./ReelActionBar.css"; // Add this import at the top
+import { useAppStore } from "../../store/appStore"; // Import if not already
 
 // Add the formatCount function
 function formatCount(count: number): string {
@@ -60,15 +58,21 @@ const ReelActionBar = ({
   onSave,
   isLiked,
 }: ReelActionBarProps) => {
+  const { currentUser } = useAppStore();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [commentText, setCommentText] = useState("");
+  const [replyTo, setReplyTo] = useState<{
+    id: string;
+    username: string;
+  } | null>(null);
   const [isMoreSheetOpen, setIsMoreSheetOpen] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [bottomSheetTitle, setBottomSheetTitle] = useState("Comments");
-  const [currentView, setCurrentView] = useState<"comments" | "replies">(
-    "comments"
+  const [, setCurrentView] = useState<"comments" | "replies">("comments");
+  const [, setSelectedComment] = useState<CommentType | null>(null); // Changed from Comment to CommentType
+  const [expandedComments, setExpandedComments] = useState<Set<string>>(
+    new Set()
   );
-  const [selectedComment, setSelectedComment] = useState<CommentType | null>(
-    null
-  ); // Changed from Comment to CommentType
 
   const handleMoreClick = () => {
     setIsMoreSheetOpen(true);
@@ -95,30 +99,17 @@ const ReelActionBar = ({
     }, 300);
   };
 
-  const handleViewReplies = (comment: CommentType, title: string) => {
-    // Changed from Comment to CommentType
-    setSelectedComment(comment);
-    setBottomSheetTitle(title);
-    setCurrentView("replies");
+  const toggleReplies = (commentId: string) => {
+    setExpandedComments((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(commentId)) {
+        newSet.delete(commentId);
+      } else {
+        newSet.add(commentId);
+      }
+      return newSet;
+    });
   };
-
-  const handleBackToComments = () => {
-    setBottomSheetTitle("Comments");
-    setCurrentView("comments");
-    setSelectedComment(null);
-  };
-
-  // Custom close button with back functionality when in replies view
-  const customCloseButton =
-    currentView === "replies" ? (
-      <button
-        onClick={handleBackToComments}
-        className="p-2 text-gray-900 "
-        aria-label="Back to comments"
-      >
-        <CaretLeft size={24} />
-      </button>
-    ) : undefined;
 
   // Add a handler for stopping event propagation
   const handleActionClick = (e: React.MouseEvent, action: () => void) => {
@@ -135,6 +126,35 @@ const ReelActionBar = ({
     action();
   };
 
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentText(e.target.value);
+  };
+
+  const handleSubmitComment = () => {
+    if (commentText.trim() === "") return;
+    // Add your comment logic here
+    console.log("Adding comment:", {
+      reelId,
+      text: commentText,
+      replyTo: replyTo?.id,
+    });
+    setCommentText("");
+    setReplyTo(null);
+  };
+
+  const handleReply = (commentId: string, username: string) => {
+    setReplyTo({ id: commentId, username });
+    if (inputRef.current) {
+      inputRef.current.focus();
+      setCommentText(`@${username} `);
+    }
+  };
+
+  const cancelReply = () => {
+    setReplyTo(null);
+    setCommentText("");
+  };
+
   return (
     <>
       <div
@@ -149,7 +169,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <Heart
-              size={30}
+              size={32}
               weight="fill"
               className={`reel-action-icon ${
                 isLiked ? "liked text-red-500" : "text-white/90"
@@ -172,7 +192,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <ChatCircle
-              size={30}
+              size={32}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -192,8 +212,8 @@ const ReelActionBar = ({
             className="reel-action-button flex items-center justify-center"
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
-            <PaperPlaneTilt
-              size={30}
+            <ShareFat
+              size={32}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -214,7 +234,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <Repost
-              size={30}
+              size={32}
               weight="fill"
               className="reel-action-icon text-white/90"
             />
@@ -235,7 +255,7 @@ const ReelActionBar = ({
             onTouchStart={(e) => e.stopPropagation()} // Add touch event handling
           >
             <DotsThreeVertical
-              size={30}
+              size={32}
               weight="bold"
               className="reel-action-icon text-white/90"
             />
@@ -268,25 +288,88 @@ const ReelActionBar = ({
             height="70vh"
             showHandle={true}
             showBackdrop={false}
-            customCloseButton={customCloseButton}
           >
-            {currentView === "comments" ? (
-              <CommentsList
-                postId={reelId}
-                comments={comments || []}
-                onViewReplies={handleViewReplies}
-              />
-            ) : selectedComment ? (
-              <ReplyList
-                comment={selectedComment}
-                onReply={(commentId, username) => {
-                  // Handle reply to a reply
-                  console.log(
-                    `Replying to ${username}'s comment: ${commentId}`
-                  );
-                }}
-              />
-            ) : null}
+            <div style={{ marginBottom: "80px" }}>
+              {comments.map((comment) => (
+                <div key={comment.id} className="mb-4">
+                  <Comment
+                    comment={comment}
+                    onReply={handleReply}
+                    onViewReplies={() => toggleReplies(comment.id)}
+                    showRepliesButton={(comment.replies?.length || 0) > 0}
+                    isExpanded={expandedComments.has(comment.id)}
+                  />
+                  {expandedComments.has(comment.id) &&
+                    comment.replies &&
+                    comment.replies.length > 0 && (
+                      <div className="ml-11">
+                        {comment.replies.map((reply) => (
+                          <div key={reply.id} className="mt-2">
+                            <Comment comment={reply} onReply={() => {}} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                </div>
+              ))}
+            </div>
+
+            {/* Comment input area */}
+            <div className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
+              <div className="p-3">
+                {replyTo && (
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-400">
+                      Replying to{" "}
+                      <span className="font-medium text-gray-900">
+                        @{replyTo.username}
+                      </span>
+                    </span>
+                    <button
+                      onClick={cancelReply}
+                      className="text-gray-400 text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+                <div className="flex items-center">
+                  {currentUser && (
+                    <img
+                      src="https://res.cloudinary.com/dopnzcfxj/image/upload/v1757510419/default_dalfcc.jpg"
+                      alt={currentUser.username}
+                      className="w-8 h-8 rounded-full mr-3 object-cover"
+                    />
+                  )}
+                  <div className="flex-1 flex items-center">
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      placeholder="Add a comment..."
+                      className="flex-1 text-sm py-1 px-0 border-none bg-transparent placeholder-gray-400 focus:outline-none"
+                      value={commentText}
+                      onChange={handleCommentChange}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleSubmitComment();
+                        }
+                      }}
+                    />
+                    <button
+                      onClick={handleSubmitComment}
+                      disabled={commentText.trim() === ""}
+                      className={`ml-2 ${
+                        commentText.trim() === ""
+                          ? "text-blue-200 "
+                          : "text-blue-500"
+                      }`}
+                    >
+                      <span className="font-semibold text-sm">Post</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </BottomSheet>
         </div>
       )}

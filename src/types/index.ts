@@ -1,17 +1,24 @@
-export type User = {
+export interface User {
   id: string;
   username: string;
-  displayName: string;
+  displayName: string; // <-- Add this line
   avatar: string;
-  bio?: string;
-  followers: number;
-  following: number;
   isVerified?: boolean;
-  follow?: boolean; // <-- Add this line
-  story?: boolean; // <-- Add this line
-  link?: string; // <-- Add this line
-  isRead?: boolean; // <-- Add this line
-};
+  story?: boolean;
+  creator?: boolean;
+  follow?: boolean;
+  bio?: string;
+  followers?: number;
+  following?: number;
+  link?: string;
+  isRead?: boolean;
+  socialLinks?: {
+    instagram?: string;
+    x?: string;
+    tiktok?: string;
+    youtube?: string; // <-- Add this line
+  };
+}
 
 export type Comment = {
   id: string;

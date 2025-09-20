@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { CheckCircle, X } from "phosphor-react";
-import { useNavigate } from "react-router-dom";
 import type { SuggestedAccount } from "../../types/notificationTypes";
 import { mockUsers } from "../../data/mockData";
 
@@ -16,7 +15,6 @@ const SuggestedAccounts = ({
   showHeader = true, // Default to true to maintain existing behavior
 }: SuggestedAccountsProps) => {
   const [accounts, setAccounts] = useState<SuggestedAccount[]>([]);
-  const navigate = useNavigate();
 
   // Use mockData to populate the suggested accounts
   useEffect(() => {
@@ -25,7 +23,7 @@ const SuggestedAccounts = ({
       id: user.id,
       username: user.username,
       avatar: user.avatar,
-      followers: user.followers, // Add followers count
+      followers: Math.floor(Math.random() * 10000) + 1000, // Use a random number for followers
       isVerified: user.isVerified,
     }));
 
@@ -38,7 +36,7 @@ const SuggestedAccounts = ({
 
   const handleSeeAllClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("/suggested-accounts");
+    // Do nothing
   };
 
   if (accounts.length === 0) return null;

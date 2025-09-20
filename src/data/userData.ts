@@ -11,6 +11,10 @@ export const userData: User[] = [
     followers: 4800000,
     following: 89,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/jamieandblake",
+      youtube: "https://youtube.com/@jamieandblake",
+    },
   },
   {
     id: "89",
@@ -22,6 +26,12 @@ export const userData: User[] = [
     followers: 6800000,
     following: 0,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/wizkidayo",
+      x: "https://x.com/wizkidayo",
+      tiktok: "https://tiktok.com/@wizkidayo",
+      youtube: "https://youtube.com/@wizkidayo",
+    },
   },
   {
     id: "225",
@@ -33,6 +43,10 @@ export const userData: User[] = [
     followers: 200000,
     following: 89,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/grandma_droniak",
+      tiktok: "https://tiktok.com/@grandma_droniak",
+    },
   },
   {
     id: "81",
@@ -44,6 +58,11 @@ export const userData: User[] = [
     followers: 4800000,
     following: 8,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/visa",
+      youtube: "https://youtube.com/@visa",
+      x: "https://x.com/visa",
+    },
   },
   {
     id: "9",
@@ -55,6 +74,10 @@ export const userData: User[] = [
     followers: 2600000,
     following: 103,
     isVerified: false,
+    socialLinks: {
+      tiktok: "https://tiktok.com/@ariaouu",
+      instagram: "https://instagram.com/ariaouu",
+    },
   },
   {
     id: "10",
@@ -65,6 +88,12 @@ export const userData: User[] = [
     followers: 3200000,
     following: 245,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/nba",
+      youtube: "https://youtube.com/@nba",
+      x: "https://x.com/nba",
+      tiktok: "https://tiktok.com/@nba",
+    },
   },
   {
     id: "11",
@@ -76,6 +105,10 @@ export const userData: User[] = [
     followers: 1200000,
     following: 245,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/kimwinnifred",
+      youtube: "https://youtube.com/@kimwinnifred",
+    },
   },
   {
     id: "12",
@@ -87,6 +120,11 @@ export const userData: User[] = [
     followers: 1200000,
     following: 245,
     isVerified: true,
+    socialLinks: {
+      instagram: "https://instagram.com/realbbymula",
+      tiktok: "https://tiktok.com/@realbbymula",
+      youtube: "https://youtube.com/@realbbymula",
+    },
   },
   {
     id: "13",
@@ -99,19 +137,29 @@ export const userData: User[] = [
     following: 205,
     isVerified: true,
     story: true,
+    socialLinks: {
+      instagram: "https://instagram.com/casie",
+      tiktok: "https://tiktok.com/@casie",
+    },
   },
   {
     id: "115",
-    username: "your_username",
-    displayName: "Your Name",
+    username: "Kloe",
+    displayName: "Kloe",
     avatar:
       "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757510419/default_dalfcc.jpg",
-    bio: "This is your bio. Share something interesting about yourself!",
+    bio: "Share something interesting about yourself!",
     followers: 4200000,
     following: 205,
     isVerified: true,
     story: false,
     link: "https://bimp.me",
+    socialLinks: {
+      instagram: "https://instagram.com/your_username",
+      x: "https://x.com/your_username",
+      tiktok: "https://tiktok.com/@your_username",
+      youtube: "https://youtube.com/@your_username",
+    },
   },
 ];
 

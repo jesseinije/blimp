@@ -85,7 +85,7 @@ const ReelContentInfo: React.FC<ReelContentInfoProps> = ({
         text={caption}
         className="mb-3 [&_span:not(.text-blue-500)]:text-white [&_button]:text-white/70"
         maxLength={37}
-        highlightClassName="text-blue-500"
+        highlightClassName="font-semibold text-white"
       />
 
       <div className="flex items-center gap-1">

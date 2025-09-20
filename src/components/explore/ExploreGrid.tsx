@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { PushPin } from "phosphor-react";
+import { PushPin, Cards } from "phosphor-react";
 import type { Post } from "../../types";
 import { mockPosts } from "../../data/mockData";
 
@@ -306,7 +306,7 @@ const ExploreGrid: React.FC<ExploreGridProps> = ({
       <div style={{ height: topSpacer }} aria-hidden />
 
       {/* Visible window grid */}
-      <div className="grid grid-cols-3 gap-0.5 bg-white">
+      <div className="grid grid-cols-3 gap-[0.05rem] bg-white">
         {virtualizedPosts.map((post) => (
           <PostGridItem
             key={post.id + "-" + post.media[0]?.url}
@@ -441,11 +441,6 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
     }
   };
 
-  const handleDotClick = (e: React.MouseEvent, index: number) => {
-    e.stopPropagation();
-    setCurrentIndex(index);
-  };
-
   // Add this helper function at the top-level (outside the component)
   const formatNumber = (num: number): string => {
     if (num >= 1000000)
@@ -492,18 +487,10 @@ const PostGridItem: React.FC<PostGridItemProps> = ({
         />
       )}
 
+      {/* Show a single ImagesSquare icon for multiple images */}
       {post.media.length > 1 && (
-        <div className="absolute top-2 right-2 flex space-x-1">
-          {post.media.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={(e) => handleDotClick(e, idx)}
-              className={`w-1.5 h-1.5 rounded-full ${
-                idx === currentIndex ? "bg-white" : "bg-white/50"
-              }`}
-              aria-label={`Go to media ${idx + 1}`}
-            />
-          ))}
+        <div className="absolute top-2 right-2 z-10">
+          <Cards size={16} weight="fill" className="text-white drop-shadow" />
         </div>
       )}
 

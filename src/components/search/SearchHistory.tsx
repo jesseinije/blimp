@@ -26,14 +26,14 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({
           <div className="flex items-center space-x-3">
             <Clock size={20} className="text-gray-400" />{" "}
             {/* Replace ClockIcon */}
-            <span className="text-base">{item.query}</span>
+            <span className="text-sm text-gray-900">{item.query}</span>
           </div>
           <button
             onClick={(e) => {
               e.stopPropagation();
               onClearItem(item.id);
             }}
-            className="p-1 rounded-full hover:bg-gray-100"
+            className="p-1 rounded-full"
           >
             <X size={20} className="text-gray-400" /> {/* Replace XMarkIcon */}
           </button>

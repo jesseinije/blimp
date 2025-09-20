@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CheckCircle } from "phosphor-react";
-import { Heart, ArrowLeft } from "../../Icons";
+import { Heart } from "../../Icons";
 import { getUserById } from "../../data/mockData";
 import type { Comment as CommentType } from "../../types";
 import Caption from "../ui/Caption";
@@ -10,12 +10,20 @@ interface CommentProps {
   comment: CommentType;
   onReply?: (commentId: string, username: string) => void;
   onViewReplies?: () => void;
+  showRepliesButton?: boolean;
+  isExpanded?: boolean;
 }
 
-const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
+const Comment = ({
+  comment,
+  onReply,
+  onViewReplies,
+  showRepliesButton = false,
+  isExpanded = false,
+}: CommentProps) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
-  const [replyCount] = useState(comment.replies?.length || 0);
+  const replyCount = comment.replies?.length || 0;
 
   const user = getUserById(comment.userId);
 
@@ -33,15 +41,6 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
   const handleReply = () => {
     if (onReply) {
       onReply(comment.id, user.username);
-    }
-  };
-
-  const handleViewReplies = () => {
-    if (onViewReplies && replyCount > 0) {
-      onViewReplies();
-    } else {
-      // If no replies but user wants to reply, trigger the reply function
-      handleReply();
     }
   };
 
@@ -94,38 +93,38 @@ const Comment = ({ comment, onReply, onViewReplies }: CommentProps) => {
                 ) : (
                   <span className="mr-2"></span>
                 )}
-                <span className="text-sm text-gray-400">{formattedDate}</span>
+                <span className="text-xs text-gray-400">{formattedDate}</span>
               </div>
             </div>
 
             {/* Comment text */}
             <Caption text={comment.text} maxLength={120} />
 
-            {/* Modified Reactions row */}
-            <div className="flex items-center justify-between mt-2">
-              <div className="flex items-center">
-                <button
-                  onClick={handleViewReplies}
-                  className="text-gray-900 hover:text-gray-700 mr-1.5"
-                >
-                  <ArrowLeft size={18} />
-                </button>
-                <span className="text-xs text-gray-900 font-medium">
-                  {replyCount > 0 ? replyCount : ""}
-                </span>
-              </div>
-
-              <div className="flex items-center">
-                <button onClick={handleLike} className="mr-1.5 text-gray-900">
+            {/* Actions row */}
+            <div className="flex items-center mt-8">
+              <div className="flex items-center space-x-4 text-xs text-gray-900">
+                <button onClick={handleLike} className="flex items-center">
                   <Heart
-                    size={18}
+                    size={17}
                     weight={liked ? "fill" : "regular"}
                     className={liked ? "text-red-500" : ""}
                   />
+                  {likes > 0 && (
+                    <span className="ml-1">{formatCount(likes)}</span>
+                  )}
                 </button>
-                <span className="text-xs text-gray-900 font-medium">
-                  {likes > 0 ? formatCount(likes) : ""}
-                </span>
+
+                <button onClick={handleReply}>Reply</button>
+
+                {showRepliesButton && (
+                  <button onClick={onViewReplies}>
+                    {isExpanded
+                      ? `Hide replies`
+                      : `View ${replyCount} ${
+                          replyCount === 1 ? "reply" : "replies"
+                        }`}
+                  </button>
+                )}
               </div>
             </div>
           </div>

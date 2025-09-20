@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   At,
+  CaretLeft, // Add this for back button
   CheckCircle,
   Globe,
   Hash,
@@ -10,10 +11,9 @@ import {
   Spinner,
   User,
   Users,
-  X, // Add this
+  X,
 } from "phosphor-react";
 import BottomSheet from "../components/ui/BottomSheet";
-import PageHeader from "../components/layout/PageHeader";
 
 interface PostCaptionPageProps {
   videoSrc?: string; // Source of the recorded video
@@ -117,8 +117,9 @@ const PostCaptionPage = ({
     setHashtags(extractedHashtags);
   }, [caption]);
 
+  // Use handleBack function from Comment page
   const handleBack = () => {
-    navigate(-1); // Go back to previous page
+    navigate(-1);
   };
 
   const handleSaveAsDraft = () => {
@@ -240,16 +241,23 @@ const PostCaptionPage = ({
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white ">
-      <PageHeader
-        title={headerTitle}
-        showBackButton={true}
-        rightIcon="none"
-        onBackClick={handleBack}
-      />
+    <div className="flex flex-col h-screen bg-white">
+      {/* Header - copied from Comment page */}
+      <div className="sticky top-0 z-10 bg-white">
+        <div className="flex items-center h-12 px-3">
+          <button
+            onClick={handleBack}
+            className="mr-6 text-gray-900"
+            aria-label="Back"
+          >
+            <CaretLeft size={24} weight="bold" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-900">{headerTitle}</h1>
+        </div>
+      </div>
 
-      {/* Main Content */}
-      <div className=" p-3">
+      {/* Main Content - Keep the existing content */}
+      <div className="p-3 pb-20 flex-1 overflow-auto">
         {/* Media Upload and Preview Section */}
         <div className="  pb-4">
           {/* Media Grid */}
@@ -557,13 +565,13 @@ const PostCaptionPage = ({
         </div>
       </div>
 
-      {/* Bottom Action Buttons */}
-      <div className="p-3 ">
+      {/* Bottom Action Buttons - Fixed at the bottom */}
+      <div className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white p-3 z-10">
         <div className="flex gap-2 w-full max-w-md mx-auto">
           <button
             onClick={handleSaveAsDraft}
             disabled={isPostingInProgress}
-            className="flex-1 border border-gray-300   py-2.5 rounded-lg font-medium disabled:opacity-50"
+            className="flex-1 border border-gray-300 py-2.5 rounded-lg font-medium disabled:opacity-50"
           >
             Save as draft
           </button>

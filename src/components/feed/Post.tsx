@@ -1,24 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle } from "phosphor-react";
-import {
-  ChatCircle,
-  Repost,
-  Share,
-  Heart,
-  Bookmark,
-  CaretLeft,
-  DotsVertical,
-} from "../../Icons";
+import { ChatCircle, Repost, ShareFat, Heart, DotsVertical } from "../../Icons";
 
 import { useAppStore } from "../../store/appStore";
 import { getUserById } from "../../data/mockData";
-import type { Post as PostType, Comment as CommentType } from "../../types";
+import type { Post as PostType } from "../../types";
 import Caption from "../ui/Caption";
 import MediaCarousel from "../ui/MediaCarousel";
-import BottomSheet from "../ui/BottomSheet";
-import CommentsList from "./CommentsList";
-import ReplyList from "./ReplyList";
+
 import MusicOverlay from "./MusicOverlay";
 
 interface PostProps {
@@ -57,15 +47,9 @@ const getRelativeTime = (timestamp: string): string => {
 };
 
 const Post = ({ post }: PostProps) => {
-  const navigate = useNavigate(); // Add navigate hook
-  const { likePost, savePost } = useAppStore();
-  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-  const [currentView, setCurrentView] = useState<"comments" | "replies">(
-    "comments"
-  );
-  const [selectedComment, setSelectedComment] = useState<CommentType | null>(
-    null
-  );
+  const navigate = useNavigate();
+  const { likePost } = useAppStore();
+
   const [isInView, setIsInView] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -119,29 +103,8 @@ const Post = ({ post }: PostProps) => {
     likePost(post.id);
   };
 
-  const handleSave = () => {
-    savePost(post.id);
-  };
-
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
-  };
-
-  const handleCommentsOpen = () => setIsCommentsOpen(true);
-  const handleCommentsClose = () => {
-    setIsCommentsOpen(false);
-    setCurrentView("comments");
-    setSelectedComment(null);
-  };
-
-  const handleViewReplies = (comment: CommentType) => {
-    setSelectedComment(comment);
-    setCurrentView("replies");
-  };
-
-  const handleBackToComments = () => {
-    setCurrentView("comments");
-    setSelectedComment(null);
   };
 
   const handleMediaClick = (mediaType: string) => {
@@ -149,18 +112,6 @@ const Post = ({ post }: PostProps) => {
       navigate(`/video/${post.id}`);
     }
   };
-
-  const customCloseButton =
-    currentView === "replies" ? (
-      <button
-        onClick={handleBackToComments}
-        className="inline-flex justify-center rounded-full p-1.5 text-gray-900  focus:outline-none"
-        aria-label="Back"
-      >
-        <CaretLeft size={24} />
-        <span className="sr-only">Back</span>
-      </button>
-    ) : undefined;
 
   return (
     <div ref={postRef} className="bg-white mb-0 overflow-hidden">
@@ -284,12 +235,9 @@ const Post = ({ post }: PostProps) => {
             </div>
 
             <div className="flex items-center">
-              <button
-                onClick={handleCommentsOpen}
-                className="mr-1 text-gray-900"
-              >
+              <Link to={`/comments/${post.id}`} className="mr-1 text-gray-900">
                 <ChatCircle size={24} />
-              </button>
+              </Link>
               <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.comments?.length || 0)}
               </span>
@@ -304,19 +252,20 @@ const Post = ({ post }: PostProps) => {
               </span>
             </div>
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <button className="mr-1 text-gray-900">
-                <Share size={24} />
+                <ShareFat size={24} />
               </button>
               <span className="text-sm font-medium text-gray-900">
                 {formatCount(post.sharesCount || 0)}
               </span>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-center">
-            <button onClick={handleSave} className="text-gray-900">
-              <Bookmark size={24} weight={post.saved ? "fill" : "regular"} />
+            {/* Always show Save icon */}
+            <button className="text-gray-900">
+              <ShareFat size={24} weight={post.saved ? "fill" : "regular"} />
             </button>
           </div>
         </div>
@@ -328,38 +277,6 @@ const Post = ({ post }: PostProps) => {
           {getRelativeTime(post.createdAt)}
         </span>
       </div>
-
-      {/* Comments Bottom Sheet with dynamic content */}
-      <BottomSheet
-        isOpen={isCommentsOpen}
-        onClose={handleCommentsClose}
-        title={currentView === "comments" ? "Comments" : "Replies"}
-        height="full"
-        showHandle={true}
-        customCloseButton={customCloseButton}
-        showBackdrop={true}
-      >
-        <div className="flex flex-col h-full pt-safe">
-          <div className="flex-1">
-            {currentView === "comments" ? (
-              <CommentsList
-                postId={post.id}
-                comments={post.comments || []}
-                onViewReplies={handleViewReplies}
-              />
-            ) : selectedComment ? (
-              <ReplyList
-                comment={selectedComment}
-                onReply={(commentId, username) => {
-                  console.log(
-                    `Replying to ${username}'s comment: ${commentId}`
-                  );
-                }}
-              />
-            ) : null}
-          </div>
-        </div>
-      </BottomSheet>
     </div>
   );
 };

@@ -36,7 +36,7 @@ const SuggestedSearch: React.FC<SuggestedSearchProps> = ({
             onClick={() => onSelectSuggestion(suggestion.query)}
           >
             <div className="flex flex-col flex-1">
-              <span className="text-base">{suggestion.query}</span>
+              <span className="font-semibold text-sm">{suggestion.query}</span>
               {suggestion.postCount && (
                 <span className="text-sm text-gray-400">
                   {suggestion.postCount.toLocaleString()} posts

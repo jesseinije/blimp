@@ -11,7 +11,7 @@
 
 /* Main navbar section */
 .main-nav-section {
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   display: flex;
   align-items: center;
 }
@@ -79,6 +79,13 @@
   height: 3px;
   background-color: #1d9bf0; /* Blue color */
   border-radius: 9999px;
+}
+
+/* Right-aligned nav icons container */
+.nav-icons-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Increased gap for more space between icons */
 }
 
 /* Media queries for responsive design */

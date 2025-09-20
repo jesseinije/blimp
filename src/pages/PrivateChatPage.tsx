@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   PaperPlaneRight,
   Microphone,
@@ -9,7 +9,6 @@ import {
 } from "phosphor-react";
 import { CaretLeft, Settings } from "../Icons";
 import { mockUsers } from "../data/mockData";
-import styles from "./ChatPage.module.css";
 import { useViewportHeight } from "../hooks/useViewportHeight"; // <-- Add this line
 
 // Define the chat message interface
@@ -42,6 +41,7 @@ const PrivateChatPage = () => {
   useViewportHeight(); // <-- Add this line
 
   const { userId } = useParams<{ userId: string }>();
+  const location = useLocation();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [contact, setContact] = useState<ChatContact | null>(null);
@@ -50,8 +50,16 @@ const PrivateChatPage = () => {
 
   // Mock data for demonstration
   useEffect(() => {
-    // Find the user from mockData based on userId or use the first user as fallback
-    const mockUser = mockUsers.find((u) => u.id === userId) || mockUsers[0];
+    // Try to get user from navigation state
+    const stateUser = location.state?.user;
+
+    let mockUser;
+    if (stateUser) {
+      mockUser = stateUser;
+    } else {
+      // Fallback: Find the user from mockData based on userId or use the first user as fallback
+      mockUser = mockUsers.find((u) => u.id === userId) || mockUsers[0];
+    }
 
     // Use actual data from mockData
     setContact({
@@ -83,7 +91,7 @@ const PrivateChatPage = () => {
         status: "read",
       },
     ]);
-  }, [userId]);
+  }, [userId, location.state]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -154,7 +162,7 @@ const PrivateChatPage = () => {
   }
 
   return (
-    <div className={`flex flex-col bg-white relative ${styles.chatContainer}`}>
+    <div>
       {/* Header */}
       <header className="flex items-center px-3 py-2 bg-white sticky top-0 z-10 ">
         <button onClick={handleBack} aria-label="Back" className="mr-6">
@@ -174,7 +182,7 @@ const PrivateChatPage = () => {
           </div>
           <div className="ml-2 max-w-[120px]">
             <div className="flex items-center">
-              <h2 className="font-semibold text-sm text-gray-900 truncate flex items-center whitespace-nowrap">
+              <h2 className="font-semibold text-base text-gray-900 truncate flex items-center whitespace-nowrap">
                 {contact.username}
                 {contact.isVerified && (
                   <CheckCircle
@@ -199,11 +207,11 @@ const PrivateChatPage = () => {
       </header>
 
       {/* Chat Area including User Profile Section */}
-      <div className="mt-20 px-3 flex-1  pb-20">
+      <div className="mt-10 px-3 flex-1  mb-20">
         {/* User Profile Section integrated within Chat Area */}
-        <div className="flex flex-col items-center mb-6 pt-2">
+        <div className="flex flex-col items-center mb-20">
           {/* Large Avatar */}
-          <div className="relative mb-3">
+          <div className="relative mb-2">
             <img
               src={contact.avatar}
               alt={contact.username}
@@ -225,10 +233,10 @@ const PrivateChatPage = () => {
               />
             )}
           </h1>
-          <p className="text-gray-600 mb-2">{contact.username}</p>
+          <p className="text-gray-400 ">{contact.username}</p>
 
           {/* Stats */}
-          <div className="flex items-center space-x-4 text-sm text-gray-400 mb-4">
+          <div className="flex items-center text-sm text-gray-400 mb-20">
             <span>{formatNumber(contact.followers)} followers</span>
           </div>
         </div>
@@ -238,7 +246,7 @@ const PrivateChatPage = () => {
           <div key={date} className="mb-6">
             <div className="flex justify-center mb-4">
               <div className="px-3 py-1">
-                <span className="text-xs font-medium text-gray-600">
+                <span className="text-xs font-medium text-gray-400">
                   {date}
                 </span>
               </div>
@@ -334,7 +342,7 @@ const PrivateChatPage = () => {
             <input
               type="text"
               placeholder="Message..."
-              className="w-full p-1 border border-gray-300 rounded-full focus:outline-none"
+              className="w-full p-2 border border-gray-300 rounded-full focus:outline-none"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => {

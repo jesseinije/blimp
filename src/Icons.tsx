@@ -11,66 +11,6 @@ interface IconProps {
   weight?: "regular" | "fill" | "bold"; // Add "bold" to weight
 }
 
-// Chat/Message icon
-export const Chat: React.FC<IconProps> = ({
-  size = 24,
-  width,
-  height,
-  className,
-  color = "currentColor",
-  strokeWidth = 20,
-  weight = "regular",
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-    width={width || size}
-    height={height || size}
-    className={className}
-  >
-    <rect width="256" height="256" fill="none" />
-    {weight === "fill" ? (
-      <path
-        d="M216,40H40A16,16,0,0,0,24,56V184a16,16,0,0,0,16,16h60.43l13.68,23.94a16,16,0,0,0,27.78,0L155.57,200H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM160,144H96a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Zm0-32H96a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Z"
-        fill={color}
-      />
-    ) : (
-      <>
-        <line
-          x1="96"
-          y1="104"
-          x2="160"
-          y2="104"
-          fill="none"
-          stroke={color}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={strokeWidth}
-        />
-        <line
-          x1="96"
-          y1="136"
-          x2="160"
-          y2="136"
-          fill="none"
-          stroke={color}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={strokeWidth}
-        />
-        <path
-          d="M105.07,192l16,28a8,8,0,0,0,13.9,0l16-28H216a8,8,0,0,0,8-8V56a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8V184a8,8,0,0,0,8,8Z"
-          fill="none"
-          stroke={color}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={strokeWidth}
-        />
-      </>
-    )}
-  </svg>
-);
-
 // Share icon
 export const Share: React.FC<IconProps> = ({
   size = 24, // Add this line
@@ -164,32 +104,53 @@ export const Repost: React.FC<IconProps> = ({
 
 // Heart icon
 export const Heart: React.FC<IconProps> = ({
-  size = 24, // Add this line
+  size = 24,
   width,
   height,
   className,
   color = "currentColor",
-  strokeWidth = 20,
-  weight = "regular", // Add this line
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-    width={width || size} // Update this line
-    height={height || size} // Update this line
-    className={className}
-  >
-    <rect width="256" height="256" fill="none" />
-    <path
-      d="M128,224S24,168,24,102A54,54,0,0,1,78,48c22.59,0,41.94,12.31,50,32,8.06-19.69,27.41-32,50-32a54,54,0,0,1,54,54C232,168,128,224,128,224Z"
-      fill={weight === "fill" ? color : "none"} // Add fill condition
-      stroke={color}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={weight === "fill" ? 0 : strokeWidth} // Optional: remove stroke in fill mode
-    />
-  </svg>
-);
+  strokeWidth = 16,
+  weight = "regular",
+}) => {
+  if (weight === "fill") {
+    // Fill version
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 256 256"
+        width={width || size}
+        height={height || size}
+        className={className}
+      >
+        <rect width="256" height="256" fill="none" />
+        <path
+          d="M240,102c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,228.66,16,172,16,102A62.07,62.07,0,0,1,78,40c20.65,0,38.73,8.88,50,23.89C139.27,48.88,157.35,40,178,40A62.07,62.07,0,0,1,240,102Z"
+          fill={color}
+        />
+      </svg>
+    );
+  }
+  // Regular (stroke) version
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      width={width || size}
+      height={height || size}
+      className={className}
+    >
+      <rect width="256" height="256" fill="none" />
+      <path
+        d="M128,224S24,168,24,102A54,54,0,0,1,78,48c22.59,0,41.94,12.31,50,32,8.06-19.69,27.41-32,50-32a54,54,0,0,1,54,54C232,168,128,224,128,224Z"
+        fill="none"
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth}
+      />
+    </svg>
+  );
+};
 
 // House icon
 export const House: React.FC<IconProps> = ({
@@ -419,7 +380,7 @@ export const Menu: React.FC<IconProps> = ({
     <line
       x1="40"
       y1="88" // Changed from 96 to 88 (moved up)
-      x2="216"
+      x2="200"
       y2="88" // Changed from 96 to 88 (moved up)
       fill="none"
       stroke={color}
@@ -430,7 +391,7 @@ export const Menu: React.FC<IconProps> = ({
     <line
       x1="40"
       y1="168" // Changed from 160 to 168 (moved down)
-      x2="216"
+      x2="150"
       y2="168" // Changed from 160 to 168 (moved down)
       fill="none"
       stroke={color}
@@ -1040,6 +1001,299 @@ export const UserAdd: React.FC<IconProps> = ({
     <path
       d="M24,200c20.55-24.45,49.56-40,84-40s63.45,15.55,84,40"
       fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// Add the new Gift icon
+export const Gift: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <rect
+      x="32"
+      y="80"
+      width="192"
+      height="48"
+      rx="8"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M208,128v72a8,8,0,0,1-8,8H56a8,8,0,0,1-8-8V128"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="128"
+      y1="80"
+      x2="128"
+      y2="208"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M176.79,31.21c9.34,9.34,9.89,25.06,0,33.82C159.88,80,128,80,128,80s0-31.88,15-48.79C151.73,21.32,167.45,21.87,176.79,31.21Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M79.21,31.21c-9.34,9.34-9.89,25.06,0,33.82C96.12,80,128,80,128,80s0-31.88-15-48.79C104.27,21.32,88.55,21.87,79.21,31.21Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// BrandLogo icon (custom SVG)
+export const XLogo: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 16,
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <polygon
+      points="48 40 96 40 208 216 160 216 48 40"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="113.88"
+      y1="143.53"
+      x2="48"
+      y2="216"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <line
+      x1="208"
+      y1="40"
+      x2="142.12"
+      y2="112.47"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// Add the Verification icon
+export const Verification: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 16,
+  weight = "regular",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <path
+      d="M54.46,201.54c-9.2-9.2-3.1-28.53-7.78-39.85C41.82,150,24,140.5,24,128s17.82-22,22.68-33.69C51.36,83,45.26,63.66,54.46,54.46S83,51.36,94.31,46.68C106.05,41.82,115.5,24,128,24S150,41.82,161.69,46.68c11.32,4.68,30.65-1.42,39.85,7.78s3.1,28.53,7.78,39.85C214.18,106.05,232,115.5,232,128S214.18,150,209.32,161.69c-4.68,11.32,1.42,30.65-7.78,39.85s-28.53,3.1-39.85,7.78C150,214.18,140.5,232,128,232s-22-17.82-33.69-22.68C83,204.64,63.66,210.74,54.46,201.54Z"
+      fill={weight === "fill" ? color : "none"}
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <polyline
+      points="88 136 112 160 168 104"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+  </svg>
+);
+
+// ShareFat icon
+export const ShareFat: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => {
+  if (weight === "fill") {
+    // Fill version
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 256 256"
+        width={width || size}
+        height={height || size}
+        className={className}
+      >
+        <rect width="256" height="256" fill="none" />
+        <path
+          d="M237.66,117.66l-80,80A8,8,0,0,1,144,192V152.23c-57.1,3.24-96.25,40.27-107.24,52h0a12,12,0,0,1-20.68-9.58c3.71-32.26,21.38-63.29,49.76-87.37,23.57-20,52.22-32.69,78.16-34.91V32a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,237.66,117.66Z"
+          fill={color}
+        />
+      </svg>
+    );
+  }
+  // Regular (stroke) version
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      width={width || size}
+      height={height || size}
+      className={className}
+    >
+      <rect width="256" height="256" fill="none" />
+      <path
+        d="M30.93,198.72C47.39,181.19,90.6,144,152,144v48l80-80L152,32V80C99.2,80,31.51,130.45,24,195.54A4,4,0,0,0,30.93,198.72Z"
+        fill="none"
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth}
+      />
+    </svg>
+  );
+};
+
+export const Chat: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+  weight = "regular",
+}) => {
+  if (weight === "fill") {
+    // Fill version
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 256 256"
+        width={width || size}
+        height={height || size}
+        className={className}
+      >
+        <rect width="256" height="256" fill="none" />
+        <path
+          d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24ZM84,140a12,12,0,1,1,12-12A12,12,0,0,1,84,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,128,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,172,140Z"
+          fill={color}
+        />
+      </svg>
+    );
+  }
+  // Stroke version
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      width={width || size}
+      height={height || size}
+      className={className}
+    >
+      <rect width="256" height="256" fill="none" />
+      <circle cx="128" cy="128" r="12" fill={color} />
+      <circle cx="84" cy="128" r="12" fill={color} />
+      <circle cx="172" cy="128" r="12" fill={color} />
+      <path
+        d="M79.93,211.11a96,96,0,1,0-35-35h0L32.42,213.46a8,8,0,0,0,10.12,10.12l37.39-12.47Z"
+        fill="none"
+        stroke={color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={strokeWidth}
+      />
+    </svg>
+  );
+};
+
+// Refresh icon
+export const Refresh: React.FC<IconProps> = ({
+  size = 24,
+  width,
+  height,
+  className,
+  color = "currentColor",
+  strokeWidth = 20,
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={width || size}
+    height={height || size}
+    className={className}
+  >
+    <rect width="256" height="256" fill="none" />
+    <polyline
+      points="24 56 24 104 72 104"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={strokeWidth}
+    />
+    <path
+      d="M67.59,192A88,88,0,1,0,65.77,65.77L24,104"
+      fill="none"
       stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"

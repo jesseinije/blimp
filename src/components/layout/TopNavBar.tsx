@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Menu, Bell, Search } from "../../Icons";
-import { Check } from "phosphor-react";
+import { Search, Bell } from "../../Icons"; // Import Bell icon
 import Logo from "./Logo";
 import "./TopNavBar.css";
-import Drawer from "../ui/Drawer"; // Import the Drawer component
 
-type TabType = "posts" | "following";
-type FeedType = "for-you" | "following" | "live";
+type TabType = "posts" | "videos" | "for-you" | "following"; // Add new tab types
 
 interface TopNavBarProps {
   activeTab?: TabType;
@@ -22,14 +19,15 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showBorder, setShowBorder] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // Add state for drawer
-  const [selectedFeed, setSelectedFeed] = useState<FeedType>("for-you");
 
   const y = useMotionValue(0);
   const lastScrollY = useRef(0);
   const lastScrollTime = useRef(Date.now());
   const containerHeight = useRef(0);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  // Add a threshold for scroll distance before hiding the navbar
+  const scrollThreshold = 100; // Adjust this value to control how far to scroll before hiding
 
   useEffect(() => {
     if (containerRef.current) {
@@ -45,6 +43,8 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
 
     let ticking = false;
     let lastDirection = 0;
+    // Track accumulated scroll distance for hiding the navbar
+    let accumulatedScrollDown = 0;
 
     const handleScroll = () => {
       if (!ticking) {
@@ -66,16 +66,14 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
             return;
           }
 
+          // Handle direction changes
           if (currentDirection !== lastDirection) {
             if (currentDirection > 0) {
-              // Scrolling down - hide navbar
-              animate(y, -containerHeight.current, {
-                type: "tween",
-                duration: 0.2,
-                ease: "easeOut",
-              });
+              // Scrolling down - start accumulating scroll distance
+              accumulatedScrollDown = scrollDiff;
             } else {
-              // Scrolling up - show navbar
+              // Scrolling up - reset accumulated scroll and show navbar immediately
+              accumulatedScrollDown = 0;
               animate(y, 0, {
                 type: "tween",
                 duration: 0.2,
@@ -83,6 +81,18 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
               });
             }
             lastDirection = currentDirection;
+          } else if (currentDirection > 0) {
+            // Continue scrolling down - accumulate distance
+            accumulatedScrollDown += scrollDiff;
+
+            // Only hide navbar when accumulated scroll exceeds threshold
+            if (accumulatedScrollDown > scrollThreshold) {
+              animate(y, -containerHeight.current, {
+                type: "tween",
+                duration: 0.2,
+                ease: "easeOut",
+              });
+            }
           }
 
           lastScrollY.current = currentScrollY;
@@ -101,39 +111,22 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
     };
   }, []);
 
-  const handleNavigateToMenu = () => {
-    // Open the drawer when menu is clicked
-    setIsDrawerOpen(true);
-  };
-
-  const handleCloseDrawer = () => {
-    // Close the drawer
-    setIsDrawerOpen(false);
-  };
-
   const handleNavigateToNotifications = () => {
-    navigate("/notifications");
+    // Demo: Do nothing or show a message
+    // alert("Notifications feature coming soon!");
   };
 
-  // Modified tab click handler to prevent double state changes
+  // Update tab click handler to handle all tab types
   const handleTabClick = (tab: TabType) => {
-    // Simply update the active tab without navigation
     onTabChange(tab);
-  };
-
-  // Add this function to handle feed selection
-  const handleFeedSelection = (feed: FeedType) => {
-    setSelectedFeed(feed);
-    handleCloseDrawer();
-
-    // Update activeTab based on feed selection without navigation to reels
-    if (feed === "for-you") {
-      onTabChange("posts");
-    } else if (feed === "following") {
-      onTabChange("following");
-    } else if (feed === "live") {
-      // Handle live feed selection if needed
-      console.log("Live feed selected");
+    if (tab === "videos") {
+      navigate("/reels");
+    }
+    if (tab === "for-you") {
+      // Add navigation or logic for "For You" tab if needed
+    }
+    if (tab === "following") {
+      // Add navigation or logic for "Following" tab if needed
     }
   };
 
@@ -149,33 +142,36 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
         {/* Main navbar section */}
         <div className="main-nav-section">
           <div className="nav-container">
-            {/* Left: Menu Button */}
-            <button
-              className="nav-icon-button"
-              aria-label="Menu"
-              onClick={handleNavigateToMenu}
-            >
-              <Menu size={24} weight="regular" />
-            </button>
-
-            {/* Center: Logo */}
+            {/* Left: Logo */}
             <div className="nav-logo">
               <Logo />
             </div>
 
-            {/* Right: Notifications Button */}
-            <button
-              className="nav-icon-button"
-              aria-label="Notifications"
-              onClick={handleNavigateToNotifications}
-            >
-              <Bell size={24} weight="regular" />
-            </button>
+            {/* Center: (empty, or you can add something else if needed) */}
+            <div style={{ flex: 1 }}></div>
+
+            {/* Right: Bell and Search icons */}
+            <div className="nav-icons-right">
+              <button
+                className="nav-icon-button"
+                aria-label="Notifications"
+                onClick={handleNavigateToNotifications}
+              >
+                <Bell size={24} weight="regular" />
+              </button>
+              <button
+                className="nav-icon-button"
+                aria-label="Search"
+                onClick={() => navigate("/search")}
+              >
+                <Search size={24} weight="regular" />
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Tabs section */}
-        <div className="border-b border-gray-300">
+        <div className="border-b border-gray-200">
           <div className="nav-container">
             <nav className="tabs-container">
               <button
@@ -192,29 +188,45 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
                       : "text-gray-400"
                   }`}
                 >
-                  Posts
+                  For You
                 </span>
               </button>
-
               <button
                 className={`tab-button ${
                   activeTab === "following" ? "active" : ""
                 }`}
-                onClick={() => {
-                  onTabChange("following");
-                  navigate("/reels");
-                }}
+                data-tab="following"
+                onClick={() => handleTabClick("following")}
               >
                 <span
                   className={`tab-text text-sm font-semibold ${
                     activeTab === "following"
                       ? "text-gray-900"
-                      : "text-gray-500"
+                      : "text-gray-400"
+                  }`}
+                >
+                  Following
+                </span>
+                {activeTab === "following" && (
+                  <div className="tab-indicator"></div>
+                )}
+              </button>
+
+              <button
+                className={`tab-button ${
+                  activeTab === "videos" ? "active" : ""
+                }`}
+                data-tab="videos"
+                onClick={() => handleTabClick("videos")}
+              >
+                <span
+                  className={`tab-text text-sm font-semibold ${
+                    activeTab === "videos" ? "text-gray-900" : "text-gray-400"
                   }`}
                 >
                   Videos
                 </span>
-                {activeTab === "following" && (
+                {activeTab === "videos" && (
                   <div className="tab-indicator"></div>
                 )}
               </button>
@@ -222,72 +234,6 @@ const TopNavBar: React.FC<TopNavBarProps> = ({
           </div>
         </div>
       </motion.div>
-
-      {/* Add the Drawer component */}
-      <Drawer
-        open={isDrawerOpen}
-        onClose={handleCloseDrawer}
-        position="left" // Position the drawer on the left side
-      >
-        {/* Search Section */}
-        <div className="px-3 py-2 bg-white">
-          <div
-            onClick={() => navigate("/search")}
-            className="bg-gray-100 border-0 w-full pl-10 pr-10 py-2 rounded-lg flex items-center cursor-pointer relative"
-          >
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search size={20} className="text-gray-400" />
-            </div>
-            <span className="text-gray-400 text-sm">
-              Search for creators...
-            </span>
-          </div>
-        </div>
-
-        {/* Feed Selection Section */}
-        <div className="px-3 pt-6">
-          <h2 className="text-xl font-semibold mb-4">Feeds</h2>
-
-          {/* Options Container with border */}
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
-            {/* For You Option */}
-            <div
-              className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
-              onClick={() => handleFeedSelection("for-you")}
-            >
-              <div>
-                <h3 className="text-sm font-medium">For You</h3>
-                <p className="text-xs text-gray-500">
-                  Videos we think you'll like based on your interests
-                </p>
-              </div>
-              {selectedFeed === "for-you" && (
-                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
-                  <Check size={14} weight="bold" className="text-white" />
-                </div>
-              )}
-            </div>
-
-            {/* Following Option */}
-            <div
-              className="flex items-center justify-between p-4 cursor-pointer border-t border-gray-200 hover:bg-gray-50"
-              onClick={() => handleFeedSelection("following")}
-            >
-              <div>
-                <h3 className="text-sm font-medium">Following</h3>
-                <p className="text-xs text-gray-500">
-                  Videos from people you follow
-                </p>
-              </div>
-              {selectedFeed === "following" && (
-                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
-                  <Check size={14} weight="bold" className="text-white" />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </Drawer>
     </>
   );
 };

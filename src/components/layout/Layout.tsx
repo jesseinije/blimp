@@ -32,6 +32,8 @@ const Layout = ({ children }: LayoutProps) => {
   const isUserProfilePage = location.pathname.match(/^\/profile\/[^/]+$/);
   // Check if current path is a chat page
   const isChatPage = location.pathname.startsWith("/chat/");
+  // Add this check for the pitch page
+  const isPitchPage = location.pathname === "/pitch";
 
   // Check if we're on the reels page (but not video detail page)
   const isReelsPage = location.pathname === "/reels";
@@ -40,14 +42,21 @@ const Layout = ({ children }: LayoutProps) => {
   const isUserPostsPage = location.pathname.match(/^\/user\/[^/]+\/posts$/);
   const isUserReelsPage = location.pathname.match(/^\/user\/[^/]+\/reels$/); // <-- Add this line
 
+  const isTipPage = location.pathname.startsWith("/tip/"); // Add this line
+  const isCommentsPage = location.pathname.match(/^\/comments\/[^/]+$/);
+  const isReplyPage = location.pathname.match(/^\/reply\/[^/]+\/[^/]+$/); // Add this line
+
   const shouldShowTabs =
     location.pathname !== "/explore" &&
     location.pathname !== "/search" &&
+    location.pathname !== "/search/results" &&
     location.pathname !== "/profile" &&
     location.pathname !== "/notifications" &&
     location.pathname !== "/messages" &&
     location.pathname !== "/suggested-accounts" &&
-    location.pathname !== "/reels" && // Hide on reels page
+    location.pathname !== "/reels" &&
+    location.pathname !== "/dashboard" &&
+    location.pathname !== "/settings" &&
     !isUserProfilePage &&
     location.pathname !== "/create" &&
     location.pathname !== "/caption" &&
@@ -56,30 +65,52 @@ const Layout = ({ children }: LayoutProps) => {
     !isVideoDetailPage &&
     !isChatPage &&
     !isUserPostsPage &&
-    !isUserReelsPage; // <-- Add this condition
+    !isUserReelsPage &&
+    !isPitchPage &&
+    !isTipPage &&
+    !isCommentsPage &&
+    !isReplyPage; // Add this line
 
-  // Hide NavBar on create page, caption page, text-post page, user profile pages, detail pages, chat pages, and user reels page
+  // Hide NavBar on create page, caption page, text-post page, user profile pages, detail pages, chat pages, user reels page, and dashboard page
   const shouldShowNavBar =
     location.pathname !== "/create" &&
     location.pathname !== "/caption" &&
     location.pathname !== "/text-post" &&
     location.pathname !== "/search" &&
+    location.pathname !== "/search/results" &&
     location.pathname !== "/notifications" &&
+    location.pathname !== "/dashboard" &&
+    location.pathname !== "/settings" &&
+    location.pathname !== "/suggested-accounts" &&
     !isUserProfilePage &&
     !isPostDetailPage &&
     !isVideoDetailPage &&
     !isChatPage &&
-    !isUserReelsPage; // <-- Add this condition
+    !isUserReelsPage &&
+    !isPitchPage &&
+    !isTipPage &&
+    !isCommentsPage &&
+    !isReplyPage; // Add this line
 
   // Map the app store activeTab to the format expected by TopNavBar
   const mapTabForTopNav = (tab: string): "posts" | "following" => {
     return tab === "videos" ? "following" : "posts";
   };
 
+  // Update the type to match TabType (add "for-you" if needed)
+  type TabType = "posts" | "following" | "videos" | "for-you"; // If TabType is imported, use that import instead
+
   // Handle tab change from TopNavBar
-  const handleTabChange = (tab: "posts" | "following") => {
-    // Map back from TopNavBar's tab format to app store format
-    setActiveTab(tab === "following" ? "videos" : "posts");
+  const handleTabChange = (tab: TabType) => {
+    // Map TopNavBar's tab format to app store format
+    if (tab === "following" || tab === "videos") {
+      setActiveTab("videos");
+    } else if (tab === "posts") {
+      setActiveTab("posts");
+    } else if (tab === "for-you") {
+      // Handle "for-you" tab if needed, or default to "posts"
+      setActiveTab("posts");
+    }
   };
 
   return (

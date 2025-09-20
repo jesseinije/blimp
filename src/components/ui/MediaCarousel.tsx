@@ -244,12 +244,12 @@ const MediaCarousel = ({
 
       {/* Dots indicator */}
       {media.length > 1 && (
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+        <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
           {media.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full ${
+              className={`w-1.5 h-1.5 rounded-full ${
                 index === currentIndex ? "bg-blue-500" : "bg-gray-300"
               }`}
               aria-label={`Go to slide ${index + 1}`}

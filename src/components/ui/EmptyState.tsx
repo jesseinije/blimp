@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 interface EmptyStateProps {
   /** Main title text */
@@ -13,34 +14,42 @@ interface EmptyStateProps {
   className?: string;
 }
 
-// SVG icon for smiley face
-const SmileyIcon = (
-  <svg
+// Animated sad smiley icon with custom gray-400 color
+const AnimatedSadSmiley = (
+  <motion.svg
     width="56"
     height="56"
     viewBox="0 0 56 56"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
+    initial={{ y: 0 }}
+    animate={{ y: [0, -8, 0] }}
+    transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
   >
     <circle
       cx="28"
       cy="28"
       r="24"
       fill="#F3F4F6"
-      stroke="#A1A1AA"
+      stroke="#9e9e9e" // custom gray-400
       strokeWidth="2"
     />
-    <ellipse cx="20" cy="24" rx="3" ry="4" fill="#A1A1AA" />
-    <ellipse cx="36" cy="24" rx="3" ry="4" fill="#A1A1AA" />
-    <path
-      d="M20 36c2.5 2 8.5 2 11 0"
-      stroke="#A1A1AA"
+    <ellipse cx="20" cy="24" rx="3" ry="4" fill="#9e9e9e" />{" "}
+    {/* custom gray-400 */}
+    <ellipse cx="36" cy="24" rx="3" ry="4" fill="#9e9e9e" />{" "}
+    {/* custom gray-400 */}
+    <motion.path
+      d="M20 38c2.5-2 8.5-2 11 0"
+      stroke="#9e9e9e" // custom gray-400
       strokeWidth="2"
       strokeLinecap="round"
       fill="none"
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 1.2, repeat: Infinity, repeatType: "reverse" }}
     />
-  </svg>
+  </motion.svg>
 );
 
 /**
@@ -50,7 +59,7 @@ const SmileyIcon = (
 const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
-  icon = SmileyIcon,
+  icon = AnimatedSadSmiley,
   action,
   className = "",
 }) => {

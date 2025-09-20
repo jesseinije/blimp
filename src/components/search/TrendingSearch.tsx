@@ -1,5 +1,5 @@
 import React from "react";
-import { DotsThree } from "phosphor-react"; // Replace Heroicons import
+import { MagnifyingGlass } from "phosphor-react"; // Replace Heroicons import
 import type { TrendingTopic } from "../../types/searchTypes";
 
 interface TrendingSearchProps {
@@ -27,12 +27,12 @@ const TrendingSearch: React.FC<TrendingSearchProps> = ({
               <div className="text-sm text-gray-400">
                 Trending in {topic.location}
               </div>
-              <button className="p-1 rounded-full hover:bg-gray-100 ">
-                <DotsThree size={20} className="text-gray-400" />{" "}
+              <button className="p-1 rounded-full ">
+                <MagnifyingGlass size={20} className="text-gray-400" />{" "}
                 {/* Replace EllipsisHorizontalIcon */}
               </button>
             </div>
-            <div className="font-semibold text-base">{topic.topic}</div>
+            <div className="font-semibold text-sm">{topic.topic}</div>
             <div className="text-sm text-gray-400">
               {topic.postCount.toLocaleString()} posts
             </div>

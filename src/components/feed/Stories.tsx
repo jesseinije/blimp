@@ -74,9 +74,9 @@ const Stories = () => {
   }
 
   return (
-    <div className="bg-white overflow-x-auto no-scrollbar">
-      <div className="px-3">
-        <div className="flex py-6">
+    <div className="bg-white overflow-x-auto no-scrollbar my-3">
+      <div className="px-3 pt-1">
+        <div className="flex ">
           {/* Add left spacer */}
           <div className="flex-shrink-0" />
 

@@ -1,35 +1,46 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // <-- Add this import
-
-import { CheckCircle, Link } from "phosphor-react";
-
+import { useNavigate } from "react-router-dom";
+import {
+  CheckCircle,
+  Link,
+  CaretDown,
+  InstagramLogo,
+  TiktokLogo,
+  UserPlus,
+  TwitterLogo,
+  YoutubeLogo,
+  Gift,
+} from "phosphor-react";
 import { mockUsers, mockPosts, getPostsByUserId } from "../data/mockData";
-import PageHeader from "../components/layout/PageHeader";
 import EmptyState from "../components/ui/EmptyState";
 import ExploreGrid from "../components/explore/ExploreGrid";
 import { ProfileSkeleton } from "../components/ui/skeletons/ProfileSkeleton";
 import { SkeletonProvider } from "../components/ui/skeletons/SkeletonProvider";
-import { Grid, AtSymbol, Film, UserAdd } from "../Icons";
-import ImageViewer from "../components/ui/ImageViewer"; // Import the ImageViewer component
+import { Grid, AtSymbol, Film, Menu, ShareFat, Bookmark } from "../Icons"; // Added Share icon
+import ImageViewer from "../components/ui/ImageViewer";
+import AccountSwitchSheet from "../components/ui/AccountSwitchSheet"; // Add this import
 
 // Add showBackButton to the component props
 interface ProfilePageProps {
   showBackButton?: boolean;
-  username?: string; // Optional username for viewing other profiles
-  hideSettings?: boolean; // Add this new prop
+  username?: string;
+  hideSettings?: boolean;
+  showHeader?: boolean;
+  showActions?: boolean; // <-- Add this line
 }
 
 const ProfilePage = ({
-  showBackButton = false,
   username,
-  hideSettings = false, // Add default value
+  showHeader = true,
+  showActions = false,
 }: ProfilePageProps) => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMentions, setHasMentions] = useState(false);
   const [isAvatarPreviewOpen, setIsAvatarPreviewOpen] = useState(false);
+  const [isAccountSheetOpen, setIsAccountSheetOpen] = useState(false);
 
-  const navigate = useNavigate(); // <-- Add this line
+  const navigate = useNavigate();
 
   // Find user by username from mockUsers
   const findUserByUsername = () => {
@@ -37,11 +48,14 @@ const ProfilePage = ({
       // Use user id "115" as the default current user
       const defaultUser = mockUsers.find((u) => u.id === "115");
       return defaultUser
-        ? { ...defaultUser }
+        ? {
+            ...defaultUser,
+            displayName: defaultUser.displayName || defaultUser.username,
+          }
         : {
             id: "115",
             username: "iniya_ekenebe",
-            displayName: "Iniya Ekenebe",
+            displayName: "Iniya Ekenebe", // <-- ensure this is present
             avatar: "",
             bio: "",
             followers: 0,
@@ -75,6 +89,14 @@ const ProfilePage = ({
   // Get the user data
   const user = findUserByUsername();
 
+  // Check if user is a creator
+  const isCreator = !!user.creator;
+
+  // Social links (if any)
+  const socialLinks = user.socialLinks || {};
+  const hasSocialLinks =
+    !!socialLinks.instagram || !!socialLinks.x || !!socialLinks.tiktok;
+
   // Get posts for this user
   const userPosts = user ? getPostsByUserId(user.id ?? "") : mockPosts;
 
@@ -105,11 +127,6 @@ const ProfilePage = ({
     return num.toString();
   };
 
-  const handleSettingsClick = () => {
-    console.log("Settings clicked");
-    // Implement your settings functionality here
-  };
-
   // Function to handle opening the avatar preview
   const handleAvatarClick = () => {
     setIsAvatarPreviewOpen(true);
@@ -129,10 +146,34 @@ const ProfilePage = ({
     }
   };
 
+  // Handler for menu click - now navigates to Settings
+  const handleMenuClick = () => {
+    navigate("/settings");
+  };
+
+  // Handler for caret click - open bottom sheet
+  const handleCaretClick = () => {
+    setIsAccountSheetOpen(true);
+  };
+
+  // Handler for share click
+  const handleShareClick = () => {
+    // Share functionality to be implemented
+    console.log("Share profile functionality to be implemented");
+  };
+
+  // Handler for switching account (mocked)
+  const handleSwitchAccount = () => {
+    // TODO: Implement actual switch logic (e.g., update auth context)
+    setIsAccountSheetOpen(false);
+    // For demo, you might reload or navigate
+    window.location.reload();
+  };
+
   if (isLoading) {
     return (
       <SkeletonProvider>
-        <ProfileSkeleton />
+        <ProfileSkeleton showHeaderSkeleton={showHeader} />
       </SkeletonProvider>
     );
   }
@@ -143,15 +184,30 @@ const ProfilePage = ({
 
   return (
     <div className="pb-16 bg-white text-gray-900">
-      <PageHeader
-        title=""
-        showBackButton={showBackButton}
-        rightIcon={hideSettings ? "none" : "settings"}
-        onRightIconClick={handleSettingsClick}
-      />
+      {/* Conditionally render Header */}
+      {showHeader && (
+        <div className="sticky top-0 z-10 w-full bg-white flex items-center justify-between p-3">
+          <button onClick={handleMenuClick} aria-label="Open menu">
+            <Menu size={24} className="text-gray-800" />
+          </button>
+          <div className="flex items-center gap-1">
+            <h1 className="text-lg font-semibold">{user.displayName}</h1>
+            <button
+              onClick={handleCaretClick}
+              className="flex items-center justify-center"
+              aria-label="Switch profile"
+            >
+              <CaretDown size={16} weight="bold" className="text-gray-600" />
+            </button>
+          </div>
+          <button onClick={handleShareClick} aria-label="Share profile">
+            <ShareFat size={24} className="text-gray-800" />
+          </button>
+        </div>
+      )}
 
       {/* Profile Header - Improved vertical spacing */}
-      <div className="flex flex-col items-center pt-8 px-3 space-y-4">
+      <div className="flex flex-col items-center pt-8 px-3">
         {/* Profile Image with story ring - Adjusted margin */}
         <div
           className="w-24 h-24 rounded-full overflow-hidden cursor-pointer"
@@ -171,7 +227,7 @@ const ProfilePage = ({
         </div>
 
         {/* User info container - Better spacing */}
-        <div className="flex flex-col items-center space-y-1">
+        <div className="flex flex-col items-center mb-3">
           <div className="flex items-center gap-1">
             <h1 className="text-xl font-bold text-gray-900">
               {user.displayName}
@@ -184,6 +240,56 @@ const ProfilePage = ({
           <p className="text-gray-400">@{user.username}</p>
         </div>
 
+        {/* Social Links Section */}
+        {hasSocialLinks && (
+          <div className="mb-3 flex items-center gap-2.5">
+            {socialLinks.instagram && (
+              <a
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-gray-400"
+              >
+                <InstagramLogo size={26} />
+              </a>
+            )}
+            {socialLinks.x && (
+              <a
+                href={socialLinks.x}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+                className="text-gray-400"
+              >
+                <TwitterLogo size={26} />
+              </a>
+            )}
+            {socialLinks.tiktok && (
+              <a
+                href={socialLinks.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="text-gray-400"
+              >
+                <TiktokLogo size={26} />
+              </a>
+            )}
+            {socialLinks.youtube && (
+              <a
+                href={socialLinks.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="text-gray-400"
+              >
+                <YoutubeLogo size={26} />
+              </a>
+            )}
+          </div>
+        )}
+
         {/* Avatar preview modal */}
         <ImageViewer
           isOpen={isAvatarPreviewOpen}
@@ -193,22 +299,22 @@ const ProfilePage = ({
         />
 
         {/* Stats section */}
-        <div className="grid grid-cols-3 w-full max-w-md px-4">
-          <div className="flex flex-col items-center py-4 space-y-1 relative">
+        <div className="grid grid-cols-3 w-full max-w-md px-4 mb-3">
+          <div className="flex flex-col items-center relative">
             <span className="text-base font-bold text-gray-900 truncate">
-              {formatNumber(user.followers)}
+              {formatNumber(user.followers ?? 0)}
             </span>
             <span className="text-gray-400 text-sm">Followers</span>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-8 bg-gray-200"></div>
           </div>
-          <div className="flex flex-col items-center py-4 space-y-1 relative">
+          <div className="flex flex-col items-center  relative">
             <span className="text-base font-bold text-gray-900 truncate">
-              {formatNumber(user.following)}
+              {formatNumber(user.following ?? 0)}
             </span>
             <span className="text-gray-400 text-sm">Following</span>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-8 bg-gray-200"></div>
           </div>
-          <div className="flex flex-col items-center py-4 space-y-1">
+          <div className="flex flex-col items-center">
             <span className="text-base font-bold text-gray-900 truncate">
               {formatNumber(imagePosts.length + videoPosts.length)}
             </span>
@@ -218,9 +324,9 @@ const ProfilePage = ({
 
         {/* Bio section - Only render if bio or link exists */}
         {(user.bio?.trim() || user.link) && (
-          <div className="text-center max-w-md space-y-2">
+          <div className="text-center max-w-md ">
             {user.bio?.trim() && (
-              <p className="text-sm leading-relaxed text-gray-900 mx-auto max-w-xs">
+              <p className="text-sm leading-relaxed text-gray-900 mx-auto max-w-xs mb-3">
                 {user.bio}
               </p>
             )}
@@ -229,32 +335,38 @@ const ProfilePage = ({
                 href={user.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-blue-500 text-sm hover:underline"
+                className="inline-flex items-center gap-1 text-gray-900 font-semibold text-sm mb-3"
               >
-                <Link size={22} className="text-blue-500" />
+                <Link size={18} weight="bold" className="text-gray-900 " />
                 {user.link.replace(/^https?:\/\//, "")}
               </a>
             )}
           </div>
         )}
 
-        {/* Action Buttons with improved styling */}
-        <div className="flex gap-2 w-full max-w-md mb-8 text-base">
-          <button className="flex-1 bg-blue-500 transition-colors text-white py-2.5 rounded-lg font-medium ">
-            Follow
-          </button>
-          <button className="flex-1  bg-gray-100  py-2.5 rounded-lg font-medium">
-            Message
-          </button>
-          <button className="w-14 bg-gray-100 transition-colors py-2.5 rounded-lg flex items-center justify-center">
-            <UserAdd size={26} />
-          </button>
-        </div>
+        {/* Action Buttons Section */}
+        {showActions && (
+          <div className="flex justify-center gap-3 mb-4">
+            <button className="bg-blue-500 text-white px-5 py-2 rounded-lg font-medium text-sm hover:bg-blue-600 transition-colors">
+              Follow
+            </button>
+            <button className="bg-gray-100 text-gray-900 px-5 py-2 rounded-lg font-medium text-sm">
+              Message
+            </button>
+            <button className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg font-medium text-sm flex items-center justify-center gap-2">
+              {isCreator ? (
+                <Gift size={20} weight="bold" />
+              ) : (
+                <UserPlus size={20} weight="bold" />
+              )}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Custom Tabs Navigation with improved interaction */}
       <div>
-        <div className="flex mt-4 border-b border-gray-200">
+        <div className="flex border-b border-gray-200">
           <button
             onClick={() => setSelectedTab(0)}
             className={`flex-1 py-2 relative flex justify-center transition-colors ${
@@ -262,7 +374,7 @@ const ProfilePage = ({
             }`}
             data-tab="posts"
           >
-            <Grid size={26} weight={selectedTab === 0 ? "fill" : "regular"} />
+            <Grid size={24} weight={selectedTab === 0 ? "fill" : "regular"} />
             {selectedTab === 0 && (
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-blue-500 rounded-full"></span>
             )}
@@ -274,7 +386,7 @@ const ProfilePage = ({
             }`}
             data-tab="videos"
           >
-            <Film size={26} weight={selectedTab === 1 ? "fill" : "regular"} />
+            <Film size={24} weight={selectedTab === 1 ? "fill" : "regular"} />
             {selectedTab === 1 && (
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-blue-500 rounded-full"></span>
             )}
@@ -287,17 +399,32 @@ const ProfilePage = ({
             data-tab="mentions"
           >
             <AtSymbol
-              size={26}
+              size={24}
               weight={selectedTab === 2 ? "bold" : "regular"}
             />
             {selectedTab === 2 && (
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-blue-500 rounded-full"></span>
             )}
           </button>
+          <button
+            onClick={() => setSelectedTab(3)}
+            className={`flex-1 py-2 relative flex justify-center transition-colors ${
+              selectedTab === 3 ? "text-gray-900" : "text-gray-400"
+            }`}
+            data-tab="saved"
+          >
+            <Bookmark
+              size={24}
+              weight={selectedTab === 3 ? "fill" : "regular"}
+            />
+            {selectedTab === 3 && (
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[3px] bg-blue-500 rounded-full"></span>
+            )}
+          </button>
         </div>
 
         {/* Tab Panels with improved grid and animation */}
-        <div className="mt-0.5">
+        <div className="mt-[0.05rem]">
           {selectedTab === 0 && (
             <>
               {imagePosts.length > 0 ? (
@@ -306,7 +433,7 @@ const ProfilePage = ({
                   showUserInfo={false}
                   showPinnedIcon={true}
                   onPostClick={handlePostClick}
-                  showViewCountOverlay={true} // <-- Add this line
+                  showViewCountOverlay={true}
                 />
               ) : (
                 <EmptyState
@@ -337,7 +464,7 @@ const ProfilePage = ({
                   showUserInfo={false}
                   showPinnedIcon={true}
                   onPostClick={handleVideoClick}
-                  showViewCountOverlay={true} // <-- Add this line
+                  showViewCountOverlay={true}
                 />
               ) : (
                 <EmptyState
@@ -385,7 +512,7 @@ const ProfilePage = ({
                       className="h-96"
                     />
                   ) : (
-                    <div className="grid grid-cols-3 gap-0.5">
+                    <div className="grid grid-cols-3 gap-[0.05rem]">
                       {/* Mentions grid content */}
                       {imagePosts.slice(0, 3).map((post, index) => (
                         <div
@@ -417,8 +544,24 @@ const ProfilePage = ({
               )}
             </>
           )}
+
+          {selectedTab === 3 && (
+            <EmptyState
+              title="No Saved Posts"
+              description="You haven't saved any posts yet."
+              className="h-96"
+            />
+          )}
         </div>
       </div>
+
+      <AccountSwitchSheet
+        isOpen={isAccountSheetOpen}
+        onClose={() => setIsAccountSheetOpen(false)}
+        currentUserId="115"
+        onSwitch={handleSwitchAccount}
+        onAddAccount={() => {}}
+      />
     </div>
   );
 };

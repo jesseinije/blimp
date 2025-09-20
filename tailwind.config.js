@@ -7,6 +7,9 @@ export default {
         blue: {
           500: "#1d9bf0", // Added custom blue-500 color
         },
+        gray: {
+          400: "#9e9e9e", // Added custom gray-400 color
+        },
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

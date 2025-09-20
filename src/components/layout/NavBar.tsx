@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store/appStore";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, animate } from "framer-motion";
-import { House, Search, Plus, Chat } from "../../Icons";
+import { House, Search, Plus, Chat, Refresh } from "../../Icons";
 import "./NavBar.css";
 import { userData } from "../../data/userData"; // Add this import
 
@@ -11,6 +11,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { activeTab } = useAppStore();
   const navRef = useRef<HTMLElement>(null);
+  const [showRefresh, setShowRefresh] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
   const y = useMotionValue(0);
@@ -18,6 +19,9 @@ const NavBar = () => {
   const lastScrollTime = useRef(Date.now());
   const navHeight = useRef(0);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  // Add a threshold for scroll distance before hiding the navbar
+  const scrollThreshold = 100; // Same threshold value as in TopNavBar
 
   const handleAddPost = () => {
     navigate("/create");
@@ -50,6 +54,8 @@ const NavBar = () => {
 
     let ticking = false;
     let lastDirection = 0;
+    // Track accumulated scroll distance for hiding the navbar
+    let accumulatedScrollDown = 0;
 
     const handleScroll = () => {
       if (!ticking) {
@@ -67,14 +73,14 @@ const NavBar = () => {
             return;
           }
 
+          // Handle direction changes
           if (currentDirection !== lastDirection) {
             if (currentDirection > 0) {
-              animate(y, navHeight.current, {
-                type: "tween",
-                duration: 0.2,
-                ease: "easeOut",
-              });
+              // Scrolling down - start accumulating scroll distance
+              accumulatedScrollDown = scrollDiff;
             } else {
+              // Scrolling up - reset accumulated scroll and show navbar immediately
+              accumulatedScrollDown = 0;
               animate(y, 0, {
                 type: "tween",
                 duration: 0.2,
@@ -82,6 +88,18 @@ const NavBar = () => {
               });
             }
             lastDirection = currentDirection;
+          } else if (currentDirection > 0) {
+            // Continue scrolling down - accumulate distance
+            accumulatedScrollDown += scrollDiff;
+
+            // Only hide navbar when accumulated scroll exceeds threshold
+            if (accumulatedScrollDown > scrollThreshold) {
+              animate(y, navHeight.current, {
+                type: "tween",
+                duration: 0.2,
+                ease: "easeOut",
+              });
+            }
           }
 
           lastScrollY.current = currentScrollY;
@@ -99,6 +117,20 @@ const NavBar = () => {
       }
     };
   }, [location.pathname, activeTab]);
+
+  const notificationCount = 3; // Replace with your actual count
+
+  const handleHomeClick = () => {
+    if (isActive("/")) {
+      setShowRefresh(true);
+      setTimeout(() => {
+        setShowRefresh(false);
+        window.location.reload(); // Simulate refresh
+      }, 1000); // Duration matches icon animation
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <motion.nav
@@ -124,8 +156,8 @@ const NavBar = () => {
       </div>
 
       <div className="flex justify-around w-full py-1.5 sm:w-auto sm:justify-end sm:space-x-8">
-        <Link
-          to="/"
+        <button
+          onClick={handleHomeClick}
           className={`flex items-center ${
             isActive("/")
               ? isVideoMode
@@ -136,8 +168,18 @@ const NavBar = () => {
               : "text-gray-400"
           }`}
         >
-          <House size={28} weight={isActive("/") ? "fill" : "regular"} />
-        </Link>
+          {isActive("/") && showRefresh ? (
+            <motion.span
+              animate={{ rotate: 360 }}
+              transition={{ repeat: 1, duration: 1, ease: "linear" }}
+              style={{ display: "inline-block" }}
+            >
+              <Refresh size={26} weight="bold" />
+            </motion.span>
+          ) : (
+            <House size={26} weight={isActive("/") ? "fill" : "regular"} />
+          )}
+        </button>
 
         <Link
           to="/explore"
@@ -152,7 +194,7 @@ const NavBar = () => {
           }`}
         >
           <Search
-            size={28}
+            size={26}
             weight={isActive("/explore") ? "bold" : "regular"}
           />
         </Link>
@@ -178,16 +220,23 @@ const NavBar = () => {
               : "text-gray-400"
           }`}
         >
-          <Chat size={28} weight={isActive("/messages") ? "fill" : "regular"} />
+          <Chat size={26} weight={isActive("/messages") ? "fill" : "regular"} />
           {/* Notification Badge */}
-          <span className="absolute top-1 right-2 w-2 h-2 bg-blue-500 rounded-full"></span>
+          {notificationCount > 0 && (
+            <span
+              className="absolute -top-0.5 -right-2 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white"
+              style={{ lineHeight: "18px" }}
+            >
+              {notificationCount > 99 ? "99+" : notificationCount}
+            </span>
+          )}
         </Link>
 
         <Link to="/profile" className="flex items-center">
           <img
             src={user115?.avatar}
             alt="Profile"
-            className="w-[28px] h-[28px] rounded-full object-cover"
+            className="w-[32px] h-[32px] rounded-full object-cover"
           />
         </Link>
       </div>

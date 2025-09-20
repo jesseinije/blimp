@@ -8,6 +8,24 @@ import { userData, userPosts } from "./userData";
 //   isReelOnly?: boolean; // Add this property to the Post interface
 // }
 
+// Helper to generate random social links for each user
+function getRandomSocialLinks(username: string) {
+  const platforms = [
+    { key: "instagram", url: `https://instagram.com/${username}` },
+    { key: "x", url: `https://x.com/${username}` },
+    { key: "youtube", url: `https://youtube.com/@${username}` },
+    { key: "tiktok", url: `https://tiktok.com/@${username}` },
+  ];
+  // Shuffle and pick 2-4
+  const shuffled = platforms.sort(() => 0.5 - Math.random());
+  const count = Math.floor(Math.random() * 3) + 2; // 2-4
+  const selected = shuffled.slice(0, count);
+  // Build object
+  const links: Record<string, string> = {};
+  selected.forEach((p) => (links[p.key] = p.url));
+  return links;
+}
+
 export const mockUsers: User[] = [
   {
     id: "1",
@@ -18,6 +36,21 @@ export const mockUsers: User[] = [
     followers: 2252000,
     following: 5,
     isVerified: true,
+    creator: true,
+    socialLinks: getRandomSocialLinks("peller"),
+  },
+  {
+    id: "301",
+    username: "nancyisimeofficial",
+    displayName: "Nancy E. Isime",
+    avatar:
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1758343977/nancy4_ind8y3.jpg",
+    bio: "Actor | TV Host",
+    followers: 3200000,
+    following: 50,
+    isVerified: true,
+    creator: true,
+    socialLinks: getRandomSocialLinks("nancyisimeofficial"),
   },
   {
     id: "223",
@@ -29,7 +62,8 @@ export const mockUsers: User[] = [
     followers: 2252000,
     following: 5,
     isVerified: true,
-    link: "https://www.sinnermovie.com", // <-- Added
+    link: "https://www.sinnermovie.com",
+    socialLinks: getRandomSocialLinks("michaelbjordan"),
   },
   {
     id: "226",
@@ -41,7 +75,8 @@ export const mockUsers: User[] = [
     followers: 3250000,
     following: 5,
     isVerified: true,
-    link: "https://www.kevinhartnation.com", // <-- Added
+    link: "https://www.kevinhartnation.com",
+    socialLinks: getRandomSocialLinks("kevinhart"),
   },
   {
     id: "222",
@@ -54,6 +89,7 @@ export const mockUsers: User[] = [
     following: 0,
     isVerified: true,
     follow: true,
+    socialLinks: getRandomSocialLinks("kimkardashian"),
   },
   {
     id: "200",
@@ -64,6 +100,7 @@ export const mockUsers: User[] = [
     bio: "Just a lonely girl trying to find her way",
     followers: 12520,
     following: 200,
+    socialLinks: getRandomSocialLinks("maddiecarter"),
   },
   {
     id: "201",
@@ -75,18 +112,20 @@ export const mockUsers: User[] = [
     followers: 62520,
     following: 200,
     isVerified: true,
+    socialLinks: getRandomSocialLinks("burnaboy"),
   },
   {
     id: "203",
     username: "luno_nigeria",
     displayName: "Luno Nigeria",
-    link: "https://www.luno.com", // <-- Added
+    link: "https://www.luno.com",
     avatar:
       "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757531234/lunoglobal_logo_cpxdnq.jpg",
     bio: "We make crypto simple, safe, and social. Join Luno today! 🚀",
     followers: 12520,
     following: 200,
     isVerified: true,
+    socialLinks: getRandomSocialLinks("luno_nigeria"),
   },
   {
     id: "2",
@@ -100,19 +139,21 @@ export const mockUsers: User[] = [
     isVerified: true,
     follow: true,
     story: true,
-    isRead: true, // <-- add this
+    isRead: true,
+    socialLinks: getRandomSocialLinks("tiwasavage"),
   },
   {
     id: "3",
     username: "mrbeast",
     displayName: "Mr Beast",
-    avatar: "/assets/images/mrb.jpg", // Updated path
+    avatar: "/assets/images/mrb.jpg",
     bio: "DONATE TO TEAMWATER $1 IS 1 YEAR OF CLEAN WATER FOR SOMEONE IN NEED!",
     followers: 33002000,
     following: 235,
     isVerified: true,
     follow: true,
     story: true,
+    socialLinks: getRandomSocialLinks("mrbeast"),
   },
   {
     id: "4",
@@ -124,6 +165,7 @@ export const mockUsers: User[] = [
     followers: 3500,
     following: 320,
     isVerified: true,
+    socialLinks: getRandomSocialLinks("mpsilakis"),
   },
   {
     id: "5",
@@ -135,30 +177,33 @@ export const mockUsers: User[] = [
     followers: 5000000,
     following: 20,
     isVerified: true,
-    isRead: true, // <-- add this
+    isRead: true,
+    socialLinks: getRandomSocialLinks("donjazzy"),
   },
   {
     id: "6",
     username: "lexiHeartVIP",
     displayName: "Lexi Heart",
     avatar:
-      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757528574/lexi_ijqgky.jpg", // Updated path
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1757528574/lexi_ijqgky.jpg",
     bio: "45th President of the United States | Businessman | Author",
-    followers: 100000, // <-- Increased followers
+    followers: 100000,
     following: 200,
     isVerified: true,
     follow: true,
+    socialLinks: getRandomSocialLinks("lexiHeartVIP"),
   },
   {
     id: "7",
     username: "drake",
     displayName: "Drake",
-    avatar: "/assets/images/drakeImg.webp", // Updated path
+    avatar: "/assets/images/drakeImg.webp",
     bio: "Singer | Rapper | Record Producer | Actor",
     followers: 5200000,
     following: 1250,
     isVerified: true,
-    isRead: true, // <-- add this
+    isRead: true,
+    socialLinks: getRandomSocialLinks("drake"),
   },
   ...userData,
   {
@@ -166,36 +211,39 @@ export const mockUsers: User[] = [
     username: "bad_gyal",
     displayName: "Ruth Kadirc",
     avatar:
-      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756815232/ruth_dc370q.jpg", // Updated path
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756815232/ruth_dc370q.jpg",
     bio: "Singer & Dancer",
     followers: 120000,
     following: 1250,
     isVerified: false,
+    socialLinks: getRandomSocialLinks("bad_gyal"),
   },
   {
     id: "15",
     username: "skyFootball",
     displayName: "Sky Sports Football",
     avatar:
-      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756817095/sky_cudz51.jpg", // Updated path
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756817095/sky_cudz51.jpg",
     bio: "Your home of football news, live scores, highlights and analysis",
     followers: 5200000,
     following: 120,
     follow: true,
     isVerified: false,
-    link: "https://www.skysports.com", // <-- Added
+    link: "https://www.skysports.com",
+    socialLinks: getRandomSocialLinks("skyFootball"),
   },
   {
     id: "16",
     username: "indomie_nigeria",
     displayName: "Indomie",
     avatar:
-      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756820331/indo_vyp5ph.jpg", // Updated path
+      "https://res.cloudinary.com/dopnzcfxj/image/upload/v1756820331/indo_vyp5ph.jpg",
     bio: "Indomie - The Noodle of Champions",
     followers: 5200000,
     following: 120,
     isVerified: true,
-    link: "https://indomie.ng", // <-- Added
+    link: "https://indomie.ng",
+    socialLinks: getRandomSocialLinks("indomie_nigeria"),
   },
   {
     id: "17",
@@ -208,6 +256,7 @@ export const mockUsers: User[] = [
     following: 1,
     isVerified: true,
     story: true,
+    socialLinks: getRandomSocialLinks("davido"),
   },
   {
     id: "18",
@@ -220,6 +269,7 @@ export const mockUsers: User[] = [
     following: 20,
     follow: true,
     isVerified: true,
+    socialLinks: getRandomSocialLinks("gordon_ramsy"),
   },
   {
     id: "27",
@@ -232,6 +282,7 @@ export const mockUsers: User[] = [
     following: 15,
     follow: true,
     isVerified: true,
+    socialLinks: getRandomSocialLinks("hardy"),
   },
   {
     id: "30",
@@ -244,6 +295,7 @@ export const mockUsers: User[] = [
     following: 15,
     follow: true,
     isVerified: true,
+    socialLinks: getRandomSocialLinks("faizan_haroon"),
   },
 ];
 
@@ -509,6 +561,38 @@ const createUserInfo = (
 };
 
 export const mockPosts: Post[] = [
+  {
+    id: "300",
+    userId: "301",
+    caption: "Airport but make it fashion ✈️✨ #Summer2025 @berbiebeauty",
+    media: [
+      {
+        id: "11-1",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1758344087/nancy_vj4vvu.jpg",
+        type: "image",
+      },
+      {
+        id: "11-2",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1758344039/nancy1_gi3i1i.jpg",
+        type: "image",
+      },
+      {
+        id: "11-3",
+        url: "https://res.cloudinary.com/dopnzcfxj/image/upload/v1758344117/nancy2_phbr9n.jpg",
+        type: "image",
+      },
+    ],
+    likes: 1850000,
+    comments: mockComments["11"],
+    createdAt: "2025-08-25T03:22:00Z",
+    tags: ["music", "studio", "OVO", "behindthescenes"],
+    saved: false,
+    liked: false,
+    user: createUserInfo("301"),
+    views: 5200000,
+    location: "Paris, France",
+    pinned: true,
+  },
   {
     id: "209",
     userId: "223",
@@ -1282,3 +1366,61 @@ export function formatCount(count: number): string {
   }
   return count.toString();
 }
+
+// NEW HELPER FUNCTION: Get user by username
+export function getUserByUsername(username: string) {
+  return mockUsers.find((u) => u.username === username);
+}
+
+// Function to add mock comments and replies to posts
+function addMockCommentsAndRepliesToPosts(
+  posts: Post[],
+  users: User[],
+  postsWithTenComments: string[] = []
+) {
+  posts.forEach((post) => {
+    // Ensure comments array exists
+    if (!post.comments) post.comments = [];
+    // Set target comments: 10 for selected posts, otherwise 5–10
+    const targetComments = postsWithTenComments.includes(post.id)
+      ? 10
+      : Math.max(5, Math.min(10, post.comments.length || 5));
+    for (let i = post.comments.length; i < targetComments; i++) {
+      const user = users[i % users.length];
+      post.comments.push({
+        id: `c${post.id}-${i}`,
+        userId: user.id,
+        text: `Extra comment ${i + 1} on post ${post.id}`,
+        createdAt: `2025-08-16T1${i}:00:00Z`,
+        likes: Math.floor(Math.random() * 20),
+        replies: [],
+      });
+    }
+    // For each comment, add replies to reach 2–5
+    post.comments.forEach((comment, idx) => {
+      if (!comment.replies) comment.replies = [];
+      const targetReplies = Math.max(
+        2,
+        Math.min(5, comment.replies.length || 2)
+      );
+      for (let j = comment.replies.length; j < targetReplies; j++) {
+        const replyUser = users[(idx + j) % users.length];
+        comment.replies.push({
+          id: `${comment.id}r${j}`,
+          userId: replyUser.id,
+          text: `Extra reply ${j + 1} to comment ${comment.id}`,
+          createdAt: `2025-08-16T1${j}:00:00Z`,
+          likes: Math.floor(Math.random() * 10),
+        });
+      }
+    });
+  });
+}
+
+// Call the function to update all posts
+// Example: Increase comments to 10 for posts with IDs "101", "102", "103"
+addMockCommentsAndRepliesToPosts(mockPosts, mockUsers.slice(0, 10), [
+  "101",
+  "102",
+  "103",
+]);

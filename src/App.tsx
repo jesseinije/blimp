@@ -9,7 +9,7 @@ import { useViewportHeight } from "./hooks/useViewportHeight";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ExplorePage = lazy(() => import("./pages/ExplorePage"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
-const NotificationsPage = lazy(() => import("./pages/NotificationsPage"));
+
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const PostCreationPage = lazy(() => import("./pages/PostCreationPage"));
 const PostCaptionPage = lazy(() => import("./pages/PostCaptionPage"));
@@ -17,11 +17,16 @@ const PostPage = lazy(() => import("./pages/PostPage"));
 const VideoPage = lazy(() => import("./pages/VideoPage"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
 const PrivateChatPage = lazy(() => import("./pages/PrivateChatPage"));
-const SuggestedAccountPage = lazy(() => import("./pages/SuggestedAccountPage"));
 const ReelsPage = lazy(() => import("./pages/ReelsPage"));
 const DirectMessages = lazy(() => import("./pages/DirectMessages"));
 const UserPostsPage = lazy(() => import("./pages/UserPostsPage"));
-const UserReelsPage = lazy(() => import("./pages/UserReelsPage")); // <-- Add this line
+const UserReelsPage = lazy(() => import("./pages/UserReelsPage"));
+const Pitch = lazy(() => import("./pages/Pitch"));
+const Tip = lazy(() => import("./pages/Tip"));
+const Dashboard = lazy(() => import("./pages/Dashboard")); // Add Dashboard import
+const SettingsPage = lazy(() => import("./pages/Settings")); // Add this line
+const SearchResultPage = lazy(() => import("./pages/SearchResultPage")); // Import SearchResultPage
+const CommentPage = lazy(() => import("./pages/Comment")); // Import CommentPage
 
 // A more accessible loading fallback
 const LoadingFallback = () => (
@@ -51,12 +56,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/search" element={<SearchPage />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
               <Route path="/messages" element={<DirectMessages />} />
-              <Route
-                path="/suggested-accounts"
-                element={<SuggestedAccountPage />}
-              />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/profile/:username" element={<UserProfile />} />
               <Route path="/create" element={<PostCreationPage />} />
@@ -66,11 +66,19 @@ function App() {
               <Route path="/chat/:userId" element={<PrivateChatPage />} />
               <Route path="/reels" element={<ReelsPage />} />
               <Route path="/user/:userId/posts" element={<UserPostsPage />} />
+              <Route path="/user/:userId/reels" element={<UserReelsPage />} />
+              <Route path="/pitch" element={<Pitch />} />
+              <Route path="/tip/:username" element={<Tip />} />
+              <Route path="/dashboard" element={<Dashboard />} />{" "}
+              {/* Add Dashboard route */}
+              <Route path="/settings" element={<SettingsPage />} />{" "}
+              {/* Add Settings route */}
               <Route
-                path="/user/:userId/reels"
-                element={<UserReelsPage />}
+                path="/search/results"
+                element={<SearchResultPage />}
               />{" "}
-              {/* <-- Add this line */}
+              {/* Add SearchResultPage route */}
+              <Route path="/comments/:postId" element={<CommentPage />} />
             </Routes>
           </Suspense>
         </Layout>

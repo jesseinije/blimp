@@ -1,10 +1,9 @@
 import { useAppStore } from "../../store/appStore";
 import Post from "./Post";
-import Stories from "./Stories";
+// import Stories from "./Stories";
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { PostSkeleton } from "../ui/skeletons/PostSkeleton";
-import { StoriesSkeleton } from "../ui/skeletons/StoriesSkeleton";
 import { SkeletonProvider } from "../ui/skeletons/SkeletonProvider";
 import "react-loading-skeleton/dist/skeleton.css"; // Add this import
 
@@ -37,7 +36,7 @@ const Feed = () => {
       <div className="bg-white">
         <SkeletonProvider>
           <div className="max-w-md mx-auto pb-16">
-            <StoriesSkeleton />
+            {/* <StoriesSkeleton /> */}
             {[...Array(3)].map((_, index) => (
               <PostSkeleton key={index} />
             ))}
@@ -56,7 +55,7 @@ const Feed = () => {
       transition={{ duration: 0.3 }}
     >
       {/* Stories row at the top */}
-      <Stories />
+      {/* <Stories /> */}
 
       {/* Posts feed with smooth scrolling and hidden scrollbar */}
       <div

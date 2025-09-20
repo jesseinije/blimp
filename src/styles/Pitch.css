@@ -1,0 +1,11 @@
+.slide {
+  scroll-snap-align: start;
+}
+
+.deck {
+  scroll-snap-type: y mandatory;
+}
+
+.bullet::marker {
+  color: var(--brand, #3b82f6);
+}
