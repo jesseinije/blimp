@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { CaretLeft } from "phosphor-react";
 import Post from "../components/feed/Post";
 import { getPostsByUserId, mockUsers } from "../data/mockData";
 import type { Post as PostType } from "../types";
-import PageHeader from "../components/layout/PageHeader";
 import { PostSkeleton } from "../components/ui/skeletons/PostSkeleton";
 import { SkeletonProvider } from "../components/ui/skeletons/SkeletonProvider";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -32,7 +32,7 @@ const UserPostsPage = () => {
       // Get user's display name
       const user = mockUsers.find((u) => u.id === userId);
       if (user) {
-        setUsername(user.displayName || user.username || "");
+        setUsername(user.username || "");
       } else {
         setError("User not found");
       }
@@ -111,14 +111,21 @@ const UserPostsPage = () => {
   if (posts.length === 0) {
     return (
       <div className="max-w-2xl mx-auto bg-white min-h-screen">
-        <PageHeader
-          title={username ? `${username}'s Posts` : "User Posts"}
-          showBackButton={true}
-          onBackClick={handleGoBack}
-          rightIcon="none"
-          showBorder={false}
-          enableScroll={true}
-        />
+        {/* Header from Comment page */}
+        <div className="sticky top-0 z-10 bg-white">
+          <div className="flex items-center h-12 px-3">
+            <button
+              onClick={handleGoBack}
+              className="mr-6 text-gray-900"
+              aria-label="Back"
+            >
+              <CaretLeft size={24} weight="bold" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              {username ? `${username}'s Posts` : "User Posts"}
+            </h1>
+          </div>
+        </div>
         <div className="flex flex-col items-center justify-center h-64">
           <div className="text-lg font-medium text-gray-700 mb-4">
             No posts found
@@ -135,17 +142,21 @@ const UserPostsPage = () => {
       }`}
       style={{ scrollBehavior: "smooth" }}
     >
-      <PageHeader
-        title="Posts"
-        showBackButton={true}
-        onBackClick={handleGoBack}
-        rightIcon="none"
-        showBorder={false}
-        enableScroll={true}
-      />
-
-      {/* Add a spacer div with consistent height to prevent content jumping */}
-      <div className="h-14" />
+      {/* Header from Comment page */}
+      <div className="sticky top-0 z-10 bg-white">
+        <div className="flex items-center h-12 px-3">
+          <button
+            onClick={handleGoBack}
+            className="mr-6 text-gray-900"
+            aria-label="Back"
+          >
+            <CaretLeft size={24} weight="bold" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-900">
+            {username ? `${username}'s Posts` : "User Posts"}
+          </h1>
+        </div>
+      </div>
 
       {/* User Posts content */}
       <div className={isLayoutReady ? "opacity-100" : "opacity-99"}>
