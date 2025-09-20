@@ -22,7 +22,6 @@ const DirectMessages = lazy(() => import("./pages/DirectMessages"));
 const UserPostsPage = lazy(() => import("./pages/UserPostsPage"));
 const UserReelsPage = lazy(() => import("./pages/UserReelsPage"));
 const Pitch = lazy(() => import("./pages/Pitch"));
-const Tip = lazy(() => import("./pages/Tip"));
 const Dashboard = lazy(() => import("./pages/Dashboard")); // Add Dashboard import
 const SettingsPage = lazy(() => import("./pages/Settings")); // Add this line
 const SearchResultPage = lazy(() => import("./pages/SearchResultPage")); // Import SearchResultPage
@@ -68,7 +67,6 @@ function App() {
               <Route path="/user/:userId/posts" element={<UserPostsPage />} />
               <Route path="/user/:userId/reels" element={<UserReelsPage />} />
               <Route path="/pitch" element={<Pitch />} />
-              <Route path="/tip/:username" element={<Tip />} />
               <Route path="/dashboard" element={<Dashboard />} />{" "}
               {/* Add Dashboard route */}
               <Route path="/settings" element={<SettingsPage />} />{" "}
